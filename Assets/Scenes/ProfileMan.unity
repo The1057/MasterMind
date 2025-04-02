@@ -1638,7 +1638,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1108571284}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TapToChangeScene, Assembly-CSharp
         m_MethodName: ChangeScene
         m_Mode: 1
@@ -1697,11 +1697,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1108571279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cc1404f6f42a654babdef668dee008a, type: 3}
+  m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Map
-  changeSceneButton: {fileID: 1108571281}
+  targetSceneName: Map
+  defaultSprite: {fileID: 0}
+  activeSprite: {fileID: 0}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
 --- !u!1 &1115301913
 GameObject:
   m_ObjectHideFlags: 0
