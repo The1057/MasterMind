@@ -25,7 +25,7 @@ public class TapToProfile : MonoBehaviour
 
     void Update()
     {
-        // Проверяем тап на экран только после того, как гендер был загружен
+  
         if (genderLoaded && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
             LoadProfileScene();
@@ -40,7 +40,7 @@ public class TapToProfile : MonoBehaviour
             {
                 playerGender = File.ReadAllText(genderFilePath).Trim().ToUpper();
                 Debug.Log("Загруженный гендер: " + playerGender);
-                genderLoaded = true; // Устанавливаем флаг, что гендер загружен
+                genderLoaded = true; 
             }
             catch (System.Exception e)
             {
@@ -50,7 +50,7 @@ public class TapToProfile : MonoBehaviour
         else
         {
             Debug.Log("Файл гендера не найден. Загрузка будет отложена.");
-            // Не устанавливаем genderLoaded в true, чтобы предотвратить загрузку сцены без гендера
+          
         }
     }
 
@@ -64,10 +64,10 @@ public class TapToProfile : MonoBehaviour
         {
             SceneManager.LoadScene(femaleProfileSceneName);
         }
-        else if (genderLoaded) // Проверяем, что попытка загрузки была после чтения файла
+        else if (genderLoaded) 
         {
             Debug.LogWarning("Неизвестное значение гендера: " + playerGender + ". Переход отменен.");
-            // Не загружаем никакую сцену, если значение не "М" и не "Ж"
+           
         }
         else
         {
