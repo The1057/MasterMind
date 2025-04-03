@@ -28,6 +28,8 @@ public class TapToChangeScene : MonoBehaviour
         SceneManager.LoadScene("MAP");
         SceneManager.LoadScene("TASK");
         SceneManager.LoadScene("CHOOSEBUSINES");
+        SceneManager.LoadScene("Shop");
+
     }
 
   
