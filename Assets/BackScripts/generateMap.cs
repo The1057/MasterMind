@@ -12,6 +12,8 @@ public class generateMap : MonoBehaviour
     public int mapSize = 1;
     public float tileSize = 1;
 
+    public int edgeSize = 50;
+
     public List<GameObject> tileModels = new List<GameObject>();
 
     private byte[,] mapData = { 
@@ -72,6 +74,17 @@ public class generateMap : MonoBehaviour
                                 
                 tiles.Last().transform.SetParent(map.transform);
                 //underTiles.Last().transform.SetParent(map.transform);
+            }
+        }
+        for (int i = -edgeSize; i < mapSize + edgeSize; i++)
+        {
+            for (int j = -edgeSize; j < mapSize + edgeSize; j++)
+            {
+                if(!( (i > 0  && j > 0) && (i<mapSize && j < mapSize) ))
+                {
+                    tiles.Add(Instantiate(tileModels[0], new Vector3(transform.position.x + i * tileSize, 0, transform.position.z + j * tileSize), transform.rotation));
+                    tiles.Last().transform.SetParent (map.transform);
+                }
             }
         }
     }

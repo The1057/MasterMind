@@ -7,6 +7,10 @@ public class zoneScript : MaskableGraphic
 {
     public List<Vector2> points;
     public Vector2 gridSize;
+
+    public Color bottomColor = new Color(0x3B/256f,0x07 / 256f, 0x5C / 256f); 
+    public Color topColor = new Color(0x90 / 256f, 0x09 / 256f, 0x1B / 256f);
+     
     public float maxY=0;
     private float yStretch,height, width, cellHeight, cellWidth;
     protected override void OnPopulateMesh(VertexHelper vh)
@@ -28,12 +32,12 @@ public class zoneScript : MaskableGraphic
         {
             vertex.position.x = point.x * cellWidth;
             vertex.position.y = 0;
-            vertex.color = Color.cyan;
+            vertex.color = bottomColor;
             print(vertex.position);
             vh.AddVert(vertex);
             vertex.position.x = point.x * cellWidth;
             vertex.position.y = point.y * cellHeight;
-            vertex.color = Color.white;
+            vertex.color = topColor;
             print(vertex.position);
             vh.AddVert(vertex);
         }
