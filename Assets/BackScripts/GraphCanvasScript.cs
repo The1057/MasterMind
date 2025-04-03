@@ -8,6 +8,8 @@ public class GraphCanvasScript : MaskableGraphic
     public Vector2Int gridSize = new Vector2Int(1,1);
     public float thickness = 10f;
 
+    public Color gridColor;
+
     float width,height;
     float cellWidth, cellHeight;
 
@@ -22,17 +24,47 @@ public class GraphCanvasScript : MaskableGraphic
         cellWidth = width / (float)gridSize.x;
 
         int counter = 0;
+        drawLine(0, counter, vh);
         for (int y = 0; y < gridSize.y; y++)
         {
-            for (int x = 0; x < gridSize.x; x++)
-            {
-                drawCell(x,y,counter,vh);
-                counter++;
-            }
+            //for (int x = 0; x < gridSize.x; x++)
+            //{
+            //drawCell(x,y,counter,vh);
+            drawLine(y, counter, vh);
+            counter++;
+            //}
         }
     }
 
-    void drawCell(int x,int y, int index,VertexHelper vh)
+    void drawLine(int y, int index, VertexHelper vh)
+    {
+        float xPos = 0;
+        float yPos = y * cellHeight;
+
+        //print($"Drawing line at {yPos}");
+
+        UIVertex vertex = UIVertex.simpleVert;
+        vertex.color = gridColor;
+
+        vertex.position = new Vector3(xPos, yPos);
+        vh.AddVert(vertex);
+
+        vertex.position = new Vector3(xPos, yPos + thickness);
+        vh.AddVert(vertex);
+        
+        vertex.position = new Vector3(xPos + width, yPos + thickness);
+        vh.AddVert(vertex);
+
+        vertex.position = new Vector3(xPos + width, yPos);
+        vh.AddVert(vertex);
+
+        int offset = index * 4;
+
+        vh.AddTriangle(offset + 0, offset + 1, offset + 2);
+        vh.AddTriangle(offset + 0, offset + 2, offset + 3);
+    }
+
+        void drawCell(int x,int y, int index,VertexHelper vh)
     {
 
         float xPos = x * cellWidth;
@@ -71,7 +103,7 @@ public class GraphCanvasScript : MaskableGraphic
 
         int offset = index * 8;
 
-        vh.AddTriangle(offset+0, offset + 1, offset + 5);
+        vh.AddTriangle(offset + 0, offset + 1, offset + 5);
         vh.AddTriangle(offset + 5, offset + 4, offset + 0);
 
         vh.AddTriangle(offset + 1, offset + 2, offset + 6);
