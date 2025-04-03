@@ -12,6 +12,8 @@ public class LineScript : MaskableGraphic
     float width,height;
     float cellWidth,cellHeight;
 
+    public Color lineColor;
+
     public float lineThickness=10f;
     protected override void OnPopulateMesh(VertexHelper vh)
     {
@@ -45,7 +47,7 @@ public class LineScript : MaskableGraphic
     void drawPoint(Vector2 point, VertexHelper vh,float angle)
     {
         UIVertex vertex = UIVertex.simpleVert;
-        vertex.color = new Color(1*point.y,1,1);
+        vertex.color = lineColor;
 
         vertex.position = Quaternion.Euler(0,0,angle) * new Vector3(-lineThickness/2,0);
         vertex.position += new Vector3(cellWidth*point.x,cellHeight*point.y);

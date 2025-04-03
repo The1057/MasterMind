@@ -10,8 +10,8 @@ public class ClockScript : MonoBehaviour
 
     public bool turnCriteria;
 
-    int month=1;
-    int year=1;
+    public int month=1;
+    public int year=1;
 
     // Update is called once per frame
     void Update()

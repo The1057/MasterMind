@@ -20,25 +20,35 @@ public class graphSetup : MonoBehaviour
 
     public Vector2Int gridSize = new Vector2Int(12, 12);
     public List<Vector2> points;
-    public float gridThickness = 0.75f;
-    public float lineThickness = 2.5f;
-    public Color lineColor = Color.red;
-    public int graphHeight = 300;
-
+    public float gridThickness = 4f;
+    public float lineThickness = 6f;
+    public Color lineColor = new Color(1,1,1);
+    public Color zoneBottomColor = new Color(0x3B / 256f, 0x07 / 256f, 0x5C / 256f);
+    public Color zoneTopColor = new Color(0x90 / 256f, 0x09 / 256f, 0x1B / 256f);
+    public Color gridColor = new Color(0.8f,0.8f,0.8f);
+    public int graphHeight = 500;
 
     private float yStretch;
     void Start()
     {
         grid.transform.position = this.transform.position;        
         line.transform.position = this.transform.position;
+        zone.transform.position = this.transform.position;
+
         gridScript.gridSize = this.gridSize;
         gridScript.thickness = this.gridThickness;
+        gridScript.gridColor = this.gridColor;
+
         lineScript.gridSize = this.gridSize;
         lineScript.lineThickness = this.lineThickness;
         lineScript.points = this.points;
+        lineScript.lineColor = this.lineColor;
+
         zoneScript.points = this.points;
         zoneScript.gridSize = this.gridSize;
         zoneScript.maxY = this.findMaxY(points);
+        zoneScript.topColor = this.zoneTopColor;
+        zoneScript.bottomColor = this.zoneBottomColor;
     }
 
     private void Update()
@@ -75,8 +85,10 @@ public class graphSetup : MonoBehaviour
         // set graph arguments here \/
 
 
-        this.lineColor = Color.black;        
+        this.lineColor = Color.white;
+        this.lineThickness = 10;
         this.points = tempGraph;
+        
 
         // set graph arguments here /\
 
