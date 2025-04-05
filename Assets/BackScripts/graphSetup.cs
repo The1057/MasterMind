@@ -96,6 +96,10 @@ public class graphSetup : MonoBehaviour
         Instantiate(graphDisplay,canvas.transform);
     }
 
+    public void destroyGraph()
+    {
+        Destroy(graphDisplay);
+    }
     private float findMaxY(List<Vector2> points)
     {
         float max = -999999f;

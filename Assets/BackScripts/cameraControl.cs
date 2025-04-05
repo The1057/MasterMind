@@ -24,7 +24,7 @@ public class cameraControl : MonoBehaviour
             touchStart = getWorldPos(0);
         }
         
-        if (Input.GetMouseButton(0) && checkBorders(transform))
+        if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
         {
             Vector3 direction = touchStart - getWorldPos(0);
             Camera.main.transform.position += direction;
@@ -47,12 +47,12 @@ public class cameraControl : MonoBehaviour
         }
     }
 
-    private bool checkBorders(Transform t)
+    private bool checkBorders(Vector3 t)
     {
         bool ok = true;
 
-        ok = t.position.x >= 0 - lowBorderMargin && t.position.z >= 0 - lowBorderMargin && 
-            t.position.x <= map.mapSize -   highBorderMargin && t.position.z <= map.mapSize - highBorderMargin;
+        ok = t.x >= 0 - lowBorderMargin && t.z >= 0 - lowBorderMargin && 
+            t.x <= map.mapSize -   highBorderMargin && t.z <= map.mapSize - highBorderMargin;
 
         return ok;
     }
