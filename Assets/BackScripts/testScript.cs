@@ -1,8 +1,11 @@
+using NUnit.Framework;
 using System;
 using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class testScript : MonoBehaviour
@@ -14,22 +17,29 @@ public class testScript : MonoBehaviour
     public Button nextQuestionButton;
     public Canvas canvas;
 
-    Score score1 = new Score();
+    public List<GameObject> questions;
+    public int currentQuestion=0;
 
-    bool firstPress = true;
+    public Score score1 = new Score();
+
+    public List<bool> firstPresses = new List<bool>();
+    public List<TextMeshProUGUI> explanations = new List<TextMeshProUGUI>();
 
     [Serializable]
-    private class Score
+    public class Score
     {
         public int score;
         public int errorCount;
     }
 
-    //void Start()
-    //{
-    //    TextMeshProUGUI.color = new Color(0, 0, 0, 0);
-    //}
-
+    void Start()
+    {
+        foreach(var q in questions)
+        {
+            firstPresses.Add(true);
+            //explanations.Add(FindFirstObjectByType<TextMeshProUGUI>());
+        }
+    }
     public void correctOption()
     {
         TextMeshProUGUI.color = Color.black;
@@ -37,7 +47,7 @@ public class testScript : MonoBehaviour
         string fullJsonPath = GetFullPath(jsonScoreBuffer);
 
         bool dataExists = File.Exists(fullJsonPath) && File.ReadAllText(fullJsonPath).Trim() != "";
-        if (dataExists && firstPress)
+        if (dataExists && firstPresses[currentQuestion])
         {
             string rawJson = File.ReadAllText(fullJsonPath);
             JsonUtility.FromJsonOverwrite(rawJson, score1);
@@ -48,10 +58,10 @@ public class testScript : MonoBehaviour
             print(rawJson);
             File.WriteAllText(fullJsonPath, rawJson);
 
-            firstPress = false;
+            firstPresses[currentQuestion] = false;
             nextQuestionButton.transform.position = getCanvasCoords(new Vector3(0, -1000, 0));
         }
-        else if (!firstPress)
+        else if (!firstPresses[currentQuestion])
         {
             //если не первый правильный ответ
         }
@@ -65,7 +75,7 @@ public class testScript : MonoBehaviour
         string fullJsonPath = GetFullPath(jsonScoreBuffer);
 
         bool dataExists = File.Exists(fullJsonPath) && File.ReadAllText(fullJsonPath).Trim() != "";
-        if (firstPress && dataExists)
+        if (firstPresses[currentQuestion] && dataExists)
         {
             string rawJson = File.ReadAllText(fullJsonPath);
             JsonUtility.FromJsonOverwrite(rawJson, score1);
@@ -76,7 +86,37 @@ public class testScript : MonoBehaviour
             print(rawJson);
             File.WriteAllText(fullJsonPath, rawJson);
 
-            firstPress = false;
+            firstPresses[currentQuestion] = false;
+            TextMeshProUGUI.color = Color.black;
+        }
+        else
+        {
+            //если не первый неправильный ответ
+        }
+    }
+
+
+    public void correctOptionNoFile()
+    {
+        TextMeshProUGUI.color = Color.black;
+
+        if (firstPresses[currentQuestion])
+        {
+            score1.score++;
+            firstPresses[currentQuestion] = false;
+        }
+        else
+        {
+            //если не первый правильный ответ
+        }
+    }
+    public void incorrectOptionNoFile()
+    {
+        if (firstPresses[currentQuestion])
+        {
+            score1.errorCount++;
+
+            firstPresses[currentQuestion] = false;
             TextMeshProUGUI.color = Color.black;
         }
         else
@@ -87,7 +127,18 @@ public class testScript : MonoBehaviour
 
     public void nextQuestion()
     {
+        questions[currentQuestion].SetActive(false);
+        currentQuestion++;
+        questions[currentQuestion].SetActive(true);        
         //здесь делай свою магию с переключением сцен        
+    }
+    public void setQuestion(int questionIndex)
+    {
+        questions[currentQuestion].SetActive(false);
+        currentQuestion = questionIndex;
+        questions[currentQuestion].SetActive(true);
+        //TextMeshProUGUI = FindFirstObjectByType<TextMeshProUGUI>();
+        TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
     }
 
 
@@ -111,8 +162,16 @@ public class testScript : MonoBehaviour
     }
 
     [ContextMenu("Force first press")]
-    public void forceFirstPress()
+    public void forceFirstPresses()
     {
-        firstPress = true;
+        for (int i = 0; i < firstPresses.Count; i++)
+        {
+            firstPresses[i] = true;
+        }
+    }
+    [ContextMenu("Hide Current Explanation")]
+    public void hideExplanation()
+    {
+        TextMeshProUGUI.color = Color.clear;//dsdwedf
     }
 }
