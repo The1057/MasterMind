@@ -39,6 +39,8 @@ public class generateMap : MonoBehaviour
     {
         map = GameObject.Find("Map");
         mapSize = mapData.GetLength(0);
+
+        generator();
     }
 
     void Update()
