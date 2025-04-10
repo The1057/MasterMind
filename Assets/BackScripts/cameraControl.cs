@@ -7,6 +7,9 @@ public class cameraControl : MonoBehaviour
     Vector3 touchStart;
     public Camera cam;
     public generateMap map;
+    public bool pan = false;
+    public float panningSpeed = 1.0f;
+    public Vector3 panTo = new Vector3 (10,5,10);
 
     public int lowBorderMargin = 3, highBorderMargin = 4;
     // Update is called once per frame
@@ -18,8 +21,12 @@ public class cameraControl : MonoBehaviour
         map = GameObject.Find("Map").GetComponent<generateMap>();
     }
     void Update()
-    {        
-        if(Input.GetMouseButtonDown(0))
+    {
+        if (pan)
+        {
+            panToPosition(panTo);
+        }
+        if (Input.GetMouseButtonDown(0))
         {
             touchStart = getWorldPos(0);
         }
@@ -44,6 +51,22 @@ public class cameraControl : MonoBehaviour
         else if (transform.position.z > map.mapSize-highBorderMargin)
         {
             Camera.main.transform.position -= new Vector3(0, 0, 0.1f);
+        }        
+    }
+
+    public void panToPosition(Vector3 targetLocation)
+    {
+        Vector3 direction = (targetLocation - Camera.main.transform.position);
+        Vector3 move = direction * Time.deltaTime * panningSpeed;
+        //print($"direction: {direction.ToString()}/nTime: {Time.deltaTime}");
+
+        if (Mathf.Abs(direction.x) > 0.05 || Mathf.Abs(direction.z) > 0.05)
+        {
+            Camera.main.transform.position += move;
+        }
+        else
+        {
+            pan = false;
         }
     }
 
@@ -56,7 +79,6 @@ public class cameraControl : MonoBehaviour
 
         return ok;
     }
-
     private Vector3 getWorldPos(float y)
     {
         Ray mousePos = cam.ScreenPointToRay(Input.mousePosition);
