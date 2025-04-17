@@ -105,7 +105,11 @@ public class generateMap : MonoBehaviour
             {
                 if (!((i >= 0 && j >= 0) && (i < mapSize && j < mapSize)))
                 {
-                    tiles.Add(Instantiate(tileModels[pickTileTipe(i,j)], new Vector3(transform.position.x + i * tileSize, 0, transform.position.z + j * tileSize), new Quaternion(0,pickTileRotation(i,j),0,0)));
+                    tiles.Add(Instantiate(tileModels[pickTileTipe(i,j)], new Vector3(transform.position.x + i * tileSize, -0.05f, transform.position.z + j * tileSize), new Quaternion(0,pickTileRotation(i,j),0,0)));
+                    if(pickTileTipe(i, j) == 0)
+                    {
+                        tiles.Last().transform.localScale /= 23;
+                    }
                     tiles.Last().transform.SetParent(map.transform);
                     
                 }

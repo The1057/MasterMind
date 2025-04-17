@@ -334,6 +334,12 @@ MonoBehaviour:
   panTo: {x: 10, y: 6, z: 10}
   lowBorderMargin: 0
   highBorderMargin: 0
+  speed: 4
+  selectedCamera: {fileID: 0}
+  MINSCALE: 2
+  MAXSCALE: 5
+  minPinchSpeed: 5
+  varianceInDistances: 5
 --- !u!1 &846631116
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,20 +560,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d75a6133527e884c9b5ff8ffa7389db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugObj: {fileID: 6829329666970148220, guid: c39845c7f71d8b94ea7a1b217829760a, type: 3}
+  debugObj: {fileID: 0}
   mapSize: 23
   tileSize: 1
   edgeSize: 20
   tileModels:
   - {fileID: 4560609767582160122, guid: d20ffdc9953b5dd40990bf9332aca4ed, type: 3}
-  - {fileID: 737629118115192136, guid: 6ddc027cc11cf694bbd076d23d20f337, type: 3}
+  - {fileID: 737629118115192136, guid: b563323ed219b484fb420090f8f67fe7, type: 3}
   - {fileID: 2806133572695424850, guid: 3a363bc29f7897646a6d42595f5411f8, type: 3}
   - {fileID: 5987336066096855865, guid: 54779b4fa598b4146a51f08987dd9699, type: 3}
   - {fileID: 37772855638204046, guid: 5a4d95c6ddbb99f43bed4f1d49638cfd, type: 3}
   - {fileID: 4761122863408294530, guid: 1624b49f6474a094d9413e632e5322d4, type: 3}
   - {fileID: 4088322330643803324, guid: 421b80f57f9d1ed41bb677e3941780e1, type: 3}
   - {fileID: 1495353376675966180, guid: 26cd80ac65748f147aa89e93eb2d2e66, type: 3}
-  - {fileID: 4761122863408294530, guid: 1624b49f6474a094d9413e632e5322d4, type: 3}
 --- !u!4 &943987927
 Transform:
   m_ObjectHideFlags: 0
