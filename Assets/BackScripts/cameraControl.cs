@@ -16,8 +16,8 @@ public class cameraControl : MonoBehaviour
 
     private void Start()
     {
-        lowBorderMargin = 3;
-        highBorderMargin = 4;
+        lowBorderMargin = 0;
+        highBorderMargin = 5;
         map = GameObject.Find("Map").GetComponent<generateMap>();
     }
     void Update()
