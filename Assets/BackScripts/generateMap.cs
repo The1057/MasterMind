@@ -42,7 +42,7 @@ public class generateMap : MonoBehaviour
         //mapSize = mapData.GetLength(0);
 
         //generator();
-        edgeGen();
+        //edgeGen();
     }
 
     void Update()
