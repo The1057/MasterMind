@@ -12,6 +12,9 @@ public class cameraControl : MonoBehaviour
     public Vector3 panTo = new Vector3 (10,5,10);
 
     public int lowBorderMargin = 3, highBorderMargin = 4;
+    public Vector3 mapCenter = new Vector3(12,0, 12);
+    public int pullingForce = 2;
+    public int bufZone = 1;
     // Update is called once per frame
         
     public int speed = 4;
@@ -42,28 +45,27 @@ public class cameraControl : MonoBehaviour
         {
             touchStart = getWorldPos(0);
         }
-        
-        if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
+
+        if (Input.GetMouseButton(0) && !checkEdge(cam.transform.position))
+        {
+
+        }
+        else if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
         {
             Vector3 direction = touchStart - getWorldPos(0);
             Camera.main.transform.position += direction;
-        }
-        else if(transform.position.x < 0-lowBorderMargin)
+        }//палец на экране и камера в границах
+        else if(Input.GetMouseButton(0) && !checkBorders(transform.position + (touchStart - getWorldPos(0))))
         {
-            Camera.main.transform.position += new Vector3(0.1f,0,0);
-        } 
-        else if(transform.position.z < 0-lowBorderMargin)
+            Vector3 direction = touchStart - getWorldPos(0);
+            Camera.main.transform.position += (direction/((mapCenter-touchStart).magnitude*(pullingForce*pullingForce* pullingForce)));
+        }//палец на экране и камера не в границах        
+        else if(!Input.GetMouseButton(0) && !checkBorders(cam.transform.position))
         {
-            Camera.main.transform.position += new Vector3(0, 0, 0.1f);
-        }
-        else if (transform.position.x > map.mapSize-highBorderMargin)
-        {
-            Camera.main.transform.position -= new Vector3(0.1f, 0, 0);
-        }
-        else if (transform.position.z > map.mapSize-highBorderMargin)
-        {
-            Camera.main.transform.position -= new Vector3(0, 0, 0.1f);
-        }
+            Vector3 direction = mapCenter - cam.transform.position + new Vector3(0,6,0);
+            Camera.main.transform.position += direction * Time.deltaTime;
+        }//палец не на экране и камера не в границах
+        
         if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
 
@@ -85,7 +87,7 @@ public class cameraControl : MonoBehaviour
                 cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed), 15, 90);
             }
 
-        }
+        }//pinch zoom
     }
 
     public void panToPosition(Vector3 targetLocation)
@@ -110,6 +112,15 @@ public class cameraControl : MonoBehaviour
 
         ok = t.x >= 0 - lowBorderMargin && t.z >= 0 - lowBorderMargin && 
             t.x <= map.mapSize -   highBorderMargin && t.z <= map.mapSize - highBorderMargin;
+
+        return ok;
+    }
+    private bool checkEdge(Vector3 t)
+    {
+        bool ok = true;
+
+        ok = t.x >= 0 - lowBorderMargin-bufZone && t.z >= 0 - lowBorderMargin-bufZone &&
+            t.x <= map.mapSize - highBorderMargin+bufZone && t.z <= map.mapSize - highBorderMargin+bufZone;
 
         return ok;
     }
