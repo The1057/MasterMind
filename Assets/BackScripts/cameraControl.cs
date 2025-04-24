@@ -13,13 +13,13 @@ public class cameraControl : MonoBehaviour
 
     public int lowBorderMargin = 3, highBorderMargin = 4;
     public Vector3 mapCenter = new Vector3(12,0, 12);
-    public int pullingForce = 2;
+    public int pullingForce = 1;
     public int bufZone = 1;
     // Update is called once per frame
         
     public int speed = 4;
-    public float MINSCALE = 2.0F;
-    public float MAXSCALE = 5.0F;
+    public float MINSCALE = 30F;
+    public float MAXSCALE = 90F;
     public float minPinchSpeed = 5.0F;
     public float varianceInDistances = 5.0F;
     private float touchDelta = 0.0F;
@@ -34,6 +34,7 @@ public class cameraControl : MonoBehaviour
         lowBorderMargin = 0;
         highBorderMargin = 5;
         map = GameObject.Find("Map").GetComponent<generateMap>();
+        print(cam.fieldOfView);
     }
     void Update()
     {
@@ -45,27 +46,6 @@ public class cameraControl : MonoBehaviour
         {
             touchStart = getWorldPos(0);
         }
-
-        if (Input.GetMouseButton(0) && !checkEdge(cam.transform.position))
-        {
-
-        }
-        else if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
-        {
-            Vector3 direction = touchStart - getWorldPos(0);
-            Camera.main.transform.position += direction;
-        }//палец на экране и камера в границах
-        else if(Input.GetMouseButton(0) && !checkBorders(transform.position + (touchStart - getWorldPos(0))))
-        {
-            Vector3 direction = touchStart - getWorldPos(0);
-            Camera.main.transform.position += (direction/((mapCenter-touchStart).magnitude*(pullingForce*pullingForce* pullingForce)));
-        }//палец на экране и камера не в границах        
-        else if(!Input.GetMouseButton(0) && !checkBorders(cam.transform.position))
-        {
-            Vector3 direction = mapCenter - cam.transform.position + new Vector3(0,6,0);
-            Camera.main.transform.position += direction * Time.deltaTime;
-        }//палец не на экране и камера не в границах
-        
         if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
 
@@ -77,17 +57,37 @@ public class cameraControl : MonoBehaviour
 
             if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
-
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView + (1 * speed), 15, 90);
+                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView + (1 * speed), MINSCALE, MAXSCALE);
             }
 
             if ((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
 
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed), 15, 90);
+                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed), MINSCALE, MAXSCALE);
             }
 
-        }//pinch zoom
+        }//pinch zoom        
+        else if ((Input.GetMouseButton(0) && !checkEdge(cam.transform.position)) || Input.mousePosition.y < 318)
+        {
+            
+        }
+        else if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
+        {
+            Vector3 direction = touchStart - getWorldPos(0);
+            Camera.main.transform.position += direction;
+        }//палец на экране и камера в границах
+        else if (Input.GetMouseButton(0) && !checkBorders(transform.position + (touchStart - getWorldPos(0))))
+        {
+            Vector3 direction = touchStart - getWorldPos(0);
+            Camera.main.transform.position += (direction / ((mapCenter - touchStart).magnitude * (pullingForce * pullingForce * pullingForce)));
+        }//палец на экране и камера не в границах        
+        else if (!Input.GetMouseButton(0) && !checkBorders(cam.transform.position))
+        {
+            Vector3 direction = mapCenter - cam.transform.position + new Vector3(0, 6, 0);
+            Camera.main.transform.position += direction * Time.deltaTime;
+        }//палец не на экране и камера не в границах
+        
+        
     }
 
     public void panToPosition(Vector3 targetLocation)
