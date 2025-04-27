@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoneyScript : MonoBehaviour
+public class MoneyScript : MonoBehaviour, ISaveLoadable
 {
     float player_money = 0;
 
@@ -22,8 +22,6 @@ public class MoneyScript : MonoBehaviour
     {
         clock = GameObject.FindGameObjectWithTag("ClockTag").GetComponent<ClockScript>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (clock.isNextTurn())
@@ -31,6 +29,7 @@ public class MoneyScript : MonoBehaviour
             profit = 0;
             totalIncome = 0;
             totalExpense = 0;
+            storeList = FindObjectsByType<storeScript>(FindObjectsSortMode.InstanceID).ToList();
             foreach (var store in storeList)
             {
                 totalIncome += store.countIncome();
@@ -38,6 +37,25 @@ public class MoneyScript : MonoBehaviour
             }
             profit = tax1 * (tax2*totalIncome - totalExpense) + operationProfit;
         }
+    }
+
+    public void save(ref saveData saveData)
+    {
+        saveData.MoneyData.operationProfit = operationProfit;
+        saveData.MoneyData.storeList = storeList;
+        saveData.MoneyData.profit = profit;
+        saveData.MoneyData.player_money = player_money;
+        saveData.MoneyData.totalExpense = totalExpense;
+        saveData.MoneyData.totalIncome = totalIncome;
+    }
+    public void load(saveData loadData) 
+    {
+        this.operationProfit = loadData.MoneyData.operationProfit;
+        this.storeList = loadData.MoneyData.storeList;
+        this.profit = loadData.MoneyData.profit;
+        this.player_money = loadData.MoneyData.player_money;
+        this.totalExpense = loadData.MoneyData.totalExpense;
+        this.totalIncome = loadData.MoneyData.totalIncome;
     }
     public bool setMoney(float moneyAmount)
     {

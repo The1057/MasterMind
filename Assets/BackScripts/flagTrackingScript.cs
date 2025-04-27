@@ -18,7 +18,7 @@ public class flagTrackingScript : MonoBehaviour
     }
     void Update()
     {
-        facingObject.transform.LookAt(target.transform.position);
+        //facingObject.transform.LookAt(target.transform.position);
         if (enlargeFlag)
         {
             spriteRenderer.transform.localScale += Vector3.one * Time.deltaTime * blinkingSpeed;

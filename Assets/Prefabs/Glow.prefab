@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4047507842582528586}
   - component: {fileID: 4964602643979018014}
-  - component: {fileID: 8073972709105020991}
   m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
@@ -26,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7053035497113393510}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09184079, y: -0.59809893, z: 0.12083492, w: 0.7869193}
-  m_LocalPosition: {x: 0.0258786, y: 0.008139475, z: 0.013899999}
+  m_LocalRotation: {x: 0.27059805, y: 0.6532815, z: -0.27059805, w: 0.6532815}
+  m_LocalPosition: {x: 0.004, y: -0.004, z: 0.02}
   m_LocalScale: {x: 0.015, y: 0.007, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 208.916, y: 125.72, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 90, z: 0}
 --- !u!212 &4964602643979018014
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88,19 +87,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8073972709105020991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7053035497113393510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfb39348011fffb43ad610b688701a4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  glow: {fileID: 7053035497113393510}
-  distance: 2.96
-  glowHeight: -1.39

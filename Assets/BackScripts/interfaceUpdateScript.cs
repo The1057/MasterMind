@@ -11,6 +11,8 @@ public class interfaceUpdateScript : MonoBehaviour
 
     public ClockScript clock;
     public MoneyScript money;
+
+    public GameObject debugButtons;
     void Start()
     {
         clock = GameObject.FindGameObjectWithTag("ClockTag").GetComponent<ClockScript>();
@@ -30,5 +32,11 @@ public class interfaceUpdateScript : MonoBehaviour
         number++;
         //testUI.text = number.ToString();
         //moneyDisplay.text = number.ToString();
+    }
+
+    [ContextMenu("Toggle Debug buttons")]
+    public void toggleDebugButtons()
+    {
+        debugButtons.SetActive(!debugButtons.activeSelf);
     }
 }

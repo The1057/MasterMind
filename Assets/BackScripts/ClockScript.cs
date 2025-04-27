@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClockScript : MonoBehaviour
+public class ClockScript : MonoBehaviour, ISaveLoadable
 {
     bool forceNextTurn;
     bool nextTurnFlag;
@@ -32,6 +32,26 @@ public class ClockScript : MonoBehaviour
             year++;
             month = 1;
         }
+    }
+
+    public void save(ref saveData saveData)
+    {
+        saveData.ClockData.month = month;
+        saveData.ClockData.year = year;
+        saveData.ClockData.turnPendingFlag = turnPendingFlag;
+        saveData.ClockData.turnCriteria = turnCriteria;
+        saveData.ClockData.forceNextTurn = forceNextTurn;
+        saveData.ClockData.nextTurnFlag = nextTurnFlag;
+    }
+    public void load(saveData loadData)
+    {
+        
+        this.month = loadData.ClockData.month;
+        this.year = loadData.ClockData.year;
+        this.turnPendingFlag = loadData.ClockData.turnPendingFlag;
+        this.turnCriteria = loadData.ClockData.turnCriteria;
+        this.forceNextTurn = loadData.ClockData.forceNextTurn;
+        this.nextTurnFlag = loadData.ClockData.nextTurnFlag;
     }
     IEnumerator inBetweenTurns()
     {
