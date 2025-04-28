@@ -14,12 +14,12 @@ public class cameraControl : MonoBehaviour
     public int lowBorderMargin = 3, highBorderMargin = 4;
     public Vector3 mapCenter = new Vector3(12,0, 12);
     public int pullingForce = 1;
-    public int bufZone = 1;
+    public float bufZone = 0.4f;
     // Update is called once per frame
         
-    public int speed = 4;
-    public float MINSCALE = 30F;
-    public float MAXSCALE = 90F;
+    public float speed = 0.4f;
+    public float MINSCALE = 2F;
+    public float MAXSCALE = 4F;
     public float minPinchSpeed = 5.0F;
     public float varianceInDistances = 5.0F;
     private float touchDelta = 0.0F;
@@ -29,7 +29,7 @@ public class cameraControl : MonoBehaviour
     private float speedTouch1 = 0.0F;
     
 
-        private void Start()
+    private void Start()
     {
         lowBorderMargin = 0;
         highBorderMargin = 5;
@@ -42,10 +42,22 @@ public class cameraControl : MonoBehaviour
         {
             panToPosition(panTo);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Input.touchCount == 1)
         {
             touchStart = getWorldPos(0);
         }
+
+        if (Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Ended)
+        {
+            touchStart = getWorldPos(0, 0);
+            print(0);
+        }
+        else if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            touchStart = getWorldPos(0, 1);
+            print(1);
+        }
+
         if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
         {
 
@@ -57,36 +69,36 @@ public class cameraControl : MonoBehaviour
 
             if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView + (1 * speed), MINSCALE, MAXSCALE);
+                //cam.fieldOfView = Mathf.Clamp(cam.fieldOfView + (1 * speed), MINSCALE, MAXSCALE);
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize + (1 * speed), MINSCALE, MAXSCALE);
             }
 
             if ((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
             {
-
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed), MINSCALE, MAXSCALE);
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - (1 * speed), MINSCALE, MAXSCALE);
+                //cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed), MINSCALE, MAXSCALE);
             }
 
         }//pinch zoom        
-        else if ((Input.GetMouseButton(0) && !checkEdge(cam.transform.position)) || Input.mousePosition.y < 318)
+        else if ((Input.GetMouseButton(0) && !checkEdge(cam.transform.position)) || Input.mousePosition.y < 318 && Input.touchCount == 1)
         {
-            
+            touchStart = getWorldPos(0);
         }
-        else if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))))
+        else if (Input.GetMouseButton(0) && checkBorders(transform.position + (touchStart - getWorldPos(0))) && Input.touchCount == 1)
         {
             Vector3 direction = touchStart - getWorldPos(0);
             Camera.main.transform.position += direction;
         }//палец на экране и камера в границах
-        else if (Input.GetMouseButton(0) && !checkBorders(transform.position + (touchStart - getWorldPos(0))))
+        else if (Input.GetMouseButton(0) && !checkBorders(transform.position + (touchStart - getWorldPos(0))) && Input.touchCount == 1)
         {
             Vector3 direction = touchStart - getWorldPos(0);
             Camera.main.transform.position += (direction / ((mapCenter - touchStart).magnitude * (pullingForce * pullingForce * pullingForce)));
         }//палец на экране и камера не в границах        
-        else if (!Input.GetMouseButton(0) && !checkBorders(cam.transform.position))
+        else if (!Input.GetMouseButton(0) && !checkBorders(cam.transform.position) && Input.touchCount == 1)
         {
             Vector3 direction = mapCenter - cam.transform.position + new Vector3(0, 6, 0);
             Camera.main.transform.position += direction * Time.deltaTime;
         }//палец не на экране и камера не в границах
-        
         
     }
 
@@ -105,13 +117,12 @@ public class cameraControl : MonoBehaviour
             pan = false;
         }
     }
-
     private bool checkBorders(Vector3 t)
     {
         bool ok = true;
 
         ok = t.x >= 0 - lowBorderMargin && t.z >= 0 - lowBorderMargin && 
-            t.x <= map.mapSize -   highBorderMargin && t.z <= map.mapSize - highBorderMargin;
+            t.x <= map.mapSize - highBorderMargin && t.z <= map.mapSize - highBorderMargin;
 
         return ok;
     }
@@ -127,6 +138,14 @@ public class cameraControl : MonoBehaviour
     private Vector3 getWorldPos(float y)
     {
         Ray mousePos = cam.ScreenPointToRay(Input.mousePosition);
+        Plane ground = new Plane(Vector3.down, new Vector3(0, y, 0));
+        float distance;
+        ground.Raycast(mousePos, out distance);
+        return mousePos.GetPoint(distance);
+    }
+    private Vector3 getWorldPos(float y, int touchIndex)
+    {
+        Ray mousePos = cam.ScreenPointToRay(Input.GetTouch(touchIndex).position);
         Plane ground = new Plane(Vector3.down,new Vector3(0,y,0));
         float distance;
         ground.Raycast(mousePos, out distance);

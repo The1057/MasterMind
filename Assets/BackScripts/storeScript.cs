@@ -6,10 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class storeScript : MonoBehaviour, ISaveLoadable
+public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 {
     public int storeId = 0;
-    public ClockScript clock;
 
     public List<Item> items = new List<Item>();
     
@@ -45,24 +44,22 @@ public class storeScript : MonoBehaviour, ISaveLoadable
         this.points4GraphFinal = data.StoreDatas[storeId].points4GraphFinal;
         this.name = data.StoreDatas[storeId].name;
     }
+    public void nextTurn(int month, int year)
+    {
+        //Debug.Log($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome()-countExpense()}");
+        //print($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome() - countExpense()}");
+        print(points4Graph[0]);
+        if (month == 1)
+        {
+            points4GraphFinal = new List<Vector2>(points4Graph);
+        }
+        points4Graph[month - 1] = new Vector2(month, countIncome() - countExpense());
+
+    }
+
     void Start()
     {
-        clock = GameObject.FindGameObjectWithTag("ClockTag").GetComponent<ClockScript>();
         addDebug();
-    }
-    void Update()
-    {
-        if (clock.isNextTurn())
-        {
-            //Debug.Log($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome()-countExpense()}");
-            //print($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome() - countExpense()}");
-            print(points4Graph[0]);
-            if(clock.getMonth() == 1)
-            {
-                points4GraphFinal = new List<Vector2>(points4Graph);
-            }
-            points4Graph[clock.getMonth() - 1] = new Vector2(clock.getMonth(), countIncome() - countExpense());
-        }
     }
 
     [ContextMenu("Add debug item")]

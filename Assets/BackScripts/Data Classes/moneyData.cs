@@ -13,4 +13,6 @@ public class moneyData
     public float profit;
     public float operationProfit;
 
+    public float tax1 = 1;
+    public float tax2 = 0.87f;
 }

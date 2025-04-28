@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoneyScript : MonoBehaviour, ISaveLoadable
+public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
 {
     float player_money = 0;
 
@@ -15,31 +15,7 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable
 
     public float profit;
     public float operationProfit;
-
-    public ClockScript clock;
-    
-    void Start()
-    {
-        clock = GameObject.FindGameObjectWithTag("ClockTag").GetComponent<ClockScript>();
-    }
-    void Update()
-    {
-        if (clock.isNextTurn())
-        {
-            profit = 0;
-            totalIncome = 0;
-            totalExpense = 0;
-            storeList = FindObjectsByType<storeScript>(FindObjectsSortMode.InstanceID).ToList();
-            foreach (var store in storeList)
-            {
-                totalIncome += store.countIncome();
-                totalExpense += store.countExpense();
-            }
-            profit = tax1 * (tax2*totalIncome - totalExpense) + operationProfit;
-        }
-    }
-
-    public void save(ref saveData saveData)
+        public void save(ref saveData saveData)
     {
         saveData.MoneyData.operationProfit = operationProfit;
         saveData.MoneyData.storeList = storeList;
@@ -47,6 +23,9 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable
         saveData.MoneyData.player_money = player_money;
         saveData.MoneyData.totalExpense = totalExpense;
         saveData.MoneyData.totalIncome = totalIncome;
+        saveData.MoneyData.tax1 = tax1;
+        saveData.MoneyData.tax2 = tax2;
+
     }
     public void load(saveData loadData) 
     {
@@ -56,6 +35,24 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable
         this.player_money = loadData.MoneyData.player_money;
         this.totalExpense = loadData.MoneyData.totalExpense;
         this.totalIncome = loadData.MoneyData.totalIncome;
+        this.tax1 = loadData.MoneyData.tax1;
+        this.tax2 = loadData.MoneyData.tax2;
+
+    }
+
+    public void nextTurn(int month, int year)
+    {
+        profit = 0;
+        totalIncome = 0;
+        totalExpense = 0;
+        storeList = FindObjectsByType<storeScript>(FindObjectsSortMode.InstanceID).ToList();
+        foreach (var store in storeList)
+        {
+            totalIncome += store.countIncome();
+            totalExpense += store.countExpense();
+        }
+        profit = tax1 * (tax2 * totalIncome - totalExpense) + operationProfit;
+
     }
     public bool setMoney(float moneyAmount)
     {

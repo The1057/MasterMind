@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ClockScript : MonoBehaviour, ISaveLoadable
@@ -18,7 +19,14 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
     {        
         if((turnCriteria && turnPendingFlag) || forceNextTurn)
         {
-            StartCoroutine(inBetweenTurns());
+            List<ITickable> tickableObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).
+            OfType<ITickable>().ToList();
+
+            foreach(var tickableObject in tickableObjects)
+            {
+                tickableObject.nextTurn(month, year);
+            }
+
             forceNextTurn = false;
             nextTurnFlag = true;
             turnPendingFlag = false;
@@ -53,15 +61,7 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
         this.forceNextTurn = loadData.ClockData.forceNextTurn;
         this.nextTurnFlag = loadData.ClockData.nextTurnFlag;
     }
-    IEnumerator inBetweenTurns()
-    {
-        yield return 0;
-        nextTurnFlag = false;
-    }
-    public bool isNextTurn()
-    {
-        return nextTurnFlag;
-    }
+
     [ContextMenu("Try next turn")]
     public void tryNextTurn() { turnPendingFlag = true; }
 
