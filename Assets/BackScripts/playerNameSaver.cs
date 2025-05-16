@@ -6,13 +6,9 @@ using System.IO;
 using UnityEditor;
 #endif
 
-public class Player_Data : MonoBehaviour
+public class playerNameSaver : MonoBehaviour
 {
-    public string player_name = "";
-    public string player_gender = "";
-    public int first_niche;
-    public int legal_form;
-    public int tax_system;
+    playerData playerData;
 
     public InputField nameInputField;
     public Button confirmButton;
@@ -25,14 +21,13 @@ public class Player_Data : MonoBehaviour
         // В редакторе Unity сохраняем файл рядом со скриптом
         string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
         string scriptDirectory = Path.GetDirectoryName(scriptPath);
-        filePath = Path.Combine(scriptDirectory, "Player_Data.txt");
+        filePath = Path.Combine(scriptDirectory, "playerData.json");
 #else
         // На Android сохраняем в Application.persistentDataPath
-        filePath = Path.Combine(Application.persistentDataPath, "Player_Data.txt");
+        filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
 #endif
 
         Debug.Log("Путь к файлу: " + filePath); // Логируем путь для проверки
-        LoadData();
     }
 
     void Start()
@@ -48,26 +43,35 @@ public class Player_Data : MonoBehaviour
             Debug.LogError("confirmButton не привязан в Inspector!");
             return;
         }
-
-        confirmButton.onClick.AddListener(SaveName);
     }
 
-    void SaveName()
+    public void SaveName()
     {
-        player_name = nameInputField.text;
+        LoadData();
+        playerData.player_name = nameInputField.text;
         SaveData();
 
-        Debug.Log("Имя сохранено в player_name: " + player_name);
+        Debug.Log("Имя сохранено в player_name: " + playerData.player_name);
     }
 
     void SaveData()
     {
         try
         {
-            // Сохраняем только имя в текстовый файл
-            File.WriteAllText(filePath, player_name);
-            Debug.Log("Данные сохранены в файл: " + filePath);
+            // Сохраняем только имя в текстовый файл *** ***** *******
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            //creating directory 
 
+            string rawJSON = JsonUtility.ToJson(playerData, true);
+            //serializing
+
+            using (FileStream stream = new FileStream(filePath, FileMode.Create))
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(rawJSON);//magic to write to file
+                }
+            }
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
 #endif
@@ -84,13 +88,26 @@ public class Player_Data : MonoBehaviour
         {
             try
             {
-                player_name = File.ReadAllText(filePath);
-                Debug.Log("Имя загружено из файла: " + player_name);
+                string rawJSON;
+                using (FileStream stream = new FileStream(filePath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
+                }
+                playerData = JsonUtility.FromJson<playerData>(rawJSON);
+
+                Debug.Log("Имя загружено из файла: " + playerData.player_name);
             }
             catch (System.Exception e)
             {
                 Debug.LogError("Ошибка при загрузке файла: " + e.Message);
             }
+        }
+        else
+        {
+            playerData = new();
         }
     }
 }

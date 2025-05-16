@@ -6,12 +6,12 @@ using System.Collections;
 
 public class SkipScreensManager : MonoBehaviour
 {
-    public string genderFilePath = "player_gender.txt";
-    public string dataFilePath = "Player_Data.txt";
+    public string dataFilePath = "PlayerData.json";
     public string maleProfileSceneName = "ProfileMan";
     public string femaleProfileSceneName = "ProfileW";
     public string defaultStartScene = "Scene2";
-    public float fadeDuration = 1f; 
+    public float fadeDuration = 1f;
+    playerData playerData;
     [SerializeField] private Image fadeImage; 
 
     void Awake()
@@ -28,46 +28,47 @@ public class SkipScreensManager : MonoBehaviour
 
     void Start()
     {
-        string fullGenderPath = GetFullPath(genderFilePath);
         string fullDataPath = GetFullPath(dataFilePath);
 
         bool dataExists = File.Exists(fullDataPath) && File.ReadAllText(fullDataPath).Trim() != "";
-        bool genderExists = File.Exists(fullGenderPath) && File.ReadAllText(fullGenderPath).Trim() != "";
 
-        if (dataExists || genderExists)
+        if (dataExists)
         {
-            if (File.Exists(fullGenderPath))
+            if (File.Exists(fullDataPath))
             {
-                string gender = File.ReadAllText(fullGenderPath).Trim().ToUpper();
-                if (gender == "Ж")
+                string rawJSON;
+                using (FileStream stream = new FileStream(fullDataPath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
+                }
+                playerData = JsonUtility.FromJson<playerData>(rawJSON);
+
+                if (playerData.player_gender == "F")
                 {
                     Debug.Log("Гендер Ж установлен. Переход к: " + femaleProfileSceneName);
                     StartCoroutine(LoadSceneWithFade(femaleProfileSceneName));
                     return;
                 }
-                else if (gender == "М")
+                else if (playerData.player_gender == "M")
                 {
                     Debug.Log("Гендер М установлен. Переход к: " + maleProfileSceneName);
                     StartCoroutine(LoadSceneWithFade(maleProfileSceneName));
                     return;
                 }
-                else if (gender != "")
+                else if (playerData.player_gender != "")
                 {
-                    Debug.LogWarning("Неизвестный гендер: " + gender + ". Загрузка сцены по умолчанию.");
+                    Debug.LogWarning("Неизвестный гендер: " + playerData.player_name + ". Загрузка сцены по умолчанию.");
                     StartCoroutine(LoadSceneWithFade(defaultStartScene));
                     return;
                 }
             }
-            else if (dataExists)
-            {
-                Debug.Log("Данные найдены, но гендер не установлен. Переход к сцене по умолчанию.");
-                StartCoroutine(LoadSceneWithFade(defaultStartScene));
-                return;
-            }
         }
         else
         {
-            Debug.Log("Ни данных, ни гендера не найдено. Загрузка: " + defaultStartScene);
+            Debug.Log("Данных не найдено. Загрузка: " + defaultStartScene);
             StartCoroutine(LoadSceneWithFade(defaultStartScene));
         }
     }

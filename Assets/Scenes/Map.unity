@@ -3089,7 +3089,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -5570,7 +5570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6801745603757012647, guid: 728b8d4a02e9ffa48a232caa65bc159a, type: 3}
       propertyPath: near clip plane
-      value: 0.01
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6801745603757012647, guid: 728b8d4a02e9ffa48a232caa65bc159a, type: 3}
       propertyPath: orthographic size

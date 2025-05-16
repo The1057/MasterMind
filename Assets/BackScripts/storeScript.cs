@@ -8,15 +8,22 @@ using UnityEngine.Rendering;
 
 public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 {
+    public enum demandCalcMethod
+    {
+        normalDistribution = 0,
+        linearDistribution = 1
+    }
+
+
     public int storeId = 0;
 
     public List<Item> items = new List<Item>();
     
     public float adModifier = 1.1f;
+    public float demandChangeDeviation = 5;
 
     public List<Vector2> points4Graph = Enumerable.Repeat(new Vector2(1, 0), 12).ToList();
     public List<Vector2> points4GraphFinal  = Enumerable.Repeat(new Vector2(0, 0), 12).ToList();
-    //var l = Enumerable.Repeat(new Vector2(0,0),12).ToList();
 
     public void save(ref saveData data)
     {
@@ -46,15 +53,17 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     }
     public void nextTurn(int month, int year)
     {
-        //Debug.Log($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome()-countExpense()}");
-        //print($"доходы: {countIncome()}, расходы: {countExpense()}, прибыль: {countIncome() - countExpense()}");
-        print(points4Graph[0]);
         if (month == 1)
         {
             points4GraphFinal = new List<Vector2>(points4Graph);
         }
         points4Graph[month - 1] = new Vector2(month, countIncome() - countExpense());
 
+        for (int i = 0; i < items.Count; i++)
+        {
+            recalculateDemand(ref items[i].bought_number,demandChangeDeviation,demandCalcMethod.normalDistribution);
+            //print($"New demand for {items[i].name} is {items[i].bought_number}");
+        }
     }
 
     void Start()
@@ -93,6 +102,37 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         }
 
         return res;
+    }
+    public void recalculateDemand(ref float currentDemand,float deviation, demandCalcMethod calcMethod)
+    {
+        System.Random random = new System.Random();
+        switch (calcMethod)
+        {
+            case demandCalcMethod.normalDistribution:
+
+                double randomsSum = 0;
+                for(int i = 0; i < 12; i++)
+                {
+                    randomsSum += random.NextDouble();
+                }
+                randomsSum -= 6;
+                currentDemand = (float)randomsSum * deviation + currentDemand;
+                
+                break;
+            case demandCalcMethod.linearDistribution:
+
+                currentDemand = (currentDemand - deviation) * (float)random.NextDouble() + currentDemand;
+
+                break;
+            default:
+
+                break;
+
+        }
+        if (currentDemand < 0)
+        {
+            currentDemand = 0;
+        }
     }
 
     [ContextMenu("Print first item")]
