@@ -61,7 +61,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 
         for (int i = 0; i < items.Count; i++)
         {
-            recalculateDemand(ref items[i].bought_number,demandChangeDeviation,demandCalcMethod.normalDistribution);
+            recalculateDemand(ref items[i].sold_number,demandChangeDeviation,demandCalcMethod.normalDistribution);
             //print($"New demand for {items[i].name} is {items[i].bought_number}");
         }
     }
@@ -87,7 +87,14 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 
         foreach (var item in items)
         {
-            res += item.buying_price * item.bought_number * adModifier;
+            if (item.sold_number <= item.bought_number)
+            {
+                res += item.selling_price * item.sold_number * adModifier;
+            }
+            else
+            {
+                res += item.selling_price * item.bought_number * adModifier;
+            }
         }
 
         return res;
@@ -98,7 +105,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 
         foreach (var item in items)
         {
-            res += item.selling_price * item.sold_number;
+            res += item.buying_price * item.bought_number;
         }
 
         return res;

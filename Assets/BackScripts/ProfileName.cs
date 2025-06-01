@@ -1,21 +1,22 @@
 using UnityEngine;
 using TMPro; 
 using System.IO;
+using UnityEditor;
 
 public class ProfileName : MonoBehaviour
 {
     public TextMeshProUGUI nameDisplay; 
     private string playerName = "";
-    private string nameFilePath;
+    private string filePath;
 
     void Start()
     {
 #if UNITY_EDITOR
-        string scriptPath = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.MonoScript.FromMonoBehaviour(this));
+        string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
         string scriptDirectory = Path.GetDirectoryName(scriptPath);
-        nameFilePath = Path.Combine(scriptDirectory, "Player_Data.txt"); 
+        filePath = Path.Combine(scriptDirectory, "playerData.json");
 #else
-        nameFilePath = Path.Combine(Application.persistentDataPath, "Player_Data.txt"); // Теперь с .txt
+        filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
 #endif
 
         LoadNameFromFile();
@@ -24,22 +25,27 @@ public class ProfileName : MonoBehaviour
 
     void LoadNameFromFile()
     {
-        if (File.Exists(nameFilePath))
+        playerData playerData;
+        if (File.Exists(filePath))
         {
             try
             {
-                playerName = File.ReadAllText(nameFilePath).Trim();
-                Debug.Log("Считанное имя: " + playerName);
+                string rawJSON;
+                using (FileStream stream = new FileStream(filePath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
+                }
+                playerData = JsonUtility.FromJson<playerData>(rawJSON);
+                playerName = playerData.player_name;
             }
             catch (System.Exception e)
             {
-                Debug.LogError("Ошибка при чтении файла: " + e.Message);
+                Debug.LogError("Ошибка при загрузке файла гендера: " + e.Message);
+                playerName = "";
             }
-        }
-        else
-        {
-            Debug.LogError("Файл не найден: " + nameFilePath);
-            playerName = "Неизвестно";
         }
     }
 

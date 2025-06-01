@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.IO;
+using UnityEditor;
 
 [RequireComponent(typeof(Button), typeof(Image))]
 public class ButtonAnimation2 : MonoBehaviour
@@ -24,10 +25,19 @@ public class ButtonAnimation2 : MonoBehaviour
     private Color originalColor;
     private bool isAnimating = false;
 
-    private string genderFilePath = "player_gender.txt"; // Имя файла с гендером
+    private string filePath = "playerData.json"; // Имя файла с гендером
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
+        string scriptDirectory = Path.GetDirectoryName(scriptPath);
+        filePath = Path.Combine(scriptDirectory, "playerData.json");
+#else
+        filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
+#endif
+
+
         // Получаем компоненты
         button = GetComponent<Button>();
         buttonImage = GetComponent<Image>();
@@ -95,19 +105,19 @@ public class ButtonAnimation2 : MonoBehaviour
         string gender = GetPlayerGender();
         Debug.Log($"Считанный пол: '{gender}' (длина строки: {gender.Length})");
 
-        if (gender == "Ж")
+        if (gender == "F")
         {
             Debug.Log($"Переход на сцену: {femaleProfileScene}");
             SceneManager.LoadScene(femaleProfileScene);
         }
-        else if (gender == "М")
+        else if (gender == "M")
         {
             Debug.Log($"Переход на сцену: {maleProfileScene}");
             SceneManager.LoadScene(maleProfileScene);
         }
         else
         {
-            Debug.LogError($"Некорректное значение пола: '{gender}'. Ожидается 'Ж' или 'М'. Переход не выполнен.");
+            Debug.LogError($"Некорректное значение пола: '{gender}'. Ожидается 'F' или 'M'. Переход не выполнен.");
         }
 
         isAnimating = false;
@@ -115,39 +125,31 @@ public class ButtonAnimation2 : MonoBehaviour
 
     private string GetPlayerGender()
     {
-        string fullPath = GetFullPath(genderFilePath);
-        try
+        //string fePath = GetFullPath(filePath);
+        playerData playerData;
+        if (File.Exists(filePath))
         {
-            if (File.Exists(fullPath) && File.ReadAllText(fullPath).Trim() != "")
+            try
             {
-                string gender = File.ReadAllText(fullPath).Trim().ToUpper();
-                Debug.Log($"Файл найден: {fullPath}. Содержимое: '{gender}' (длина строки: {gender.Length})");
-
-                // Проверяем, является ли содержимое "Ж" или "М"
-                if (gender == "Ж")
+                string rawJSON;
+                using (FileStream stream = new FileStream(filePath, FileMode.Open))
                 {
-                    return "Ж";
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
                 }
-                else if (gender == "М")
-                {
-                    return "М";
-                }
-                else
-                {
-                    Debug.LogError($"Некорректное значение в файле {fullPath}: '{gender}'. Ожидается 'Ж' или 'М'.");
-                    return "";
-                }
+                playerData = JsonUtility.FromJson<playerData>(rawJSON);
+                return playerData.player_gender;
             }
-            else
+            catch (System.Exception e)
             {
-                Debug.LogError($"Файл не найден или пуст: {fullPath}");
-                return "";
+                Debug.LogError("Ошибка при загрузке файла гендера: " + e.Message);
+                return "F";
             }
-        }
-        catch (System.Exception e)
+        }else
         {
-            Debug.LogError($"Ошибка при чтении файла {fullPath}: {e.Message}");
-            return "";
+            return "F";
         }
     }
 

@@ -1,23 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEditor;
 
 public class TapToProfile : MonoBehaviour
 {
     public string maleProfileSceneName = "ProfileMan";
     public string femaleProfileSceneName = "ProfileW";
-    private string genderFilePath;
+    private string filePath;
     private string playerGender = "";
     private bool genderLoaded = false;
 
     void Start()
     {
 #if UNITY_EDITOR
-        string scriptPath = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.MonoScript.FromMonoBehaviour(this));
+        string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
         string scriptDirectory = Path.GetDirectoryName(scriptPath);
-        genderFilePath = Path.Combine(scriptDirectory, "player_gender.txt");
+        filePath = Path.Combine(scriptDirectory, "playerData.json");
 #else
-        genderFilePath = Path.Combine(Application.persistentDataPath, "player_gender.txt");
+        filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
 #endif
 
         LoadGender();
@@ -34,33 +35,38 @@ public class TapToProfile : MonoBehaviour
 
     void LoadGender()
     {
-        if (File.Exists(genderFilePath))
+        genderLoaded = true;
+        playerData playerData;
+        if (File.Exists(filePath))
         {
             try
             {
-                playerGender = File.ReadAllText(genderFilePath).Trim().ToUpper();
-                Debug.Log("Загруженный гендер: " + playerGender);
-                genderLoaded = true; 
+                string rawJSON;
+                using (FileStream stream = new FileStream(filePath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
+                }
+                playerData = JsonUtility.FromJson<playerData>(rawJSON);
+                playerGender = playerData.player_gender;
             }
             catch (System.Exception e)
             {
-                Debug.LogError("Ошибка при чтении файла гендера: " + e.Message);
+                Debug.LogError("Ошибка при загрузке файла гендера: " + e.Message);
+                playerGender = "";
             }
-        }
-        else
-        {
-            Debug.Log("Файл гендера не найден. Загрузка будет отложена.");
-          
         }
     }
 
     void LoadProfileScene()
     {
-        if (playerGender == "М")
+        if (playerGender == "M")
         {
             SceneManager.LoadScene(maleProfileSceneName);
         }
-        else if (playerGender == "Ж")
+        else if (playerGender == "F")
         {
             SceneManager.LoadScene(femaleProfileSceneName);
         }
