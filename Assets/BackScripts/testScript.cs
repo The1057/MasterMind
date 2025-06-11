@@ -87,7 +87,7 @@ public class testScript : MonoBehaviour
             File.WriteAllText(fullJsonPath, rawJson);
 
             firstPresses[currentQuestion] = false;
-            TextMeshProUGUI.color = Color.black;
+            TextMeshProUGUI.color = Color.white;
         }
         else
         {
@@ -98,7 +98,7 @@ public class testScript : MonoBehaviour
 
     public void correctOptionNoFile()
     {
-        TextMeshProUGUI.color = Color.black;
+        TextMeshProUGUI.color = Color.white;
 
         if (firstPresses[currentQuestion])
         {
@@ -117,7 +117,7 @@ public class testScript : MonoBehaviour
             score1.errorCount++;
 
             firstPresses[currentQuestion] = false;
-            TextMeshProUGUI.color = Color.black;
+            TextMeshProUGUI.color = Color.white;
         }
         else
         {
@@ -137,6 +137,7 @@ public class testScript : MonoBehaviour
         questions[currentQuestion].SetActive(false);
         currentQuestion = questionIndex;
         questions[currentQuestion].SetActive(true);
+    
         //TextMeshProUGUI = FindFirstObjectByType<TextMeshProUGUI>();
         TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
     }
@@ -172,6 +173,7 @@ public class testScript : MonoBehaviour
     [ContextMenu("Hide Current Explanation")]
     public void hideExplanation()
     {
-        TextMeshProUGUI.color = Color.clear;//dsdwedf
+        TextMeshProUGUI.color = Color.clear;
+
     }
 }
