@@ -1300,7 +1300,7 @@ GameObject:
   - component: {fileID: 1368524036}
   - component: {fileID: 1368524035}
   - component: {fileID: 1368524034}
-  - component: {fileID: 1368524037}
+  - component: {fileID: 1368524033}
   m_Layer: 0
   m_Name: "\u041F\u0440\u043E\u0444\u0438\u043B\u044C"
   m_TagString: Untagged
@@ -1328,6 +1328,25 @@ RectTransform:
   m_AnchoredPosition: {x: 345.90002, y: -919.90015}
   m_SizeDelta: {x: 149.3, y: 128.6}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1368524033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368524031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: ProfileMan
+  defaultSprite: {fileID: 21300000, guid: 07818b5ca333f264f8455e4352ac1400, type: 3}
+  activeSprite: {fileID: 21300000, guid: b7bf76087de523646ab2534bf28ccab3, type: 3}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
 --- !u!114 &1368524034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1410,24 +1429,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368524031}
   m_CullTransparentMesh: 1
---- !u!114 &1368524037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368524031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3731b01804213a409517b29bbed6233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  femaleProfileScene: ProfileW
-  maleProfileScene: ProfileMan
-  animationDuration: 0.2
-  scaleFactor: 0.9
-  useColorAnimation: 1
-  colorMultiplier: 0.8
 --- !u!1 &1444523244
 GameObject:
   m_ObjectHideFlags: 0

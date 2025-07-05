@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: 
+  targetSceneName: Archive
   defaultSprite: {fileID: 21300000, guid: 1e85c473955f40248a32bebe0dad898a, type: 3}
   activeSprite: {fileID: 21300000, guid: e05dbc48f91144c4fa520e58a0593ba2, type: 3}
   animationDuration: 0.2
@@ -1762,8 +1762,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.2, y: 8.3}
-  m_SizeDelta: {x: 882.9, y: 974.1}
+  m_AnchoredPosition: {x: -29.6, y: 21.1}
+  m_SizeDelta: {x: 897.5, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &975803698
 MonoBehaviour:
@@ -1951,7 +1951,7 @@ GameObject:
   - component: {fileID: 1284722762}
   - component: {fileID: 1284722761}
   - component: {fileID: 1284722760}
-  - component: {fileID: 1284722763}
+  - component: {fileID: 1284722759}
   m_Layer: 0
   m_Name: "\u041F\u0440\u043E\u0444\u0438\u043B\u044C"
   m_TagString: Untagged
@@ -1979,6 +1979,25 @@ RectTransform:
   m_AnchoredPosition: {x: 345.89996, y: -919.8999}
   m_SizeDelta: {x: 149.3, y: 128.6}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1284722759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284722757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: ProfileW
+  defaultSprite: {fileID: 21300000, guid: 07818b5ca333f264f8455e4352ac1400, type: 3}
+  activeSprite: {fileID: 21300000, guid: b7bf76087de523646ab2534bf28ccab3, type: 3}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
 --- !u!114 &1284722760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2061,24 +2080,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284722757}
   m_CullTransparentMesh: 1
---- !u!114 &1284722763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284722757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3731b01804213a409517b29bbed6233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  femaleProfileScene: ProfileW
-  maleProfileScene: ProfileMan
-  animationDuration: 0.2
-  scaleFactor: 0.9
-  useColorAnimation: 1
-  colorMultiplier: 0.8
 --- !u!1 &1379353531
 GameObject:
   m_ObjectHideFlags: 0
