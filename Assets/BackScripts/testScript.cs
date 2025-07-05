@@ -18,7 +18,7 @@ public class testScript : MonoBehaviour
     public Canvas canvas;
 
     public List<GameObject> questions;
-    public int currentQuestion=0;
+    public int currentQuestion = 0;
 
     public Score score1 = new Score();
 
@@ -34,9 +34,10 @@ public class testScript : MonoBehaviour
 
     void Start()
     {
-        foreach(var q in questions)
+        foreach (var q in questions)
         {
             firstPresses.Add(true);
+
             //explanations.Add(FindFirstObjectByType<TextMeshProUGUI>());
         }
     }
@@ -64,6 +65,7 @@ public class testScript : MonoBehaviour
         else if (!firstPresses[currentQuestion])
         {
             //если не первый правильный ответ
+           
         }
         else
         {
@@ -98,7 +100,7 @@ public class testScript : MonoBehaviour
 
     public void correctOptionNoFile()
     {
-        TextMeshProUGUI.color = Color.black;
+        TextMeshProUGUI.color = Color.white;
 
         if (firstPresses[currentQuestion])
         {
@@ -117,7 +119,7 @@ public class testScript : MonoBehaviour
             score1.errorCount++;
 
             firstPresses[currentQuestion] = false;
-            TextMeshProUGUI.color = Color.black;
+            TextMeshProUGUI.color = Color.white;
         }
         else
         {
@@ -129,7 +131,7 @@ public class testScript : MonoBehaviour
     {
         questions[currentQuestion].SetActive(false);
         currentQuestion++;
-        questions[currentQuestion].SetActive(true);        
+        questions[currentQuestion].SetActive(true);
         //здесь делай свою магию с переключением сцен        
     }
     public void setQuestion(int questionIndex)
@@ -139,6 +141,7 @@ public class testScript : MonoBehaviour
         questions[currentQuestion].SetActive(true);
         //TextMeshProUGUI = FindFirstObjectByType<TextMeshProUGUI>();
         TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI.color = Color.white;
     }
 
 
