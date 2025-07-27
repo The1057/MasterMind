@@ -13,6 +13,8 @@ public class saveLoadManager : MonoBehaviour
     public string saveDirPath = "";
     public string saveFileName = "save.json";
     public GameObject storeObject;
+    public GameObject rivalObject;
+
     private void Awake()
     {
         if(instance != null)
@@ -88,9 +90,14 @@ public class saveLoadManager : MonoBehaviour
 
 
             deleteAllStoresOnScene();//удаляем существующие торговые точки
+            deleteAllRivalsOnScene();
             foreach (var store in SaveData.StoreDatas)//создаём все торговые точки
             {
                 Instantiate(storeObject).GetComponent<storeScript>().storeId = store.storeID;
+            }
+            foreach (var rival in SaveData.RivalDatas)//создаём всех соперников
+            {
+                Instantiate(rivalObject).GetComponent<RivalBizScript>().rivalBizData.storeID = rival.storeID;
             }
             saveLoadableObjects = findAllSaveLoadables();
             foreach (var obj in saveLoadableObjects)
@@ -107,6 +114,15 @@ public class saveLoadManager : MonoBehaviour
         foreach(var store in stores)
         {
             Destroy(store);
+        }
+    }
+    [ContextMenu("Destroy Rivals")]
+    private void deleteAllRivalsOnScene()
+    {
+        var rivals = GameObject.FindGameObjectsWithTag("rivalTag");
+        foreach (var rival in rivals)
+        {
+            Destroy(rival);
         }
     }
     private List<ISaveLoadable> findAllSaveLoadables()

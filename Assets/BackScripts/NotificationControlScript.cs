@@ -42,6 +42,7 @@ public class NotificationControlScript : MonoBehaviour
     [ContextMenu("Send Debug Notification")]
     public void sendDebugNotif()
     {
-        sendNotification("Title","This is debug notification",0);
+        requestAuthorization();
+        sendNotification("Title","This is a debug notification",0);
     }
 }

@@ -141,7 +141,7 @@ public class testScript : MonoBehaviour
         questions[currentQuestion].SetActive(true);
         //TextMeshProUGUI = FindFirstObjectByType<TextMeshProUGUI>();
         TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI.color = Color.white;
+        //TextMeshProUGUI.color = Color.white;
     }
 
 

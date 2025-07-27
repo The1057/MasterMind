@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -6,6 +8,7 @@ using UnityEngine;
 public class saveData
 {
     public List<storeData> StoreDatas = new List<storeData>();
+    public List<rivalBizData> RivalDatas = new List<rivalBizData>();
     public moneyData MoneyData = new moneyData();
     public clockData ClockData = new clockData();
 
@@ -58,6 +61,35 @@ public class graphData
     public Color zoneTopColor = new Color(0x90 / 256f, 0x09 / 256f, 0x1B / 256f);
     public Color gridColor = new Color(0.8f, 0.8f, 0.8f);
     public int graphHeight = 500;
+
+    public void saveToGraphFile(string graphDataFileName = "testGraph.json")
+    {
+        var graphDataDirPath = Application.persistentDataPath;
+
+        // \/ saving example graph to file \/
+        string fullPath = Path.Combine(graphDataDirPath, graphDataFileName);
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+            //creating directory 
+
+            string rawJSON = JsonUtility.ToJson(this, true);
+            //serializing
+
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(rawJSON);//magic to write to file
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error while saving data from file: {fullPath} \n {e}");
+        }
+        // /\ saving example graph to file /\
+    }
 }
 
 
@@ -87,6 +119,19 @@ public class Item
     //1 - цена продажи
     //2 - число закупок
     //3 - число продаж
+}
+
+[System.Serializable]
+public class rivalBizData
+{
+    public string name = "";
+
+    public List<Item> items = new List<Item>();
+    public rivalClass Class = 0;
+
+    public List<Vector2> points4Graph = new List<Vector2>();
+    public List<Vector2> points4GraphFinal = new List<Vector2>();
+    public int storeID = 0;
 }
 
 [System.Serializable]

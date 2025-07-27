@@ -37,7 +37,29 @@ public class graphSetup : MonoBehaviour
     {
         graphData = new graphData();
 
-        grid.transform.position = this.transform.position;        
+        loadGraphFromFile();
+
+        setup();
+    }
+    private void Update()
+    {
+        if (grid != null)
+        {
+            grid.transform.position = this.transform.position;
+            line.transform.position = this.transform.position;
+            gridScript.gridSize = this.gridSize;
+            gridScript.thickness = this.gridThickness;
+            lineScript.gridSize = this.gridSize;
+            lineScript.lineThickness = this.lineThickness;
+            lineScript.points = this.points;
+            zoneScript.points = this.points;
+            zoneScript.gridSize = this.gridSize;
+            zoneScript.maxY = this.findMaxY(points);
+        }
+    }
+    void setup()
+    {
+        grid.transform.position = this.transform.position;
         line.transform.position = this.transform.position;
         zone.transform.position = this.transform.position;
 
@@ -57,53 +79,8 @@ public class graphSetup : MonoBehaviour
         zoneScript.bottomColor = this.zoneBottomColor;
     }
 
-    private void Update()
-    {
-        if (grid != null)
-        {
-            grid.transform.position = this.transform.position;
-            line.transform.position = this.transform.position;
-            gridScript.gridSize = this.gridSize;
-            gridScript.thickness = this.gridThickness;
-            lineScript.gridSize = this.gridSize;
-            lineScript.lineThickness = this.lineThickness;
-            lineScript.points = this.points;
-            zoneScript.points = this.points;
-            zoneScript.gridSize = this.gridSize;
-            zoneScript.maxY = this.findMaxY(points);
-        }
-    }
-
-    public void setup()
-    {
-        Canvas canvas = GameObject.FindFirstObjectByType<Canvas>();
-        sc = GameObject.FindFirstObjectByType<storeScript>();
-        
-        var tempGraph = new List<Vector2>(sc.points4GraphFinal);
-
-        float maxY = findMaxY(sc.points4GraphFinal);
-        yStretch = maxY/(graphHeight-1);
-        for(int i = 0; i < tempGraph.Count; i++)
-        {
-            tempGraph[i] = new Vector2(tempGraph[i].x-(graphHeight/gridSize.x), tempGraph[i].y / yStretch);
-        }
-
-        // set graph arguments here \/
-
-
-        this.lineColor = Color.white;
-        this.lineThickness = 10;
-        this.points = tempGraph;
-        
-
-        // set graph arguments here /\
-
-
-        Instantiate(graphDisplay,canvas.transform);
-    }
-
     [ContextMenu("Load graph from file")]
-    public void createGraphFromFile()
+    public void loadGraphFromFile()
     {
         Canvas canvas = GameObject.FindFirstObjectByType<Canvas>();
         // \/ reading graph from file \/
@@ -145,18 +122,34 @@ public class graphSetup : MonoBehaviour
             tempGraph[i] = new Vector2(tempGraph[i].x - (graphHeight / gridSize.x), tempGraph[i].y / yStretch);
         }
 
+
         // set graph arguments here \/
 
-
-        this.lineColor = Color.white;
-        this.lineThickness = 10;
-        this.points = tempGraph;
 
 
         // set graph arguments here /\
 
+        this.gridSize = graphData.gridSize;
+        this.points = tempGraph;
+        this.gridThickness = graphData.gridThickness;
+        this.lineThickness = graphData.lineThickness;
+        this.lineColor = graphData.lineColor;
+        this.zoneBottomColor = graphData.zoneBottomColor;
+        this.zoneTopColor = graphData.zoneTopColor;
+        this.gridColor = graphData.gridColor;
+        this.graphHeight = graphData.graphHeight;
 
-        Instantiate(graphDisplay, canvas.transform);
+        Destroy(grid);
+        Destroy(line);
+        Destroy(zone);
+
+        grid = Instantiate(grid,this.transform);
+        line = Instantiate(line, this.transform);
+        zone = Instantiate(zone, this.transform);
+
+        gridScript = grid.GetComponent<GraphCanvasScript>();
+        lineScript = line.GetComponent<LineScript>();
+        zoneScript = zone.GetComponent<zoneScript>();
     }
     public void destroyGraph()
     {
@@ -179,9 +172,9 @@ public class graphSetup : MonoBehaviour
     {
         graphDataDirPath = Application.persistentDataPath;
         graphData.points = new List<Vector2>();
-        for(int i = 0;i<graphData.points.Count;i++)
+        for(int i = 0;i<12;i++)
         {
-            graphData.points[i] = new Vector2(i,i);
+            graphData.points.Add(new Vector2(i,i));
         }
         // \/ saving example graph to file \/
         string fullPath = Path.Combine(graphDataDirPath, graphDataFileName);
