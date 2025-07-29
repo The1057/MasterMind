@@ -301,6 +301,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 435917651}
   - {fileID: 1887493994}
   - {fileID: 1801706542}
   m_Father: {fileID: 624759678}
@@ -734,7 +735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 89.12}
+  m_AnchoredPosition: {x: 0, y: 116.88}
   m_SizeDelta: {x: 830, y: 141.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &276925927
@@ -895,8 +896,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.7000122, y: 1160.2}
-  m_SizeDelta: {x: 878.9, y: -1022.2}
+  m_AnchoredPosition: {x: 5.7752075, y: 1160.2}
+  m_SizeDelta: {x: 897.84955, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &286464749
 MonoBehaviour:
@@ -920,22 +921,23 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0423\u0421\u041D: \u0434\u043B\u044F \u043C\u0430\u043B\u043E\u0433\u043E
     \u0431\u0438\u0437\u043D\u0435\u0441\u0430:\n> 6% \u0441 \u0434\u043E\u0445\u043E\u0434\u043E\u0432
-    (\u0434\u043B\u044F \u0431\u0438\u0437\u043D\u0435\u0441\u0430 \u0441 \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u043C\u0438
-    \u0440\u0430\u0441\u0445\u043E\u0434\u0430\u043C\u0438).\r\n\r\n>15% \u0441 \u0440\u0430\u0437\u043D\u0438\u0446\u044B
-    \u043C\u0435\u0436\u0434\u0443 \u0434\u043E\u0445\u043E\u0434\u0430\u043C\u0438
+    (\u0434\u043B\u044F \u0431\u0438\u0437\u043D\u0435\u0441\u0430 \n\u0441 \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u043C\u0438
+    \u0440\u0430\u0441\u0445\u043E\u0434\u0430\u043C\u0438).\r\n\r\n> 15% \u0441
+    \u0440\u0430\u0437\u043D\u0438\u0446\u044B \u043C\u0435\u0436\u0434\u0443 \u0434\u043E\u0445\u043E\u0434\u0430\u043C\u0438
     \u0438 \u0440\u0430\u0441\u0445\u043E\u0434\u0430\u043C\u0438 (\u0434\u043B\u044F
     \u0431\u0438\u0437\u043D\u0435\u0441\u0430 \u0441 \u0431\u043E\u043B\u044C\u0448\u0438\u043C\u0438
     \u0437\u0430\u0442\u0440\u0430\u0442\u0430\u043C\u0438).\n\r.\r\n\r\u041F\u0421\u041D:
-    \u0434\u043B\u044F \u0418\u041F:\n\n>\u0424\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439
+    \u0434\u043B\u044F \u0418\u041F:\n\n> \u0424\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439
     \u043D\u0430\u043B\u043E\u0433 \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
     \u043E\u0442 \u0440\u0435\u0433\u0438\u043E\u043D\u0430 \u0438 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438.
     \u0411\u0435\u0437 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u0441\u0442\u0438
     \u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0431\u0443\u0445\u0433\u0430\u043B\u0442\u0435\u0440\u0438\u0438.\n\n\u041E\u0421\u041D\u041E:
     \u0434\u043B\u044F \u043A\u0440\u0443\u043F\u043D\u044B\u0445 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0439.
-    \n\n>\u0412\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u041D\u0414\u0421, \u043D\u0430\u043B\u043E\u0433
+    \n\n> \u0412\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u041D\u0414\u0421, \u043D\u0430\u043B\u043E\u0433
     \u043D\u0430 \u043F\u0440\u0438\u0431\u044B\u043B\u044C, \u041D\u0414\u0424\u041B
-    \u0438 \u0434\u0440\u0443\u0433\u0438\u0435 \u0441\u0431\u043E\u0440\u044B. \n\n>\u0422\u0440\u0435\u0431\u0443\u0435\u0442
-    \u0441\u043B\u043E\u0436\u043D\u043E\u0433\u043E \u0443\u0447\u0451\u0442\u0430.\r\n\r\n\r\n\r\n\r\n"
+    \u0438 \u0434\u0440\u0443\u0433\u0438\u0435 \u0441\u0431\u043E\u0440\u044B. \n\n>
+    \u0422\u0440\u0435\u0431\u0443\u0435\u0442 \u0441\u043B\u043E\u0436\u043D\u043E\u0433\u043E
+    \u0443\u0447\u0451\u0442\u0430.\r\n\r\n\r\n\r\n\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
   m_sharedMaterial: {fileID: 7286569816844298882, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
@@ -1327,6 +1329,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402335606}
   m_CullTransparentMesh: 1
+--- !u!1 &435917650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435917651}
+  - component: {fileID: 435917653}
+  - component: {fileID: 435917652}
+  m_Layer: 5
+  m_Name: Text (TMP) (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &435917651
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435917650}
+  m_LocalRotation: {x: -0, y: -0, z: -0.13139133, w: 0.9913306}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 69026184}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 468, y: 1754}
+  m_SizeDelta: {x: 915.7, y: -1022.2}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &435917652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435917650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: " \u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F \u0432
+    \u0444\u043E\u043D\u0434\u0430\u0445 (\u041F\u0424\u0420, \u0424\u0421\u0421)\n\r\n"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
+  m_sharedMaterial: {fileID: 7286569816844298882, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 1
+  m_colorMode: 2
+  m_fontColorGradient:
+    topLeft: {r: 0.23137255, g: 0.02745098, b: 0.36078432, a: 1}
+    topRight: {r: 0.23137255, g: 0.02745098, b: 0.36078432, a: 1}
+    bottomLeft: {r: 0.5647059, g: 0.03529412, b: 0.105882354, a: 1}
+    bottomRight: {r: 0.5647059, g: 0.03529412, b: 0.105882354, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 80
+  m_fontSizeBase: 80
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &435917653
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435917650}
+  m_CullTransparentMesh: 1
 --- !u!1 &494136015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 451, y: 1576.7}
+  m_AnchoredPosition: {x: 471.8, y: 1576.7}
   m_SizeDelta: {x: 903.5, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &623294737
@@ -1783,7 +1922,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 672.3, y: 2142.3}
+  m_AnchoredPosition: {x: 712.2, y: 2142.3}
   m_SizeDelta: {x: 1138, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &654868640
@@ -1808,11 +1947,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0414\u043B\u044F \u043D\u0435\u043A\u043E\u0442\u043E\u0440\u044B\u0445
     \u0432\u0438\u0434\u043E\u0432 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-    \n\u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F:\n\n>\u041E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435
-    (\u0420\u043E\u0441\u043E\u0431\u0440\u043D\u0430\u0434\u0437\u043E\u0440)\n\r\n>\u041C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0430\u044F
-    \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C (\u0420\u043E\u0441\u0437\u0434\u0440\u0430\u0432\u043D\u0430\u0434\u0437\u043E\u0440)\r\n\n>\u0422\u043E\u0440\u0433\u043E\u0432\u043B\u044F
-    \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u0435\u043C (\u043C\u0435\u0441\u0442\u043D\u044B\u0435
-    \u043E\u0440\u0433\u0430\u043D\u044B \u0432\u043B\u0430\u0441\u0442\u0438)\n\n>\u041E\u0445\u0440\u0430\u043D\u043D\u044B\u0435
+    \n\u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F:\n\n>
+    \u041E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435 (\u0420\u043E\u0441\u043E\u0431\u0440\u043D\u0430\u0434\u0437\u043E\u0440)\n\r\n>
+    \u041C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0430\u044F \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+    (\u0420\u043E\u0441\u0437\u0434\u0440\u0430\u0432\u043D\u0430\u0434\u0437\u043E\u0440)\r\n\n>
+    \u0422\u043E\u0440\u0433\u043E\u0432\u043B\u044F \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u0435\u043C
+    (\u043C\u0435\u0441\u0442\u043D\u044B\u0435 \n\u043E\u0440\u0433\u0430\u043D\u044B
+    \u0432\u043B\u0430\u0441\u0442\u0438)\n\n> \u041E\u0445\u0440\u0430\u043D\u043D\u044B\u0435
     \u0443\u0441\u043B\u0443\u0433\u0438 (\u041C\u0412\u0414)\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
@@ -2254,7 +2395,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 352.7, y: 73}
+  m_AnchoredPosition: {x: 372.2, y: 88.2}
   m_SizeDelta: {x: 975.41, y: -85.16504}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765192774
@@ -2392,7 +2533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -99.7}
+  m_AnchoredPosition: {x: 0, y: -129}
   m_SizeDelta: {x: 830, y: 141.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &823605070
@@ -2805,8 +2946,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 697, y: 2275.1}
-  m_SizeDelta: {x: 878.9, y: -1022.2}
+  m_AnchoredPosition: {x: 635.8, y: 2303.6}
+  m_SizeDelta: {x: 1025.3499, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1052313510
 MonoBehaviour:
@@ -2856,8 +2997,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3581,6 +3722,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1612946764}
   - {fileID: 1720157544}
   - {fileID: 1482641851}
   m_Father: {fileID: 901266442}
@@ -3954,7 +4096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.7000122, y: 1254.4}
+  m_AnchoredPosition: {x: -3.7000122, y: 1375}
   m_SizeDelta: {x: 878.9, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1498725493
@@ -3978,10 +4120,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\n\n\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F
-    \u0418\u041F:\n\n > \u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u0438\u0435
+    \u0418\u041F:\n\n> \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u0438\u0435
     (\u0444\u043E\u0440\u043C\u0430 \u042021001), \u0418\u041D\u041D, \u043A\u0432\u0438\u0442\u0430\u043D\u0446\u0438\u044F
-    \u043E \u0433\u043E\u0441\u043F\u043E\u0448\u043B\u0438\u043D\u0435 (800 \u20BD),
-    \u0432\u044B\u0431\u043E\u0440 \u041E\u041A\u0412\u042D\u0414.\r\n\r\n>\u041F\u043E\u0434\u0430\u0447\u0430
+    \u043E \u0433\u043E\u0441\u043F\u043E\u0448\u043B\u0438\u043D\u0435 (800 \u0440\u0443\u0431),
+    \u0432\u044B\u0431\u043E\u0440 \u041E\u041A\u0412\u042D\u0414.\r\n\r\n> \u041F\u043E\u0434\u0430\u0447\u0430
     \u0432 \u0424\u041D\u0421 (\u043D\u0430\u043B\u043E\u0433\u043E\u0432\u0443\u044E)
     \u0447\u0435\u0440\u0435\u0437 \u041C\u0424\u0426, \u043B\u0438\u0447\u043D\u043E
     \u0438\u043B\u0438 \u043E\u043D\u043B\u0430\u0439\u043D.\r\n\r\n> \u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F
@@ -4252,6 +4394,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572073169}
   m_CullTransparentMesh: 1
+--- !u!1 &1612946763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1612946764}
+  - component: {fileID: 1612946766}
+  - component: {fileID: 1612946765}
+  m_Layer: 5
+  m_Name: Text (TMP) (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1612946764
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612946763}
+  m_LocalRotation: {x: -0, y: -0, z: -0.13139133, w: 0.9913306}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1378179167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 521.3, y: 1780}
+  m_SizeDelta: {x: 1138.9412, y: -1022.2}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1612946765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612946763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "  \u041E\u0442\u043A\u0440\u044B\u0442\u0438\u0435 \u0440\u0430\u0441\u0447\u0451\u0442\u043D\u043E\u0433\u043E
+    \u0441\u0447\u0451\u0442\u0430\n\r\n\r\n"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
+  m_sharedMaterial: {fileID: 7286569816844298882, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 1
+  m_colorMode: 2
+  m_fontColorGradient:
+    topLeft: {r: 0.23137255, g: 0.02745098, b: 0.36078432, a: 1}
+    topRight: {r: 0.23137255, g: 0.02745098, b: 0.36078432, a: 1}
+    bottomLeft: {r: 0.5647059, g: 0.03529412, b: 0.105882354, a: 1}
+    bottomRight: {r: 0.5647059, g: 0.03529412, b: 0.105882354, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 80
+  m_fontSizeBase: 80
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1612946766
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612946763}
+  m_CullTransparentMesh: 1
 --- !u!1 &1720157543
 GameObject:
   m_ObjectHideFlags: 0
@@ -4286,7 +4565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 475.20898, y: 1780}
+  m_AnchoredPosition: {x: 492, y: 1786.9}
   m_SizeDelta: {x: 915.7, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1720157545
@@ -4309,16 +4588,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "  \u041E\u0442\u043A\u0440\u044B\u0442\u0438\u0435 \u0440\u0430\u0441\u0447\u0451\u0442\u043D\u043E\u0433\u043E
-    \u0441\u0447\u0451\u0442\u0430:\n\r\n  >\u0414\u043B\u044F \u041E\u041E\u041E
-    \u2014 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E, \u0434\u043B\u044F
-    \u0418\u041F \u2014 \u0436\u0435\u043B\u0430\u0442\u0435\u043B\u044C\u043D\u043E.
+  m_text: "\n\r\n> \u0414\u043B\u044F \u041E\u041E\u041E \u2014 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E,
+    \u0434\u043B\u044F \u0418\u041F \u2014 \u0436\u0435\u043B\u0430\u0442\u0435\u043B\u044C\u043D\u043E.
     \u041E\u0442\u043A\u0440\u044B\u0442\u0438\u0435 \u0441\u0447\u0451\u0442\u0430
     \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0434\u043B\u044F
     \u0431\u0435\u0437\u043D\u0430\u043B\u0438\u0447\u043D\u044B\u0445 \u0440\u0430\u0441\u0447\u0451\u0442\u043E\u0432,
     \u0443\u043F\u043B\u0430\u0442\u044B \u043D\u0430\u043B\u043E\u0433\u043E\u0432
-    \u0438 \u0440\u0430\u0431\u043E\u0442\u044B \u0441 \u043F\u0430\u0440\u0442\u043D\u0451\u0440\u0430\u043C\u0438.\n 
-    >\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u043F\u0430\u0441\u043F\u043E\u0440\u0442,
+    \u0438 \u0440\u0430\u0431\u043E\u0442\u044B \u0441 \u043F\u0430\u0440\u0442\u043D\u0451\u0440\u0430\u043C\u0438.\n\n>
+    \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u043F\u0430\u0441\u043F\u043E\u0440\u0442,
     \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E
     \u043E \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438, \u0443\u0441\u0442\u0430\u0432
     (\u0434\u043B\u044F \u041E\u041E\u041E), \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430
@@ -4689,7 +4966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 453, y: 1631.8}
+  m_AnchoredPosition: {x: 466, y: 1670}
   m_SizeDelta: {x: 915.7, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1802223642
@@ -4933,8 +5210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 475.20898, y: 1780}
-  m_SizeDelta: {x: 915.7, y: -1022.2}
+  m_AnchoredPosition: {x: 481, y: 1710.5}
+  m_SizeDelta: {x: 980.74084, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1887493995
 MonoBehaviour:
@@ -4956,12 +5233,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " \u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F \u0432
-    \u0444\u043E\u043D\u0434\u0430\u0445 (\u041F\u0424\u0420, \u0424\u0421\u0421)\n\n 
-    \u041F\u0440\u0438 \u043D\u0430\u0439\u043C\u0435 \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A\u043E\u0432
+  m_text: " \n\n\n  \u041F\u0440\u0438 \u043D\u0430\u0439\u043C\u0435 \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A\u043E\u0432
     \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F
-    \n\u0432 \u041F\u0435\u043D\u0441\u0438\u043E\u043D\u043D\u043E\u043C \u0444\u043E\u043D\u0434\u0435
-    (\u041F\u0424\u0420) \n\u0438 \u0424\u043E\u043D\u0434\u0435 \u0441\u043E\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E
+    \u0432 \u041F\u0435\u043D\u0441\u0438\u043E\u043D\u043D\u043E\u043C \u0444\u043E\u043D\u0434\u0435
+    (\u041F\u0424\u0420) \u0438 \u0424\u043E\u043D\u0434\u0435 \u0441\u043E\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E
     \u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0438\u044F (\u0424\u0421\u0421)
     \u0434\u043B\u044F \u0443\u043F\u043B\u0430\u0442\u044B \u0441\u0442\u0440\u0430\u0445\u043E\u0432\u044B\u0445
     \u0432\u0437\u043D\u043E\u0441\u043E\u0432.\n  \r\n"
@@ -4991,8 +5266,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 56
+  m_fontSizeBase: 56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5332,7 +5607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 480.5, y: 1792}
+  m_AnchoredPosition: {x: 501.6, y: 1780.8}
   m_SizeDelta: {x: 957, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001728593
@@ -5355,7 +5630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "  \u0412\u044B\u0431\u043E\u0440 \u0444\u043E\u0440\u043C\u044B \u0431\u0438\u0437\u043D\u0435\u0441\u0430:\n\r\n   
+  m_text: "  \u0412\u044B\u0431\u043E\u0440 \u0444\u043E\u0440\u043C\u044B \u0431\u0438\u0437\u043D\u0435\u0441\u0430:\n\r\n 
     \u0418\u041F: \u043F\u043E\u0434\u0445\u043E\u0434\u0438\u0442 \u0434\u043B\u044F
     \u043C\u0430\u043B\u043E\u0433\u043E \u0431\u0438\u0437\u043D\u0435\u0441\u0430
     \n\u0438 \u0441\u0430\u043C\u043E\u0437\u0430\u043D\u044F\u0442\u043E\u0441\u0442\u0438.
@@ -5363,14 +5638,14 @@ MonoBehaviour:
     \u0432\u043B\u0430\u0434\u0435\u043B\u044C\u0446\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u044E\u0442
     \n\u043F\u043E \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u0430\u043C
     \u0432\u0441\u0435\u043C \u0438\u043C\u0443\u0449\u0435\u0441\u0442\u0432\u043E\u043C.
-    \u0423\u043F\u0440\u043E\u0449\u0451\u043D\u043D\u044B\u0439 \u0443\u0447\u0451\u0442.\n\r\n   
+    \u0423\u043F\u0440\u043E\u0449\u0451\u043D\u043D\u044B\u0439 \u0443\u0447\u0451\u0442.\n\r\n 
     \u041E\u041E\u041E: \u043F\u043E\u0434\u0445\u043E\u0434\u0438\u0442 \u0434\u043B\u044F
-    \u0431\u0438\u0437\u043D\u0435\u0441\u0430 \u0441 \u043F\u0430\u0440\u0442\u043D\u0451\u0440\u0430\u043C\u0438.
+    \u0431\u0438\u0437\u043D\u0435\u0441\u0430 \n\u0441 \u043F\u0430\u0440\u0442\u043D\u0451\u0440\u0430\u043C\u0438.
     \u041E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u044C
     \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0430 \u0432\u043A\u043B\u0430\u0434\u043E\u043C.
     \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u0438\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u044F
-    \u0438\u043D\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u0439 \u0438 \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F
-    \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432. \u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430\u044F
+    \u0438\u043D\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u0439 \n\u0438 \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F
+    \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432. \n\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430\u044F
     \u0431\u0443\u0445\u0433\u0430\u043B\u0442\u0435\u0440\u0438\u044F.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
@@ -5485,7 +5760,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.7000122, y: 1254.4}
+  m_AnchoredPosition: {x: 3, y: 1356}
   m_SizeDelta: {x: 878.9, y: -1022.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2064851556
@@ -5508,21 +5783,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\n > \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u0438\u0435
+  m_text: "\n\n> \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u0437\u0430\u044F\u0432\u043B\u0435\u043D\u0438\u0435
     (\u0444\u043E\u0440\u043C\u0430 \u042011001), \u0440\u0435\u0448\u0435\u043D\u0438\u0435
     \u043E \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0438 (\u0438\u043B\u0438 \u043F\u0440\u043E\u0442\u043E\u043A\u043E\u043B
     \u0441\u043E\u0431\u0440\u0430\u043D\u0438\u044F), \u0443\u0441\u0442\u0430\u0432,
     \u043A\u0432\u0438\u0442\u0430\u043D\u0446\u0438\u044F \u043E \u0433\u043E\u0441\u043F\u043E\u0448\u043B\u0438\u043D\u0435
-    (4 000 \u20BD), \u044E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u0438\u0439
-    \u0430\u0434\u0440\u0435\u0441, \u043A\u043E\u0434\u044B \u041E\u041A\u0412\u042D\u0414.\r\n\r\n>\u041F\u043E\u0434\u0430\u0447\u0430
-    \u0432 \u0424\u041D\u0421 (\u043B\u0438\u0447\u043D\u043E, \u0447\u0435\u0440\u0435\u0437
-    \u041C\u0424\u0426, \u043F\u043E\u0447\u0442\u043E\u0439 \u0438\u043B\u0438 \u043E\u043D\u043B\u0430\u0439\u043D).\r.\r\n\r\n>
-    \u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F \u0437\u0430\u043D\u0438\u043C\u0430\u0435\u0442
-    5 \u0440\u0430\u0431\u043E\u0447\u0438\u0445 \u0434\u043D\u0435\u0439. \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435
-    \u043B\u0438\u0441\u0442\u0430 \u0437\u0430\u043F\u0438\u0441\u0438 \u0432 \u0415\u0413\u0420\u042E\u041B.\r\n\r\n>\u041E\u0442\u043A\u0440\u044B\u0442\u0438\u0435
-    \u0440\u0430\u0441\u0447\u0451\u0442\u043D\u043E\u0433\u043E \u0441\u0447\u0451\u0442\u0430,
-    \u043F\u043E\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430 \u043D\u0430 \u043D\u0430\u043B\u043E\u0433\u043E\u0432\u044B\u0439
-    \u0443\u0447\u0451\u0442.\r\n\r\n\r\n"
+    (4 000 \u0440\u0443\u0431), \u044E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+    \u0430\u0434\u0440\u0435\u0441, \u043A\u043E\u0434\u044B \u041E\u041A\u0412\u042D\u0414.\r\n\r\n>
+    \u041F\u043E\u0434\u0430\u0447\u0430 \u0432 \u0424\u041D\u0421 (\u043B\u0438\u0447\u043D\u043E,
+    \u0447\u0435\u0440\u0435\u0437 \u041C\u0424\u0426, \u043F\u043E\u0447\u0442\u043E\u0439
+    \u0438\u043B\u0438 \u043E\u043D\u043B\u0430\u0439\u043D).\r.\r\n\r\n> \u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F
+    \u0437\u0430\u043D\u0438\u043C\u0430\u0435\u0442 5 \u0440\u0430\u0431\u043E\u0447\u0438\u0445
+    \u0434\u043D\u0435\u0439. \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435
+    \u043B\u0438\u0441\u0442\u0430 \u0437\u0430\u043F\u0438\u0441\u0438 \u0432 \u0415\u0413\u0420\u042E\u041B.\r\n\r\n>
+    \u041E\u0442\u043A\u0440\u044B\u0442\u0438\u0435 \u0440\u0430\u0441\u0447\u0451\u0442\u043D\u043E\u0433\u043E
+    \u0441\u0447\u0451\u0442\u0430, \u043F\u043E\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430
+    \u043D\u0430 \u043D\u0430\u043B\u043E\u0433\u043E\u0432\u044B\u0439 \u0443\u0447\u0451\u0442.\r\n\r\n\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
   m_sharedMaterial: {fileID: 7286569816844298882, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
