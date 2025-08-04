@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class testScript : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class testScript : MonoBehaviour
     public List<bool> firstPresses = new List<bool>();
     public List<TextMeshProUGUI> explanations = new List<TextMeshProUGUI>();
 
+    public List<Button> correctButtons;
+    public Sprite inactiveQbutt;
+    public Sprite pressedAnsButtCorrect;
+    public Sprite pressedAnsButtIncorrect;
+
+
     [Serializable]
     public class Score
     {
@@ -40,6 +47,7 @@ public class testScript : MonoBehaviour
 
             //explanations.Add(FindFirstObjectByType<TextMeshProUGUI>());
         }
+        correctButtons = findAllCorrectAnswers();
     }
     public void correctOption()
     {
@@ -100,6 +108,14 @@ public class testScript : MonoBehaviour
 
     public void correctOptionNoFile()
     {
+        if (firstPresses[currentQuestion])
+        {
+            var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+            thisButton.GetComponent<Image>().sprite = pressedAnsButtCorrect;
+            correctButtons[currentQuestion].image.sprite = pressedAnsButtCorrect;
+        }
+
+
         TextMeshProUGUI.color = Color.white;
 
         if (firstPresses[currentQuestion])
@@ -116,6 +132,13 @@ public class testScript : MonoBehaviour
     {
         if (firstPresses[currentQuestion])
         {
+            var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+            thisButton.GetComponent<Image>().sprite = pressedAnsButtIncorrect;
+            correctButtons[currentQuestion].image.sprite = pressedAnsButtCorrect;
+        }
+
+        if (firstPresses[currentQuestion])
+        {
             score1.errorCount++;
 
             firstPresses[currentQuestion] = false;
@@ -125,6 +148,7 @@ public class testScript : MonoBehaviour
         {
             //если не первый неправильный ответ
         }
+
     }
 
     public void nextQuestion()
@@ -132,6 +156,9 @@ public class testScript : MonoBehaviour
         questions[currentQuestion].SetActive(false);
         currentQuestion++;
         questions[currentQuestion].SetActive(true);
+
+        
+
         //здесь делай свою магию с переключением сцен        
     }
     public void setQuestion(int questionIndex)
@@ -141,6 +168,16 @@ public class testScript : MonoBehaviour
         questions[currentQuestion].SetActive(true);
         //TextMeshProUGUI = FindFirstObjectByType<TextMeshProUGUI>();
         TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
+
+        var images = questions[currentQuestion].transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
+        for(int i = 0; i < images.Length; i++)
+        {
+            if (!firstPresses[i])
+            {
+                images[i].sprite = inactiveQbutt;
+            }
+        }
+
         //TextMeshProUGUI.color = Color.white;
     }
 
@@ -176,5 +213,21 @@ public class testScript : MonoBehaviour
     public void hideExplanation()
     {
         TextMeshProUGUI.color = Color.clear;//dsdwedf
+    }
+    public List<Button> findAllCorrectAnswers()
+    {
+        var buttons = this.gameObject.transform.GetComponentsInChildren<Button>(true);
+        List<Button> correctButtons = new();
+
+        foreach (var button in buttons)
+        {
+            if (button.onClick.GetPersistentMethodName(0) == "correctOptionNoFile")
+            {
+                print(button.name + button.onClick.GetPersistentMethodName(0));
+                correctButtons.Add(button);
+            }
+            //print(button.name + button.onClick.GetPersistentMethodName(0));
+        }
+        return correctButtons;
     }
 }
