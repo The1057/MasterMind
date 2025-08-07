@@ -44,10 +44,11 @@ public class testScript : MonoBehaviour
         foreach (var q in questions)
         {
             firstPresses.Add(true);
-
-            //explanations.Add(FindFirstObjectByType<TextMeshProUGUI>());
         }
         correctButtons = findAllCorrectAnswers();
+
+        var buttTexts = questions[currentQuestion].transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<TextMeshProUGUI>();
+        buttTexts[currentQuestion].color = Color.white;// выставляем первому вопросу белый цвет
     }
     public void correctOption()
     {
@@ -177,6 +178,9 @@ public class testScript : MonoBehaviour
                 images[i].sprite = inactiveQbutt;
             }
         }
+
+        var buttTexts = questions[currentQuestion].transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<TextMeshProUGUI>();
+        buttTexts[currentQuestion].color = Color.white;
 
         //TextMeshProUGUI.color = Color.white;
     }
