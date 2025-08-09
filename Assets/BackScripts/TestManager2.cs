@@ -51,13 +51,18 @@ public class TestManager2 : MonoBehaviour
     public Sprite ansButtPressedIncorrect;
     public Sprite ansButtDefault;
 
+    [Header("Настройка текста")]
+
+    public float ansButtonDistance = 150;
+    public float qButtonDistance = 80;
+    public int ansButt2QuestDistance = 20;
+    public int ansButtSizeModifier = 20;
+    public float comment2LastAnsGap = 100;
 
     [Header("Разное")]
     public TextMeshProUGUI TextMeshProUGUI;
     public GameObject scrollBar;
     public List<GameObject> qButtons = new();
-    public float ansButtonDistance = 150;
-    public float qButtonDistance = 80;
     public int currentQuestion = 0;
     public List<bool> firstPresses = new List<bool>();
     public List<Button> correctButtons;
@@ -65,53 +70,7 @@ public class TestManager2 : MonoBehaviour
 
     void Start()
     {
-
-        foreach (Question question in questions)
-        {
-            questionObjects.Add(Instantiate(QuestionPrefab, this.transform));
-
-            TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI.text = question.comment;
-            TextMeshProUGUI.color = Color.clear;
-
-            TextMeshProUGUI = GameObject.Find("Вопрос").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI.text = question.question;
-
-            for(int i = 0;i < question.answers.Count;i++) 
-            {
-                var answer = question.answers[i];
-                float buttHeightModif = 0;
-                GameObject thisButton;
-                if (answer[0] == question.correctAnswerLetter)
-                {
-                    thisButton = Instantiate(answerButtPrefabCorr, questionObjects.Last().transform);
-                }
-                else
-                {
-                    thisButton = Instantiate(answerButtPrefabIncorr, questionObjects.Last().transform);
-                }
-                thisButton.GetComponent<testAnsButtScript>().testManager = this;
-                thisButton.GetComponentInChildren<TextMeshProUGUI>().text = answer;
-                thisButton.transform.position -= new Vector3(0, buttHeightModif + ansButtonDistance * i, 0);
-            }
-            firstPresses.Add(true);
-            questionObjects.Last().gameObject.SetActive(false);
-        }
-
-        scrollBar = GameObject.Find("TestScrollView"); 
-        for (int i = 0; i < questions.Count; i++)
-        {
-            var thisButton = Instantiate(scrollBar.transform.GetChild(0).GetChild(0).GetChild(0), scrollBar.transform.GetChild(0).GetChild(0));
-            thisButton.transform.position += new Vector3(qButtonDistance*i,0,0);
-            thisButton.GetComponentInChildren<TextMeshProUGUI>().text = (i+1).ToString();
-        }       //создаём и расставляем элементы скролл бара
-
-        scrollBar.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
-
-        setQuestion(this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject);
-        //выставляем первый вопрос
-
-        correctButtons = findAllCorrectAnswers();
+        generateTest();
 
     }
 
@@ -189,6 +148,8 @@ public class TestManager2 : MonoBehaviour
                 this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i + 1).GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             }
         }
+
+
     }
     public List<Button> findAllCorrectAnswers()
     {
@@ -205,6 +166,71 @@ public class TestManager2 : MonoBehaviour
             //print(button.name + button.onClick.GetPersistentMethodName(0));
         }
         return correctButtons;
+    }
+
+    public void generateTest()
+    {
+        foreach (Question question in questions)
+        {
+            questionObjects.Add(Instantiate(QuestionPrefab, this.transform));
+
+            TextMeshProUGUI = GameObject.Find("Вопрос").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI.text = question.question;
+
+            GameObject lastButton = new();
+            for (int i = 0; i < question.answers.Count; i++)
+            {
+                var answer = question.answers[i];
+                float buttHeightModif = TextMeshProUGUI.preferredHeight + ansButt2QuestDistance; //(question.question.Length/18)*ansButt2QuestDistance;
+                GameObject thisButton;
+                if (answer[0] == question.correctAnswerLetter)
+                {
+                    thisButton = Instantiate(answerButtPrefabCorr, questionObjects.Last().transform);
+                }
+                else
+                {
+                    thisButton = Instantiate(answerButtPrefabIncorr, questionObjects.Last().transform);
+                }
+                thisButton.GetComponent<testAnsButtScript>().testManager = this;
+                thisButton.GetComponentInChildren<TextMeshProUGUI>().text = answer;
+
+                var buttSizeModifHeight = thisButton.GetComponentInChildren<TextMeshProUGUI>().preferredHeight;
+                var buttSizeModifWidth = thisButton.GetComponent<RectTransform>().sizeDelta.x;
+                thisButton.GetComponent<RectTransform>().sizeDelta = new Vector2(buttSizeModifWidth,buttSizeModifHeight + ansButtSizeModifier);
+                var buttSize = thisButton.GetComponent<RectTransform>().sizeDelta;
+
+                thisButton.transform.position -= new Vector3(0,buttSize.y/2 + buttHeightModif + ansButtonDistance * i, 0);
+                lastButton = thisButton;
+            }
+
+            TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI.text = question.comment;
+            TextMeshProUGUI.color = Color.clear;
+            TextMeshProUGUI.gameObject.transform.position = lastButton.gameObject.transform.position 
+                - new Vector3(0,comment2LastAnsGap + lastButton.GetComponent<RectTransform>().sizeDelta.y,0);
+
+            
+
+
+            firstPresses.Add(true);
+            questionObjects.Last().gameObject.SetActive(false);
+        }
+
+        scrollBar = GameObject.Find("TestScrollView");
+        for (int i = 0; i < questions.Count; i++)
+        {
+            var thisButton = Instantiate(scrollBar.transform.GetChild(0).GetChild(0).GetChild(0), scrollBar.transform.GetChild(0).GetChild(0));
+            thisButton.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
+        }       //создаём и расставляем элементы скролл бара
+
+        scrollBar.transform.GetChild(0).GetChild(0).GetComponent<HorizontalLayoutGroup>().spacing = qButtonDistance;
+        scrollBar.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
+
+        setQuestion(this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject);
+        //выставляем первый вопрос
+
+        correctButtons = findAllCorrectAnswers();
+
     }
 
 }
