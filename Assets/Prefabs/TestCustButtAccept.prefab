@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -22.04}
-  m_SizeDelta: {x: 843.58, y: 98}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7156124997954405402
 CanvasRenderer:
@@ -65,8 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " A. \u041E\u0431\u0449\u0435\u0441\u0442\u0432\u043E \u0441 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043D\u043E\u0439
-    \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0441\u0442\u044C\u044E\n\r\n"
+  m_text: "\u041F\u0440\u0438\u043D\u044F\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
   m_sharedMaterial: {fileID: 7286569816844298882, guid: 6d9ad1c49cfdf504faddd7afd3ceae86, type: 2}
@@ -149,9 +148,9 @@ GameObject:
   - component: {fileID: 5153780953692103641}
   - component: {fileID: 3614331588676374147}
   - component: {fileID: 4158961644555030832}
-  - component: {fileID: 6471565043078113419}
+  - component: {fileID: 7073913777372568508}
   m_Layer: 5
-  m_Name: TestCustButt
+  m_Name: TestCustButtAccept
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,9 +258,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9035828678707821539, guid: b7519d5e965cfc84996655876923c40f, type: 3}
-        m_TargetAssemblyTypeName: TestManager2, Assembly-CSharp
-        m_MethodName: correctOption
+      - m_Target: {fileID: 7073913777372568508}
+        m_TargetAssemblyTypeName: testAnsButtMCScript, Assembly-CSharp
+        m_MethodName: accept
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -271,7 +270,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6471565043078113419
+--- !u!114 &7073913777372568508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,7 +279,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8121415323903699914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df7f66c4e12b07f46b430275cbe5f02d, type: 3}
+  m_Script: {fileID: 11500000, guid: 85dba9d796e5a034f922df99a77b0e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testManager: {fileID: 0}

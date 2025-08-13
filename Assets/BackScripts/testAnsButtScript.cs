@@ -3,7 +3,7 @@ using UnityEngine;
 public class testAnsButtScript : MonoBehaviour
 {
     public TestManager2 testManager;
-    public void correct()
+    public void correct_oc()
     {
         testManager.correctOption();
     }
