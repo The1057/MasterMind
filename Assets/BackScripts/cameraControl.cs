@@ -12,7 +12,7 @@ public class cameraControl : MonoBehaviour
     public int lowBorderMargin = 3, highBorderMargin = 4;
     public Vector3 mapCenter = new Vector3(12, 0, 12);
     public float pullingForce = 1f;
-    public float bufZone = 0.4f;
+    public float bufZone = 4.6f;
 
     public float speed = 0.4f;
     public float MINSCALE = 2F;
@@ -31,7 +31,7 @@ public class cameraControl : MonoBehaviour
     [Header("Rubber Border Settings")]
     public float slowdownStartDistance = 1.5f;
     public float maxSlowdownFactor = 0.3f;
-    public float returnSpeedInside = 2.0f;
+    public float returnSpeedInside = 15f;
     public float returnSpeedOutside = 4.0f;
     public float edgeStiffness = 0.8f;
 
@@ -78,7 +78,6 @@ public class cameraControl : MonoBehaviour
             wasDragging = false;
         }
 
-        // Автоматическое возвращение если не тащим и за границами
         if (!wasDragging && !checkBorders(transform.position))
         {
             ReturnToBounds();
