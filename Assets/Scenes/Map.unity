@@ -1733,20 +1733,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 733205690}
-  map: {fileID: 0}
+  map: {fileID: 943987926}
   pan: 0
   panningSpeed: 1
   panTo: {x: 10, y: 6, z: 10}
-  lowBorderMargin: -10
-  highBorderMargin: -10
-  mapCenter: {x: 15, y: 0, z: 15}
+  lowBorderMargin: 3
+  highBorderMargin: 4
+  mapCenter: {x: 15, y: 6, z: 15}
   pullingForce: 1
-  bufZone: 0.5
+  bufZone: 4.6
   speed: 0.08
   MINSCALE: 2
   MAXSCALE: 4.5
   minPinchSpeed: 3
   varianceInDistances: 5
+  slowdownStartDistance: 1.5
+  maxSlowdownFactor: 0.3
+  returnSpeedInside: 15
+  returnSpeedOutside: 4
+  edgeStiffness: 0.8
 --- !u!1 &825222530
 GameObject:
   m_ObjectHideFlags: 0
