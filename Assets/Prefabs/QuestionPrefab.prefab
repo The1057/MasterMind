@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6116268911961780751}
   - component: {fileID: 3445889883999732072}
   - component: {fileID: 8684250272238296521}
+  - component: {fileID: -5181777087379374393}
   m_Layer: 5
   m_Name: QuestionPrefab
   m_TagString: Untagged
@@ -103,6 +104,14 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!222 &-5181777087379374393
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8295419201108353240}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1540944025137044073
 PrefabInstance:
   m_ObjectHideFlags: 0
