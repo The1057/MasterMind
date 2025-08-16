@@ -64,12 +64,15 @@ public class TestManager2 : MonoBehaviour
     public Sprite ansButtPressedIncorrect;
     public Sprite ansButtDefault;
     public Sprite ansButtMCpressed;
+    public Sprite IFAcceptGrey;
+    public Sprite IFAcceptPink;
 
     [Header("Настройка текста")]
 
     public float ansButtonDistance = 150;
     public float qButtonDistance = 80;
     public int ansButt2QuestDistance = 20;
+    public float inputField2QuestDist = 100;
     public int ansButtSizeModifier = 20;
     public float comment2LastAnsGap = 100;
     public float ansButtBaseHeight = 400;
@@ -205,6 +208,7 @@ public class TestManager2 : MonoBehaviour
         if (!firstPresses[currentQuestion]) return;
 
         TMP_InputField inputField = questionObjects[currentQuestion].GetComponentInChildren<TMP_InputField>();
+        Button CheckAnswerButton = GameObject.Find("CheckAnswerButton(Clone)").GetComponent<Button>();
         if (inputField == null) return;
 
         string inputText = inputField.text;
@@ -219,15 +223,13 @@ public class TestManager2 : MonoBehaviour
         // Подсветка поля ввода
         if (isCorrect)
         {
-            inputField.image.color = new Color(0.7f, 1f, 0.7f); // Светло-зеленый
             score1.score++;
         }
         else
         {
-            inputField.image.color = new Color(1f, 0.7f, 0.7f); // Светло-красный
             score1.errorCount++;
         }
-
+        CheckAnswerButton.image.sprite = IFAcceptPink;
         inputField.interactable = false;
 
         TextMeshProUGUI = GameObject.Find("Пояснение").GetComponent<TextMeshProUGUI>();
@@ -402,24 +404,25 @@ public class TestManager2 : MonoBehaviour
                         dummyButton.SetActive(false);
 
                         // Получаем позицию вопроса
-                        Vector3 questionPosition = questionObjects.Last().transform.position;
+                        Vector3 questionPosition = TextMeshProUGUI.transform.position;
 
                         // Создаем InputField
                         GameObject inputFieldGO = Instantiate(textInputPrefab, questionObjects.Last().transform);
                         TMP_InputField inputField = inputFieldGO.GetComponent<TMP_InputField>();
 
                         // Позиционируем InputField ниже вопроса
-                        float offsetFromQuestion = TextMeshProUGUI.preferredHeight + ansButt2QuestDistance;
+                        float offsetFromQuestion = TextMeshProUGUI.preferredHeight + inputField2QuestDist;
+                        //offsetFromQuestion = 0;
                         inputFieldGO.transform.position = new Vector3(questionPosition.x, questionPosition.y - offsetFromQuestion, questionPosition.z);
 
                         // Настройка размеров
-                        var inputTMPro = inputFieldGO.GetComponentInChildren<TextMeshProUGUI>();
-                        if (inputTMPro != null)
-                        {
-                            var sizeHeight = inputTMPro.preferredHeight;
-                            var sizeWidth = inputFieldGO.GetComponent<RectTransform>().sizeDelta.x;
-                            inputFieldGO.GetComponent<RectTransform>().sizeDelta = new Vector2(sizeWidth, sizeHeight + ansButtSizeModifier);
-                        }
+                        //var inputTMPro = inputFieldGO.GetComponentInChildren<TextMeshProUGUI>();
+                        //if (inputTMPro != null)
+                        //{
+                        //    var sizeHeight = inputTMPro.preferredHeight;
+                        //    var sizeWidth = inputFieldGO.GetComponent<RectTransform>().sizeDelta.x;
+                        //    inputFieldGO.GetComponent<RectTransform>().sizeDelta = new Vector2(sizeWidth, sizeHeight + ansButtSizeModifier);
+                        //}
 
                         lastButton = inputFieldGO;
 
