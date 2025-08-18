@@ -8,6 +8,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 public enum questionClass
 {
@@ -77,8 +78,8 @@ public class TestManager2 : MonoBehaviour
     public float ansButtBaseHeight = 400;
 
     [Header("Разное")]
-    public TextMeshProUGUI TextMeshProUGUI;
-    public GameObject scrollBar;
+    private TextMeshProUGUI TextMeshProUGUI;
+    private GameObject scrollBar;
     private List<GameObject> qButtons = new();
     public int currentQuestion = 0;
     public List<bool> firstPresses = new List<bool>();
@@ -93,6 +94,15 @@ public class TestManager2 : MonoBehaviour
     public Vector2 nextButtonAnchorMax = new Vector2(0.5f, 0);
     public Vector2 nextButtonOffset = new Vector2(0, 20f); // Отступ от анкора
     public Vector2 nextButtonSize = new Vector2(100f, 50f); // Размер кнопки
+
+    [Header("Скролл-бар")]
+    public Transform scrollContent;
+
+    [Header("Завершение теста")]
+    public GameObject finishCanvas;
+    public string archiveSceneName = "Archive";
+    public TextMeshProUGUI scoreText;
+
     void Start()
     {
         generateTest();
@@ -486,25 +496,42 @@ public class TestManager2 : MonoBehaviour
             commentText.gameObject.transform.position = lastButton.transform.position
                 - new Vector3(0, comment2LastAnsGap + lastButton.GetComponent<RectTransform>().sizeDelta.y, 0);
 
-            if (questionIndex < questions.Count - 1)
+            // Создаём кнопку "Next" для всех вопросов
+            GameObject nextButton = Instantiate(nextQuestionButtonPrefab, currentQuestionObj.transform);
+            nextButton.name = "NextQuestionButton";
+            nextButton.SetActive(false); // Скрыть изначально
+
+            // Настройка RectTransform (твой текущий код, оставь как есть)
+            RectTransform rect = nextButton.GetComponent<RectTransform>();
+            rect.anchorMin = nextButtonAnchorMin;
+            rect.anchorMax = nextButtonAnchorMax;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = nextButtonOffset;
+            rect.sizeDelta = nextButtonSize;
+
+            // Назначаем обработчик
+            Button button = nextButton.GetComponent<Button>();
+            int thisQuestionIndex = questionIndex; // Локальная переменная для замыкания
+            button.onClick.AddListener(() =>
             {
-                GameObject nextButton = Instantiate(nextQuestionButtonPrefab, currentQuestionObj.transform);
-                nextButton.name = "NextQuestionButton";
-                nextButton.SetActive(false); // Скрыть изначально
-
-                // Настройка RectTransform
-                RectTransform rect = nextButton.GetComponent<RectTransform>();
-                rect.anchorMin = nextButtonAnchorMin;
-                rect.anchorMax = nextButtonAnchorMax;
-                rect.pivot = new Vector2(0.5f, 0.5f); // Центр кнопки как точка вращения
-                rect.anchoredPosition = nextButtonOffset;
-                rect.sizeDelta = nextButtonSize;
-
-                // Назначаем обработчик
-                Button button = nextButton.GetComponent<Button>();
-                int nextQuestionIndex = questionIndex + 1;
-                button.onClick.AddListener(() => setQuestionByIndex(nextQuestionIndex));
-            }
+                if (thisQuestionIndex == questions.Count - 1)
+                {
+                    if (finishCanvas != null)
+                    {
+                        finishCanvas.SetActive(true);
+                        currentQuestionObj.SetActive(false); // Опционально
+                        if (scoreText != null)
+                        {
+                            scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}"; // Обновляем текст
+                        }
+                    }
+                }
+                else
+                {
+                    // Обычное переключение
+                    setQuestionByIndex(thisQuestionIndex + 1);
+                }
+            });
 
 
             firstPresses.Add(true);
@@ -528,12 +555,12 @@ public class TestManager2 : MonoBehaviour
         template.SetActive(false);
         Destroy(template); // Уничтожаем шаблон, чтобы избежать лишнего элемента
 
-        currentQuestion = -1; // Устанавливаем -1 перед первым setQuestion
-        setQuestion(content.GetChild(0).gameObject); // Теперь GetChild(0) - первая кнопка
-        //выставляем первый вопрос
+        currentQuestion = -1;
+        setQuestion(content.GetChild(0).gameObject);
 
         correctButtons = findAllCorrectAnswers();
 
+        
     }
     public bool isCorrectChoice(string[] correctAnswers, char givenAnswer)
     {
@@ -579,6 +606,8 @@ public class TestManager2 : MonoBehaviour
 
     private void setQuestionByIndex(int index)
     {
+        if (index == currentQuestion) return; // Избегаем повторной активации/деактивации
+
         int oldQuestion = currentQuestion;
         currentQuestion = index;
         questionObjects[currentQuestion].SetActive(true);
@@ -587,32 +616,33 @@ public class TestManager2 : MonoBehaviour
             questionObjects[oldQuestion].SetActive(false);
         }
 
-        // Обновляем отображение кнопок вопросов
-        var images = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<Image>(true); // Добавил 'true', чтобы искать и в неактивных
-        for (int i = 0; i < images.Length; i++)
+        // Обновляем отображение кнопок вопросов и цвет текста
+        var scrollContent = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0); // Путь к содержимому скролл-бара
+        if (scrollContent != null)
         {
-            if (images[i] == null) continue; // Проверка на null
-            var buttonParent = images[i].transform.parent;
-            var textComponent = buttonParent.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (i == currentQuestion)
+            var images = scrollContent.GetComponentsInChildren<Image>(true);
+            for (int i = 0; i < images.Length; i++)
             {
-                images[i].sprite = qButtPressed;
-                if (textComponent != null) textComponent.color = Color.white;
-            }
-            else if (!firstPresses[i])
-            {
-                images[i].sprite = qButtComplete;
-                if (textComponent != null) textComponent.color = Color.black;
-            }
-            else
-            {
-                images[i].sprite = qButtDefault;
-                if (textComponent != null) textComponent.color = Color.black;
+                var textComponent = images[i].transform.GetComponentInChildren<TextMeshProUGUI>();
+                if (i == currentQuestion && textComponent != null)
+                {
+                    images[i].sprite = qButtPressed;
+                    textComponent.color = Color.white;
+                }
+                else if (!firstPresses[i] && textComponent != null)
+                {
+                    images[i].sprite = qButtComplete;
+                    textComponent.color = Color.black;
+                }
+                else if (textComponent != null)
+                {
+                    images[i].sprite = qButtDefault;
+                    textComponent.color = Color.black;
+                }
             }
         }
 
-        // Обновляем TextMeshProUGUI после активации
+        // Устанавливаем TextMeshProUGUI локально для текущего вопроса
         TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
         pressedAnswers = new();
     }
