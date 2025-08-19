@@ -7,6 +7,7 @@ using UnityEngine;
 public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
 {
     float player_money = 0;
+    int player_gems = 0;
 
     public List<storeScript> storeList;
     float totalIncome=0, totalExpense=0;
@@ -15,12 +16,13 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
 
     public float profit;
     public float operationProfit;
-        public void save(ref saveData saveData)
+    public void save(ref saveData saveData)
     {
         saveData.MoneyData.operationProfit = operationProfit;
         saveData.MoneyData.storeList = storeList;
         saveData.MoneyData.profit = profit;
         saveData.MoneyData.player_money = player_money;
+        saveData.MoneyData.player_gems = player_gems;
         saveData.MoneyData.totalExpense = totalExpense;
         saveData.MoneyData.totalIncome = totalIncome;
         saveData.MoneyData.tax1 = tax1;
@@ -33,6 +35,7 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
         this.storeList = loadData.MoneyData.storeList;
         this.profit = loadData.MoneyData.profit;
         this.player_money = loadData.MoneyData.player_money;
+        this.player_gems = loadData.MoneyData.player_gems;
         this.totalExpense = loadData.MoneyData.totalExpense;
         this.totalIncome = loadData.MoneyData.totalIncome;
         this.tax1 = loadData.MoneyData.tax1;

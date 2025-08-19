@@ -3,6 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[Serializable]
+public enum biz_niche
+{
+    breadShop = 0,
+    bookShop = 1,
+    clothShop = 2
+}
+[Serializable]
+public enum legal_form
+{
+    OOO = 0,
+    IP = 1,
+}
+[Serializable]
+public enum tax_system
+{
+    USN = 0,
+    PSN = 1,
+}
+
+
 
 [System.Serializable]
 public class saveData
@@ -11,7 +32,7 @@ public class saveData
     public List<rivalBizData> RivalDatas = new List<rivalBizData>();
     public moneyData MoneyData = new moneyData();
     public clockData ClockData = new clockData();
-
+    public playerData PlayerData = new playerData();
     public saveData()
     {
 
@@ -37,6 +58,7 @@ public class storeData
 public class moneyData
 {
     public float player_money = 0;
+    public int player_gems = 0;
 
     public List<storeScript> storeList;
     public float totalIncome = 0, totalExpense = 0;
@@ -139,7 +161,7 @@ public class playerData
 {
     public string player_name = "";
     public string player_gender = "";
-    public int first_niche;
-    public int legal_form;
-    public int tax_system;
+    public biz_niche first_niche;
+    public legal_form legal_form;
+    public tax_system tax_system;
 }
