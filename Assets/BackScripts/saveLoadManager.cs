@@ -107,6 +107,64 @@ public class saveLoadManager : MonoBehaviour
         }
     }
 
+    //just load and save without placing shit
+    public saveData loadData()
+    {
+        string fullPath = Path.Combine(saveDirPath, saveFileName);
+        if (File.Exists(fullPath))
+        {
+            try
+            {
+                string rawJSON;
+                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rawJSON = reader.ReadToEnd();//magic to read from file
+                    }
+                }
+                SaveData = JsonUtility.FromJson<saveData>(rawJSON);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error while loading data from file: {fullPath} \n {e}");
+            }
+
+            if (SaveData == null)
+            {
+                Debug.LogError("No data found. Creating new instance of saveData");
+                SaveData = new saveData();
+            }
+        }
+
+        return SaveData;
+        }
+    public void saveData(saveData SaveData)
+    {
+        
+        string fullPath = Path.Combine(saveDirPath, saveFileName);
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+            //creating directory 
+
+            string rawJSON = JsonUtility.ToJson(SaveData, true);
+            //serializing
+
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(rawJSON);//magic to write to file
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error while saving data from file: {fullPath} \n {e}");
+        }
+    }
+
     [ContextMenu("Destroy Stores")]
     private void deleteAllStoresOnScene()
     {
