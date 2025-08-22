@@ -962,24 +962,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -49.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3261776751534297963, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: db68a0195f93f5d46a16fffb9a576ca7, type: 3}
+    - target: {fileID: 4365869811976610525, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b482877679ce6847958f6161a0bb131, type: 3}
     - target: {fileID: 5359095253674036349, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6141534828167443223, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d2a3974eea220b4eb4193349ee67531, type: 3}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: scoreText
       value: 
@@ -995,6 +1007,10 @@ PrefabInstance:
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: archiveSceneName
       value: Archive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8048003006337671777, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 91
       objectReference: {fileID: 0}
     - target: {fileID: 8596704037959777147, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_Pivot.x
@@ -1081,7 +1097,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2667354895181437146, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 6031292416904728521, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 8368115652965335839, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 5740233361736483794, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 2224873317581551429, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4118373939534704162, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       insertIndex: -1

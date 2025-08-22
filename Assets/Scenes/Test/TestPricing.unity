@@ -377,7 +377,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1001 &936669962
+--- !u!1001 &957746128
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -391,32 +391,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 1442946482944858623, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -49.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3451998965447217950, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: m_text
-      value: "\u0422\u0415\u0421\u0422 \"\u041B\u0418\u0426\u0415\u041D\u0417\u0418\u0418\""
-      objectReference: {fileID: 0}
-    - target: {fileID: 3451998965447217950, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
+    - target: {fileID: 3261776751534297963, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f88f012214815f747a88734bebd6ce8e, type: 3}
+    - target: {fileID: 4365869811976610525, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b482877679ce6847958f6161a0bb131, type: 3}
     - target: {fileID: 5359095253674036349, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6141534828167443223, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d2a3974eea220b4eb4193349ee67531, type: 3}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.size
       value: 10
@@ -424,182 +428,167 @@ PrefabInstance:
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[0].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        B \\n\u041F\u0440\u043E\u0434\u0430\u0436\u0430 \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044F
-        \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438
-        \u043E\u0442 \u0440\u0435\u0433\u0438\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445
-        \u043E\u0440\u0433\u0430\u043D\u043E\u0432 \u0438 \u0420\u0410\u0420 (\u2116
-        171-\u0424\u0417). \u041E\u043F\u0442\u043E\u0432\u0430\u044F \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044F,
-        \u0438\u043D\u0442\u0435\u0440\u043D\u0435\u0442-\u043C\u0430\u0433\u0430\u0437\u0438\u043D\u044B
-        \u0438 \u0441\u0442\u0440\u043E\u0438\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E
-        \u0434\u0430\u0447\u043D\u044B\u0445 \u0434\u043E\u043C\u043E\u0432 \u043D\u0435
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0440\u0443\u044E\u0442\u0441\u044F,
-        \u043D\u043E \u043C\u043E\u0433\u0443\u0442 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u0442\u044C
-        \u0441\u0430\u043D\u0438\u0442\u0430\u0440\u043D\u044B\u0445 \u0438\u043B\u0438
-        \u043F\u043E\u0436\u0430\u0440\u043D\u044B\u0445 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u0438\u0439"
+        B \\n\u0426\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435
+        \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043E \u043D\u0430
+        \u043E\u0431\u0435\u0441\u043F\u0435\u0447\u0435\u043D\u0438\u0435 \u043F\u0440\u0438\u0431\u044B\u043B\u044C\u043D\u043E\u0441\u0442\u0438
+        \u0431\u0438\u0437\u043D\u0435\u0441\u0430, \u043F\u043E\u043A\u0440\u044B\u0442\u0438\u0435
+        \u0437\u0430\u0442\u0440\u0430\u0442 \u0438 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435
+        \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438
+        \u043F\u043E\u0442\u0440\u0435\u0431\u0438\u0442\u0435\u043B\u0435\u0439"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[1].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        C \\n\u0420\u043E\u0441\u043E\u0431\u0440\u043D\u0430\u0434\u0437\u043E\u0440
-        \u0432\u044B\u0434\u0430\u0451\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438
-        \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C,
-        \u0437\u0430 \u0438\u0441\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C
-        \u0438\u043D\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043B\u044C\u043D\u043E\u0433\u043E
-        \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u044F \u0431\u0435\u0437 \u0432\u044B\u0434\u0430\u0447\u0438
-        \u0434\u0438\u043F\u043B\u043E\u043C\u043E\u0432"
+        B \\n\u0421\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        \u0432\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u0432\u0441\u0435 \u0437\u0430\u0442\u0440\u0430\u0442\u044B,
+        \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u0435 \u0441 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E\u043C
+        \u0438 \u0440\u0435\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u0435\u0439
+        \u043F\u0440\u043E\u0434\u0443\u043A\u0446\u0438\u0438, \u0432\u043A\u043B\u044E\u0447\u0430\u044F
+        \u043E\u043F\u043B\u0430\u0442\u0443 \u0442\u0440\u0443\u0434\u0430, \u0430\u0440\u0435\u043D\u0434\u0443,
+        \u043B\u043E\u0433\u0438\u0441\u0442\u0438\u043A\u0443 \u0438 \u043C\u0430\u0440\u043A\u0435\u0442\u0438\u043D\u0433"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[2].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        C \\n\u0411\u043E\u043B\u044C\u0448\u0438\u043D\u0441\u0442\u0432\u043E \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0439
-        \u0432 \u0420\u043E\u0441\u0441\u0438\u0438 \u0432\u044B\u0434\u0430\u044E\u0442\u0441\u044F
-        \u0431\u0435\u0441\u0441\u0440\u043E\u0447\u043D\u043E, \u0437\u0430 \u0438\u0441\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C
-        \u0441\u043B\u0443\u0447\u0430\u0435\u0432, \u043F\u0440\u0435\u0434\u0443\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445
-        \u0437\u0430\u043A\u043E\u043D\u043E\u043C (\u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440,
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044C
-        \u2014 \u0434\u043E 5 \u043B\u0435\u0442)"
+        C \\n\u041A\u043E\u0433\u0434\u0430 \u0441\u043F\u0440\u043E\u0441 \u043F\u0440\u0435\u0432\u044B\u0448\u0430\u0435\u0442
+        \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435, \u0434\u0435\u0444\u0438\u0446\u0438\u0442
+        \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u043D\u0430 \u0440\u044B\u043D\u043A\u0435
+        \u043F\u0440\u0438\u0432\u043E\u0434\u0438\u0442 \u043A \u0440\u043E\u0441\u0442\u0443
+        \u0446\u0435\u043D"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[3].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        B\\n\u0420\u043E\u0441\u0437\u0434\u0440\u0430\u0432\u043D\u0430\u0434\u0437\u043E\u0440
-        \u0432\u044B\u0434\u0430\u0451\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438
-        \u043D\u0430 \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044E \u043B\u0435\u043A\u0430\u0440\u0441\u0442\u0432\u0430\u043C\u0438
-        \u0438 \u043A\u043E\u043D\u0442\u0440\u043E\u043B\u0438\u0440\u0443\u0435\u0442
-        \u0444\u0430\u0440\u043C\u0430\u0446\u0435\u0432\u0442\u0438\u0447\u0435\u0441\u043A\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+        C\\n\u041C\u0435\u0442\u043E\u0434 \u043E\u0440\u0438\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D
+        \u043D\u0430 \u0446\u0435\u043D\u044B \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043E\u0432,
+        \u0447\u0442\u043E\u0431\u044B \u0431\u0438\u0437\u043D\u0435\u0441 \u043C\u043E\u0433
+        \u0443\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0442\u044C
+        \u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u043D\u0430 \u043E\u0434\u043D\u043E\u043C
+        \u0443\u0440\u043E\u0432\u043D\u0435, \u043D\u0438\u0436\u0435 \u0438\u043B\u0438
+        \u0432\u044B\u0448\u0435 \u0438\u0445 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0439"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[4].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        D\\n\u041C\u0438\u043D\u0438\u0441\u0442\u0435\u0440\u0441\u0442\u0432\u043E
-        \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0438\u0445 \u0434\u0435\u043B
-        (\u041C\u0412\u0414) \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u0437\u0430
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435
-        \u043E\u0445\u0440\u0430\u043D\u043D\u043E\u0439 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-        \u0438 \u043A\u043E\u043D\u0442\u0440\u043E\u043B\u044C \u0437\u0430 \u0441\u043E\u0431\u043B\u044E\u0434\u0435\u043D\u0438\u0435\u043C
-        \u0435\u0451 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u043D\u0438\u0439"
+        A \\n\u041C\u0435\u0442\u043E\u0434 '\u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        + \u043D\u0430\u0446\u0435\u043D\u043A\u0430' \u0441\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442
+        \u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        \u0438 \u043F\u0440\u043E\u0446\u0435\u043D\u0442 \u043D\u0430\u0446\u0435\u043D\u043A\u0438,
+        \u0432\u0430\u0440\u044C\u0438\u0440\u0443\u0435\u043C\u044B\u0439 \u0434\u043B\u044F
+        \u043E\u0431\u0435\u0441\u043F\u0435\u0447\u0435\u043D\u0438\u044F \u043F\u0440\u0438\u0431\u044B\u043B\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[5].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        A \\n\u041E\u043A\u0430\u0437\u0430\u043D\u0438\u0435 \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0438\u0445
-        \u0443\u0441\u043B\u0443\u0433, \u0432\u043A\u043B\u044E\u0447\u0430\u044F
-        \u0441\u0442\u043E\u043C\u0430\u0442\u043E\u043B\u043E\u0433\u0438\u044E,
-        \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438,
-        \u0432\u044B\u0434\u0430\u0432\u0430\u0435\u043C\u043E\u0439 \u0420\u043E\u0441\u0437\u0434\u0440\u0430\u0432\u043D\u0430\u0434\u0437\u043E\u0440\u043E\u043C"
+        C \\n\u041C\u0435\u0442\u043E\u0434 \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u0438
+        \u043E\u0440\u0438\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D
+        \u043D\u0430 \u0432\u043E\u0441\u043F\u0440\u0438\u044F\u0442\u0438\u0435
+        \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0430 \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u0435\u043B\u044F\u043C\u0438,
+        \u0430 \u043D\u0435 \u043D\u0430 \u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        \u0438\u043B\u0438 \u0446\u0435\u043D\u044B \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043E\u0432.
+        \u0427\u0430\u0441\u0442\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0441\u044F
+        \u0434\u043B\u044F \u043F\u0440\u0435\u043C\u0438\u0430\u043B\u044C\u043D\u044B\u0445
+        \u0438 \u0431\u0440\u0435\u043D\u0434\u043E\u0432\u044B\u0445 \u0442\u043E\u0432\u0430\u0440\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[6].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        A\\n\u041F\u0435\u0440\u0435\u0432\u043E\u0437\u043A\u0430 \u043F\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u043E\u0432
-        \u0430\u0432\u0442\u043E\u0431\u0443\u0441\u0430\u043C\u0438 \u0442\u0440\u0435\u0431\u0443\u0435\u0442
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438 \u043E\u0442 \u0420\u043E\u0441\u0442\u0440\u0430\u043D\u0441\u043D\u0430\u0434\u0437\u043E\u0440\u0430.
-        \u0414\u043B\u044F \u0442\u0430\u043A\u0441\u0438 \u043D\u0443\u0436\u043D\u043E
-        \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u0438\u0435, \u0434\u043B\u044F
-        \u0433\u0440\u0443\u0437\u043E\u0432 \u2014 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F
-        \u0432 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u0445 \u0441\u043B\u0443\u0447\u0430\u044F\u0445"
+        D \\n\u0414\u0438\u043D\u0430\u043C\u0438\u0447\u0435\u0441\u043A\u043E\u0435
+        \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435
+        \u043F\u0440\u0435\u0434\u043F\u043E\u043B\u0430\u0433\u0430\u0435\u0442
+        \u043F\u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E\u0435 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u0435
+        \u0446\u0435\u043D \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+        \u043E\u0442 \u0440\u044B\u043D\u043E\u0447\u043D\u044B\u0445 \u0443\u0441\u043B\u043E\u0432\u0438\u0439.
+        \u041F\u0440\u0438\u043C\u0435\u0440\u044B: \u0430\u0432\u0438\u0430\u0431\u0438\u043B\u0435\u0442\u044B,
+        \u0433\u043E\u0441\u0442\u0438\u043D\u0438\u0446\u044B, \u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442\u043D\u044B\u0435
+        \u0443\u0441\u043B\u0443\u0433\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[7].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        B \\n\u0422\u043E\u0440\u0433\u043E\u0432\u043B\u044F \u043E\u0440\u0443\u0436\u0438\u0435\u043C
-        \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438
-        \u043E\u0442 \u041C\u0412\u0414"
+        D \\n\u041F\u0440\u0438 \u0423\u0421\u041D 6% \u043F\u043B\u0430\u0442\u0438\u0442\u0441\u044F
+        \u043D\u0430\u043B\u043E\u0433 6% \u043E\u0442 \u0432\u044B\u0440\u0443\u0447\u043A\u0438,
+        \u043D\u0435 \u0432\u043B\u0438\u044F\u044E\u0449\u0438\u0439 \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E
+        \u043D\u0430 \u0446\u0435\u043D\u0443 \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[8].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        B \\n\u041F\u0440\u043E\u0434\u0430\u0436\u0430 \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044F
-        \u0432 \u043A\u0430\u0444\u0435 \u0442\u0440\u0435\u0431\u0443\u0435\u0442
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438 \u043E\u0442 \u0440\u0435\u0433\u0438\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0445
-        \u043E\u0440\u0433\u0430\u043D\u043E\u0432 \u0438 \u0420\u0410\u0420"
+        A \\n\u041F\u0440\u0438 \u0441\u0442\u0430\u0432\u043A\u0435 \u041D\u0414\u0421
+        20% \u0444\u043E\u0440\u043C\u0443\u043B\u0430 \u0440\u0430\u0441\u0447\u0451\u0442\u0430:
+        \u0426\u0435\u043D\u0430 \u0431\u0435\u0437 \u041D\u0414\u0421 \xD7 1,2 =
+        \u0426\u0435\u043D\u0430 \u0441 \u041D\u0414\u0421"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[9].comment
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442:
-        A \\n\u0415\u0441\u043B\u0438 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0439
-        \u0446\u0435\u043D\u0442\u0440 \u0432\u044B\u0434\u0430\u0451\u0442 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B
-        \u0433\u043E\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0433\u043E
-        \u043E\u0431\u0440\u0430\u0437\u0446\u0430, \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F
-        \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430. \u0415\u0441\u043B\u0438
-        \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435 \u0432\u0435\u0434\u0451\u0442\u0441\u044F
-        \u0431\u0435\u0437 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E
-        \u0434\u0438\u043F\u043B\u043E\u043C\u0430, \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F
-        \u043D\u0435 \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F"
+        B \\n\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435
+        \u0446\u0435\u043D \u0441 \"9\" \u0432 \u043A\u043E\u043D\u0446\u0435 \u0441\u043E\u0437\u0434\u0430\u0451\u0442
+        \u0432\u043F\u0435\u0447\u0430\u0442\u043B\u0435\u043D\u0438\u0435 \u0431\u043E\u043B\u0435\u0435
+        \u0432\u044B\u0433\u043E\u0434\u043D\u043E\u0433\u043E \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F,
+        \u0447\u0442\u043E \u043F\u0441\u0438\u0445\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0438
+        \u0441\u0442\u0438\u043C\u0443\u043B\u0438\u0440\u0443\u0435\u0442 \u043F\u043E\u043A\u0443\u043F\u043A\u0443"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[0].question
-      value: "\u041A\u0430\u043A\u0438\u0435 \u0432\u0438\u0434\u044B \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-        \u0442\u0440\u0435\u0431\u0443\u044E\u0442 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0433\u043E
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F?"
+      value: "\u041A\u0430\u043A\u0443\u044E \u043E\u0441\u043D\u043E\u0432\u043D\u0443\u044E
+        \u0446\u0435\u043B\u044C \u043F\u0440\u0435\u0441\u043B\u0435\u0434\u0443\u0435\u0442
+        \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[1].question
-      value: "\u041A\u0430\u043A\u043E\u0439 \u043E\u0440\u0433\u0430\u043D \u0432\u044B\u0434\u0430\u0451\u0442
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u0438 \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C?"
+      value: "\u0427\u0442\u043E \u0432\u043B\u0438\u044F\u0435\u0442 \u043D\u0430
+        \u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        \u043F\u0440\u043E\u0434\u0443\u043A\u0446\u0438\u0438?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[2].question
-      value: "\u041D\u0430 \u043A\u0430\u043A\u043E\u0439 \u0441\u0440\u043E\u043A
-        \u043E\u0431\u044B\u0447\u043D\u043E \u0432\u044B\u0434\u0430\u0451\u0442\u0441\u044F
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F?"
+      value: "\u041A\u0430\u043A \u0438\u0437\u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F
+        \u0446\u0435\u043D\u0430, \u0435\u0441\u043B\u0438 \u0441\u043F\u0440\u043E\u0441
+        \u043D\u0430 \u0442\u043E\u0432\u0430\u0440 \u043F\u0440\u0435\u0432\u044B\u0448\u0430\u0435\u0442
+        \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[3].question
-      value: "\u041A\u0442\u043E \u0432\u044B\u0434\u0430\u0451\u0442 \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E
-        \u043D\u0430 \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044E \u043B\u0435\u043A\u0430\u0440\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u043C\u0438
-        \u0441\u0440\u0435\u0434\u0441\u0442\u0432\u0430\u043C\u0438?"
+      value: "\u0427\u0442\u043E \u0443\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442
+        \u043C\u0435\u0442\u043E\u0434 \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u044F
+        \u043F\u043E \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0446\u0438\u0438?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[4].question
-      value: "\u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u0447\u0430\u0441\u0442\u043D\u0443\u044E
-        \u043E\u0445\u0440\u0430\u043D\u043D\u0443\u044E \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C
-        \u0432\u044B\u0434\u0430\u0451\u0442\u0441\u044F:"
+      value: "\u041A\u0430\u043A\u043E\u0432\u0430 \u0441\u0443\u0442\u044C \u043C\u0435\u0442\u043E\u0434\u0430
+        \"\u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        + \u043D\u0430\u0446\u0435\u043D\u043A\u0430\"?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[5].question
-      value: "\u0412\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u043E\u0442\u043A\u0440\u044B\u0442\u044C
-        \u0447\u0430\u0441\u0442\u043D\u0443\u044E \u0441\u0442\u043E\u043C\u0430\u0442\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0443\u044E
-        \u043A\u043B\u0438\u043D\u0438\u043A\u0443. \u041A\u0430\u043A\u0443\u044E
-        \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0443\u0436\u043D\u043E
-        \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C?"
+      value: "\u041A\u0430\u043A\u043E\u0439 \u043C\u0435\u0442\u043E\u0434 \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u044F
+        \u043E\u0441\u043D\u043E\u0432\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 \u0432\u043E\u0441\u043F\u0440\u0438\u044F\u0442\u0438\u0438
+        \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0442\u043E\u0432\u0430\u0440\u0430
+        \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u0435\u043B\u0435\u043C?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[6].question
-      value: "\u0412\u0430\u0448 \u0431\u0438\u0437\u043D\u0435\u0441 \u0437\u0430\u043D\u0438\u043C\u0430\u0435\u0442\u0441\u044F
-        \u043F\u0435\u0440\u0435\u0432\u043E\u0437\u043A\u043E\u0439 \u043F\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u043E\u0432
-        \u043D\u0430 \u0430\u0432\u0442\u043E\u0431\u0443\u0441\u0430\u0445. \u0427\u0442\u043E
-        \u0432\u0430\u043C \u043D\u0443\u0436\u043D\u043E \u0434\u043B\u044F \u043B\u0435\u0433\u0430\u043B\u044C\u043D\u043E\u0439
-        \u0440\u0430\u0431\u043E\u0442\u044B?"
+      value: "\u0427\u0442\u043E \u0442\u0430\u043A\u043E\u0435 \u0434\u0438\u043D\u0430\u043C\u0438\u0447\u0435\u0441\u043A\u043E\u0435
+        \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[7].question
-      value: "\u0412\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u043E\u0442\u043A\u0440\u044B\u0442\u044C
-        \u043C\u0430\u0433\u0430\u0437\u0438\u043D \u0438 \u043F\u0440\u043E\u0434\u0430\u0432\u0430\u0442\u044C
-        \u043E\u0440\u0443\u0436\u0438\u0435. \u041A\u0430\u043A\u0430\u044F \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044F
-        \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u0430?"
+      value: "\u041A\u0430\u043A\u043E\u0439 \u043D\u0430\u043B\u043E\u0433 \u043F\u043B\u0430\u0442\u0438\u0442\u0441\u044F
+        \u043F\u0440\u0438 \u0423\u0421\u041D 6%?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[8].question
-      value: "\u0423 \u0432\u0430\u0441 \u043A\u0430\u0444\u0435, \u0433\u0434\u0435
-        \u0432\u044B \u043F\u043B\u0430\u043D\u0438\u0440\u0443\u0435\u0442\u0435
-        \u043F\u0440\u043E\u0434\u0430\u0432\u0430\u0442\u044C \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044C.
-        \u0427\u0442\u043E \u043D\u0443\u0436\u043D\u043E \u0441\u0434\u0435\u043B\u0430\u0442\u044C?"
+      value: "\u041A\u0430\u043A \u0440\u0430\u0441\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+        \u0446\u0435\u043D\u0430 \u0441 \u0443\u0447\u0451\u0442\u043E\u043C \u041D\u0414\u0421?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[9].question
-      value: "\u041A\u0430\u043A\u0443\u044E \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E
-        \u043D\u0443\u0436\u043D\u043E \u0434\u043B\u044F \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0433\u043E
-        \u0446\u0435\u043D\u0442\u0440\u0430 \u0441 \u043A\u0443\u0440\u0441\u0430\u043C\u0438
-        \u044F\u0437\u044B\u043A\u043E\u0432, \u0432\u044B\u0434\u0430\u044E\u0449\u0435\u0433\u043E
-        \u0434\u0438\u043F\u043B\u043E\u043C\u044B?"
-      objectReference: {fileID: 0}
-    - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: questions.Array.data[1].correctAnswer
-      value: C
+      value: "\u041A\u0430\u043A\u0430\u044F \u043F\u0441\u0438\u0445\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0430\u044F
+        \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044F \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0441\u044F
+        \u0434\u043B\u044F \u043F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u044F
+        \u043F\u0440\u043E\u0434\u0430\u0436?"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[2].correctAnswer
@@ -607,23 +596,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[3].correctAnswer
-      value: B
+      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[3].questionClass
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: questions.Array.data[4].correctAnswer
-      value: D
-      objectReference: {fileID: 0}
-    - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[5].correctAnswer
-      value: A
+      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[6].correctAnswer
-      value: A
+      value: D
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[6].questionClass
@@ -631,11 +616,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[7].correctAnswer
-      value: B
+      value: D
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: questions.Array.data[8].correctAnswer
+      value: A
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[9].correctAnswer
-      value: A
+      value: B
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: questions.Array.data[3].answers.Array.size
@@ -655,201 +644,221 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[0].answers.Array.data[0]'
-      value: "A. \u041E\u043F\u0442\u043E\u0432\u0430\u044F \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044F
-        \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0430\u043C\u0438"
+      value: "A. \u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435
+        \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0439
+        \u0446\u0435\u043D\u044B \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[0].answers.Array.data[1]'
-      value: "B. \u041F\u0440\u043E\u0434\u0430\u0436\u0430 \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044C\u043D\u043E\u0439
-        \u043F\u0440\u043E\u0434\u0443\u043A\u0446\u0438\u0438"
+      value: "B. \u041D\u0430\u0445\u043E\u0436\u0434\u0435\u043D\u0438\u0435 \u043E\u043F\u0442\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0433\u043E
+        \u0431\u0430\u043B\u0430\u043D\u0441\u0430 \u043C\u0435\u0436\u0434\u0443
+        \u0437\u0430\u0442\u0440\u0430\u0442\u0430\u043C\u0438 \u0438 \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u044C\u044E"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[0].answers.Array.data[2]'
-      value: "C. \u0418\u043D\u0442\u0435\u0440\u043D\u0435\u0442-\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+      value: "C. \u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435
+        \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0439 \u0446\u0435\u043D\u044B
+        \u0434\u043B\u044F \u043F\u0440\u0438\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u044F
+        \u043A\u043B\u0438\u0435\u043D\u0442\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[0].answers.Array.data[3]'
-      value: "D. \u0421\u0442\u0440\u043E\u0438\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E
-        \u0434\u0430\u0447\u043D\u044B\u0445 \u0434\u043E\u043C\u043E\u0432"
+      value: "D. \u041F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0435 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0446\u0438\u0438
+        \u043D\u0430 \u0440\u044B\u043D\u043A\u0435"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[1].answers.Array.data[0]'
-      value: "A. \u0420\u043E\u0441\u043A\u043E\u043C\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "A. \u0422\u043E\u043B\u044C\u043A\u043E \u0437\u0430\u0442\u0440\u0430\u0442\u044B
+        \u043D\u0430 \u0440\u0435\u043A\u043B\u0430\u043C\u0443"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[1].answers.Array.data[1]'
-      value: "B. \u0420\u043E\u0441\u043F\u043E\u0442\u0440\u0435\u0431\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "B. \u0417\u0430\u0442\u0440\u0430\u0442\u044B \u043D\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E,
+        \u043E\u043F\u043B\u0430\u0442\u0443 \u0442\u0440\u0443\u0434\u0430, \u0430\u0440\u0435\u043D\u0434\u0443
+        \u0438 \u0434\u0440\u0443\u0433\u0438\u0435 \u0438\u0437\u0434\u0435\u0440\u0436\u043A\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[1].answers.Array.data[2]'
-      value: "C. \u0420\u043E\u0441\u043E\u0431\u0440\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "C. \u0422\u043E\u043B\u044C\u043A\u043E \u0437\u0430\u0442\u0440\u0430\u0442\u044B
+        \u043D\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
+        \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[1].answers.Array.data[3]'
-      value: "D. \u0420\u043E\u0441\u0442\u0435\u0445\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "D. \u041B\u0438\u0448\u044C \u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        \u043C\u0430\u0442\u0435\u0440\u0438\u0430\u043B\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[2].answers.Array.data[0]'
-      value: "A. 1 \u0433\u043E\u0434"
+      value: "A. \u0426\u0435\u043D\u0430 \u0441\u043D\u0438\u0436\u0430\u0435\u0442\u0441\u044F"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[2].answers.Array.data[1]'
-      value: "B. 3 \u0433\u043E\u0434\u0430"
+      value: "B. \u0426\u0435\u043D\u0430 \u043E\u0441\u0442\u0430\u0451\u0442\u0441\u044F
+        \u043D\u0435\u0438\u0437\u043C\u0435\u043D\u043D\u043E\u0439"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[2].answers.Array.data[2]'
-      value: "C. \u0411\u0435\u0441\u0441\u0440\u043E\u0447\u043D\u043E"
+      value: "C. \u0426\u0435\u043D\u0430 \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442\u0441\u044F"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[2].answers.Array.data[3]'
-      value: "D. \u0414\u043E \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F
-        \u0437\u0430\u043A\u043E\u043D\u0430"
+      value: "D. \u0426\u0435\u043D\u0430 \u0438\u0437\u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F
+        \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+        \u043E\u0442 \u0441\u0435\u0437\u043E\u043D\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[3].answers.Array.data[0]'
-      value: "A. \u0420\u043E\u0441\u043F\u043E\u0442\u0440\u0435\u0431\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "A. \u0422\u043E\u043B\u044C\u043A\u043E \u0437\u0430\u0442\u0440\u0430\u0442\u044B
+        \u043D\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
+        \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[3].answers.Array.data[1]'
-      value: "B. \u0420\u043E\u0441\u0437\u0434\u0440\u0430\u0432\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "B. \u041F\u043B\u0430\u0442\u0435\u0436\u0435\u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u044C
+        \u0446\u0435\u043B\u0435\u0432\u043E\u0439 \u0430\u0443\u0434\u0438\u0442\u043E\u0440\u0438\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[3].answers.Array.data[2]'
-      value: "C. \u0420\u043E\u0441\u0442\u0435\u0445\u043D\u0430\u0434\u0437\u043E\u0440"
+      value: "C. \u0426\u0435\u043D\u043E\u0432\u0443\u044E \u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0443
+        \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[3].answers.Array.data[3]'
-      value: "D. \u0424\u041D\u0421"
+      value: "D. \u0421\u0435\u0437\u043E\u043D\u043D\u043E\u0441\u0442\u044C \u0442\u043E\u0432\u0430\u0440\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[4].answers.Array.data[0]'
-      value: "A. \u0420\u043E\u0441\u0442\u0435\u0445\u043D\u0430\u0434\u0437\u043E\u0440\u043E\u043C"
+      value: "A. \u0426\u0435\u043D\u0430 \u0442\u043E\u0432\u0430\u0440\u0430 \u0441\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+        \u0438\u0437 \u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u0438
+        \u0438 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0451\u043D\u043D\u043E\u0433\u043E
+        \u043F\u0440\u043E\u0446\u0435\u043D\u0442\u0430 \u043D\u0430\u0446\u0435\u043D\u043A\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[4].answers.Array.data[1]'
-      value: "B. \u041C\u0438\u043D\u0438\u0441\u0442\u0435\u0440\u0441\u0442\u0432\u043E\u043C
-        \u044E\u0441\u0442\u0438\u0446\u0438\u0438"
+      value: "B. \u0426\u0435\u043D\u0430 \u0442\u043E\u0432\u0430\u0440\u0430 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442\u0441\u044F
+        \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0446\u0435\u043D\u044B
+        \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[4].answers.Array.data[2]'
-      value: "C. \u0420\u043E\u0441\u043E\u0431\u0440\u043D\u0430\u0434\u0437\u043E\u0440\u043E\u043C"
+      value: "C. \u0426\u0435\u043D\u0430 \u0442\u043E\u0432\u0430\u0440\u0430 \u0437\u0430\u0432\u0438\u0441\u0438\u0442
+        \u043E\u0442 \u0432\u043E\u0441\u043F\u0440\u0438\u044F\u0442\u0438\u044F
+        \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u0438 \u0442\u043E\u0432\u0430\u0440\u0430
+        \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u0435\u043B\u044F\u043C\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[4].answers.Array.data[3]'
-      value: "D. \u041C\u0412\u0414"
+      value: "D. \u0426\u0435\u043D\u0430 \u0442\u043E\u0432\u0430\u0440\u0430 \u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F
+        \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+        \u043E\u0442 \u0441\u043F\u0440\u043E\u0441\u0430 \u0438 \u0441\u0435\u0437\u043E\u043D\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[5].answers.Array.data[0]'
-      value: "A. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "A. \u041C\u0435\u0442\u043E\u0434 \"\u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C
+        + \u043D\u0430\u0446\u0435\u043D\u043A\u0430\""
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[5].answers.Array.data[1]'
-      value: "B. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "B. \u0426\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435
+        \u043F\u043E \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0446\u0438\u0438"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[5].answers.Array.data[2]'
-      value: "C. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044E
-        \u043B\u0435\u043A\u0430\u0440\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u043C\u0438
-        \u043F\u0440\u0435\u043F\u0430\u0440\u0430\u0442\u0430\u043C\u0438"
+      value: "C. \u0426\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435
+        \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u0438
+        \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[5].answers.Array.data[3]'
-      value: "D. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u0438\u0435
-        \u0443\u0441\u043B\u0443\u0433 \u0441\u0432\u044F\u0437\u0438"
+      value: "D. \u0414\u0438\u043D\u0430\u043C\u0438\u0447\u0435\u0441\u043A\u043E\u0435
+        \u0446\u0435\u043D\u043E\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[6].answers.Array.data[0]'
-      value: "A. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043F\u0435\u0440\u0435\u0432\u043E\u0437\u043A\u0443
-        \u043F\u0430\u0441\u0441\u0430\u0436\u0438\u0440\u043E\u0432 \u0430\u0432\u0442\u043E\u0431\u0443\u0441\u0430\u043C\u0438"
+      value: "A. \u0426\u0435\u043D\u0430 \u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u0430
+        \u0438 \u043D\u0435 \u0438\u0437\u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[6].answers.Array.data[1]'
-      value: "B. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "B. \u0426\u0435\u043D\u0430 \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u044B\u0448\u0435
+        \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043E\u0432"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[6].answers.Array.data[2]'
-      value: "C. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "C. \u0426\u0435\u043D\u0430 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442\u0441\u044F
+        \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E
+        \u0441\u0435\u0431\u0435\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C\u044E
+        \u0442\u043E\u0432\u0430\u0440\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[6].answers.Array.data[3]'
-      value: "D. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u0441\u0442\u0440\u043E\u0438\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E"
+      value: "D. \u0426\u0435\u043D\u0430 \u0438\u0437\u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F
+        \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+        \u043E\u0442 \u0441\u043F\u0440\u043E\u0441\u0430, \u0432\u0440\u0435\u043C\u0435\u043D\u0438
+        \u0441\u0443\u0442\u043E\u043A, \u0441\u0435\u0437\u043E\u043D\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[7].answers.Array.data[0]'
-      value: "A. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u0442\u043E\u0440\u0433\u043E\u0432\u043B\u044E
-        \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044C\u043D\u043E\u0439 \u043F\u0440\u043E\u0434\u0443\u043A\u0446\u0438\u0435\u0439"
+      value: "A. \u041D\u0414\u0421"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[7].answers.Array.data[1]'
-      value: "B. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
-        \u0438 \u0440\u0435\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u044E \u043E\u0440\u0443\u0436\u0438\u044F"
+      value: "B. \u041D\u0430\u043B\u043E\u0433 \u043D\u0430 \u043F\u0440\u0438\u0431\u044B\u043B\u044C"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[7].answers.Array.data[2]'
-      value: "C. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u043E\u0445\u0440\u0430\u043D\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "C. \u041D\u0430\u043B\u043E\u0433 \u043D\u0430 \u0438\u043C\u0443\u0449\u0435\u0441\u0442\u0432\u043E"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[7].answers.Array.data[3]'
-      value: "D. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0430 \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "D. \u041D\u0430\u043B\u043E\u0433 \u043E\u0442 \u0434\u043E\u0445\u043E\u0434\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[8].answers.Array.data[0]'
-      value: "A. \u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E
-        \u043D\u0430 \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "A. \u0426\u0435\u043D\u0430 \u0431\u0435\u0437 \u041D\u0414\u0421 \u0443\u043C\u043D\u043E\u0436\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 1,2"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[8].answers.Array.data[1]'
-      value: "B. \u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E
-        \u043D\u0430 \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044C\u043D\u0443\u044E
-        \u043F\u0440\u043E\u0434\u0443\u043A\u0446\u0438\u044E"
+      value: "B. \u0426\u0435\u043D\u0430 \u0441 \u041D\u0414\u0421 \u0432\u044B\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 20%"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[8].answers.Array.data[2]'
-      value: "C. \u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043B\u0438\u0446\u0435\u043D\u0437\u0438\u044E
-        \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "C. \u0426\u0435\u043D\u0430 \u0434\u0435\u043B\u0438\u0442\u0441\u044F
+        \u043D\u0430 1,2"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[8].answers.Array.data[3]'
-      value: "D. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0435 \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F"
+      value: "D. \u0426\u0435\u043D\u0430 \u0431\u0435\u0437 \u041D\u0414\u0421 \u0443\u043C\u043D\u043E\u0436\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 2"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[9].answers.Array.data[0]'
-      value: "A. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "A. \u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430 \u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0439
+        \u0446\u0435\u043D\u044B \u0431\u0435\u0437 \u0441\u043A\u0438\u0434\u043E\u043A"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[9].answers.Array.data[1]'
-      value: "B. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u043E\u0445\u0440\u0430\u043D\u043D\u0443\u044E
-        \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
+      value: "B. \u041F\u0440\u0438\u043C\u0435\u043D\u0435\u043D\u0438\u0435 \u0446\u0435\u043D
+        \u0441 \"9\" \u0432 \u043A\u043E\u043D\u0446\u0435 (\u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440,
+        999 \u0440\u0443\u0431\u043B\u0435\u0439)"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[9].answers.Array.data[2]'
-      value: "C. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044E \u043D\u0430 \u0443\u0441\u043B\u0443\u0433\u0438
-        \u0441\u0432\u044F\u0437\u0438"
+      value: "C. \u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u0438
+        \u0442\u043E\u0432\u0430\u0440\u0430 \u0434\u043B\u044F \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u044F
+        \u0438\u043B\u043B\u044E\u0437\u0438\u0438 \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6781455834936813664, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: 'questions.Array.data[9].answers.Array.data[3]'
-      value: "D. \u041B\u0438\u0446\u0435\u043D\u0437\u0438\u044F \u043D\u0435 \u043D\u0443\u0436\u043D\u0430"
+      value: "D. \u0423\u043C\u0435\u043D\u044C\u0448\u0435\u043D\u0438\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u0430
+        \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u0432 \u043F\u0440\u043E\u0434\u0430\u0436\u0435"
       objectReference: {fileID: 0}
-    - target: {fileID: 7030765212418271445, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 155.63998
-      objectReference: {fileID: 0}
-    - target: {fileID: 7030765212418271445, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 2.0799866
-      objectReference: {fileID: 0}
-    - target: {fileID: 7030765212418271445, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -8.025024
+    - target: {fileID: 8048003006337671777, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 91
       objectReference: {fileID: 0}
     - target: {fileID: 8596704037959777147, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
       propertyPath: m_Pivot.x
@@ -932,7 +941,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2667354895181437146, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 2224873317581551429, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 5740233361736483794, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 6031292416904728521, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
+    - {fileID: 8368115652965335839, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc7180ca5052fba4ebb672319aa3bce8, type: 3}
@@ -1020,6 +1034,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 88153665}
-  - {fileID: 936669962}
+  - {fileID: 957746128}
   - {fileID: 719800809}
   - {fileID: 2078533057}
