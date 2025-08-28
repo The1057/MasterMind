@@ -13,7 +13,7 @@ public class BusinessTableAnimated : MonoBehaviour
     public List<RectTransform> rows;       // Строки
 
     [Header("Layout")]
-    public float rowHeight = 40f;
+    public float rowHeight = 4f;
     public float spacing = 6f;
     public float paddingTop = 8f;
     public float paddingBottom = 8f;
@@ -90,7 +90,7 @@ public class BusinessTableAnimated : MonoBehaviour
 
         for (int i = 0; i < rows.Count; i++)
         {
-            rows[i].anchoredPosition = new Vector2(0f, -headerHeight - paddingTop - i * (rowHeight + spacing));
+            rows[i].anchoredPosition = new Vector2(27f, -headerHeight - paddingTop - i * (rowHeight + spacing));
             rows[i].localScale = new Vector3(1f, 0f, 1f);
             rows[i].gameObject.SetActive(true);
         }
