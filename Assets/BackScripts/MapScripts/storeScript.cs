@@ -78,7 +78,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         items.Last().name = "€блоко";
         items.Last().buying_price = 5;
         items.Last().bought_number = 5;
-        items.Last().selling_price = 10;
+        items.Last().selling_price_min = 10;
         items.Last().sold_number = 5;
     }
     public float countIncome()
@@ -89,11 +89,11 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         {
             if (item.sold_number <= item.bought_number)
             {
-                res += item.selling_price * item.sold_number * adModifier;
+                res += item.selling_price_min * item.sold_number * adModifier;
             }
             else
             {
-                res += item.selling_price * item.bought_number * adModifier;
+                res += item.selling_price_min * item.bought_number * adModifier;
             }
         }
 
@@ -147,6 +147,6 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     {
         print($"id:{storeId}\n name: {items[0].name} " +
             $"\n BP: {items[0].buying_price} " +
-            $"\n SP: {items[0].selling_price}");
+            $"\n SP: {items[0].selling_price_min}");
     }
 }

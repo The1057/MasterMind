@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6946490599932337162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 693859188459811363}
+  - component: {fileID: 2547688304762262446}
+  - component: {fileID: 5967163450289223514}
+  - component: {fileID: 1236013874356981112}
+  m_Layer: 0
+  m_Name: Store Item Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &693859188459811363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946490599932337162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 390.81067, y: 423.74606, z: 1.7531128}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2547688304762262446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946490599932337162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906be9a915ed1f24c8e21e074850b741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeIndex: 0
+  saveData:
+    StoreDatas: []
+    RivalDatas: []
+    MoneyData:
+      player_money: 0
+      player_gems: 0
+      storeList: []
+      totalIncome: 0
+      totalExpense: 0
+      profit: 0
+      operationProfit: 0
+      tax1: 1
+      tax2: 0.87
+    ClockData:
+      forceNextTurn: 0
+      nextTurnFlag: 0
+      turnPendingFlag: 0
+      turnCriteria: 0
+      month: 1
+      year: 1
+    PlayerData:
+      player_name: 
+      player_gender: 
+      first_niche: 0
+      legal_form: 0
+      tax_system: 0
+  saveLoadManager: {fileID: 5967163450289223514}
+--- !u!114 &5967163450289223514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946490599932337162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdbd5b6b5ac3ba4e9428028da45edde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveDirPath: 
+  saveFileName: save.json
+  storeObject: {fileID: 0}
+  rivalObject: {fileID: 0}
+--- !u!114 &1236013874356981112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946490599932337162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5db3f12ed0865b41a5bc78e8b17ca1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Notes: "\u041E\u0431\u044A\u0435\u043A\u0442 \u0434\u043B\u044F \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u044F
+    \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D,
+    \u0438\u043D\u0434\u0435\u043A\u0441 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0430
+    \u0432 storeIndex.\n\u041A\u043D\u043E\u043F\u043A\u0438 \u0434\u043B\u044F \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u044F
+    \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u0434\u043E\u043B\u0436\u043D\u044B
+    \u0438\u043C\u0435\u0442\u044C \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044F
+    \u0442\u043E\u0432\u0430\u0440\u043E\u0432, \u0441\u0438\u043C\u0432\u043E\u043B
+    \u0432 \u0441\u0438\u043C\u0432\u043E\u043B, \u0438 \u0432\u044B\u0437\u044B\u0432\u0430\u0442\u044C
+    \u043C\u0435\u0442\u043E\u0434 addItemByButtonName()."

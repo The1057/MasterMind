@@ -48,7 +48,7 @@ public class RivalBizScript : ISaveLoadable, ITickable
         rivalBizData.items.Last().name = "€блоко";
         rivalBizData.items.Last().buying_price = 5;
         rivalBizData.items.Last().bought_number = 5;
-        rivalBizData.items.Last().selling_price = 10;
+        rivalBizData.items.Last().selling_price_min = 10;
         rivalBizData.items.Last().sold_number = 5;
     }
 
@@ -60,11 +60,11 @@ public class RivalBizScript : ISaveLoadable, ITickable
         {
             if (item.sold_number <= item.bought_number)
             {
-                res += item.selling_price * item.sold_number;
+                res += item.selling_price_min * item.sold_number;
             }
             else
             {
-                res += item.selling_price * item.bought_number;
+                res += item.selling_price_min * item.bought_number;
             }
         }
 

@@ -133,14 +133,30 @@ public class clockData
 public class Item
 {
     public string name = "";
-    public float selling_price = 0;
+    public float selling_price_min = 0;
+    public float selling_price_max = 0;
     public float buying_price = 0;
     public float sold_number = 0;
     public float bought_number = 0;
+    public float demand_min = 0;
+    public float demand_max = 0;
     //0 - цена покупки
     //1 - цена продажи
     //2 - число закупок
     //3 - число продаж
+    public Item(string name, float[] args)
+    {
+        this.name = name;
+        buying_price = args[0];
+        selling_price_min = args[1];
+        selling_price_max = args[2];
+        demand_min = args[3];
+        demand_max = args[4];
+    }
+    public Item()
+    {
+
+    }
 }
 
 [System.Serializable]
