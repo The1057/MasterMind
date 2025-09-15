@@ -9,24 +9,15 @@ public class cameraControl : MonoBehaviour
     public float panningSpeed = 1.0f;
     public Vector3 panTo = new Vector3(10, 5, 10);
 
-    public int lowBorderMargin = 3, highBorderMargin = 4;
-    public Vector3 mapCenter = new Vector3(12, 0, 12);
-    public float pullingForce = 1f;
-    public float bufZone = 4.6f;
+    public int lowBorderMargin = 1, highBorderMargin = 5;
 
-    public float speed = 0.4f;
+    [Header("Zoom Settings")]
+    public float speed = 0.0046f;
     public float MINSCALE = 2F;
     public float MAXSCALE = 5F;
-    public float minPinchSpeed = 5.0F;
-    public float varianceInDistances = 5.0F;
-    private float touchDelta = 0.0F;
-    private Vector2 prevDist = new Vector2(0, 0);
-    private Vector2 curDist = new Vector2(0, 0);
-    private float speedTouch0 = 0.0F;
-    private float speedTouch1 = 0.0F;
 
-    private Vector3 dragVelocity;
     private bool wasDragging = false;
+    private int prevTouchCount = 0;
 
     [Header("Rubber Border Settings")]
     public float slowdownStartDistance = 1.5f;
@@ -35,6 +26,7 @@ public class cameraControl : MonoBehaviour
     public float returnSpeedOutside = 4.0f;
     public float edgeStiffness = 0.8f;
 
+
     void Update()
     {
         if (pan)
@@ -42,22 +34,27 @@ public class cameraControl : MonoBehaviour
             panToPosition(panTo);
             return;
         }
-
         HandleCameraMovement();
+    }
+
+    void LateUpdate()
+    {
+        prevTouchCount = Input.touchCount;
     }
 
     private void HandleCameraMovement()
     {
-        // Обработка зума двумя пальцами
         if (Input.touchCount == 2)
         {
-            HandlePinchZoom();
+            HandleTwoFingerGestures();
             wasDragging = false;
             return;
         }
 
-        // Обработка перетаскивания
-        if (Input.GetMouseButtonDown(0))
+        bool newDragStarted = Input.GetMouseButtonDown(0);
+        bool switchedToOneFinger = prevTouchCount == 2 && Input.touchCount == 1;
+
+        if (newDragStarted || switchedToOneFinger)
         {
             touchStart = GetWorldPos(0);
             wasDragging = true;
@@ -67,8 +64,6 @@ public class cameraControl : MonoBehaviour
         {
             Vector3 direction = touchStart - GetWorldPos(0);
             Vector3 desiredPosition = transform.position + direction;
-
-            // Плавное движение с резиновым эффектом
             transform.position = ApplyRubberBorders(desiredPosition);
             touchStart = GetWorldPos(0);
         }
@@ -84,24 +79,47 @@ public class cameraControl : MonoBehaviour
         }
     }
 
+    private void HandleTwoFingerGestures()
+    {
+        Touch touchZero = Input.GetTouch(0);
+        Touch touchOne = Input.GetTouch(1);
+
+        Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+        Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+        float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+        float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+        float difference = currentMagnitude - prevMagnitude;
+        difference /= (Screen.height / 1080f);
+        Vector2 currentMidpoint = (touchZero.position + touchOne.position) / 2;
+        Vector2 prevMidpoint = (touchZeroPrevPos + touchOnePrevPos) / 2;
+
+        Vector3 worldPosOfPrevMidpoint = GetWorldPos(0, prevMidpoint);
+        Vector3 worldPosOfCurrentMidpoint = GetWorldPos(0, currentMidpoint);
+        Vector3 panOffset = worldPosOfPrevMidpoint - worldPosOfCurrentMidpoint;
+
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - difference * speed, MINSCALE, MAXSCALE);
+
+        Vector3 worldPosAfterZoom = GetWorldPos(0, currentMidpoint);
+        Vector3 zoomCenteringOffset = worldPosOfCurrentMidpoint - worldPosAfterZoom;
+
+        transform.position += panOffset + zoomCenteringOffset;
+        transform.position = ApplyRubberBorders(transform.position);
+    }
+
     private Vector3 ApplyRubberBorders(Vector3 targetPos)
     {
-        // Рассчитываем насколько далеко за границы
         Vector3 overflow = CalculateOverflow(targetPos);
-
-        // Если полностью внутри границ - просто принимаем позицию
         if (overflow.magnitude <= 0.01f)
         {
             return targetPos;
         }
 
-        // Если в буферной зоне - плавное замедление
         if (checkEdge(targetPos))
         {
             float slowdown = CalculateSlowdown(overflow);
             return Vector3.Lerp(transform.position, targetPos, slowdown);
         }
-        // Если за буферной зоной - притягиваем к границе
         else
         {
             Vector3 clampedPos = GetClampedPosition(targetPos);
@@ -115,24 +133,19 @@ public class cameraControl : MonoBehaviour
         float maxX = map.mapSize - highBorderMargin;
         float minZ = 0 - lowBorderMargin;
         float maxZ = map.mapSize - highBorderMargin;
-
         Vector3 overflow = Vector3.zero;
-
         if (position.x < minX) overflow.x = position.x - minX;
         else if (position.x > maxX) overflow.x = position.x - maxX;
-
         if (position.z < minZ) overflow.z = position.z - minZ;
         else if (position.z > maxZ) overflow.z = position.z - maxZ;
-
         return overflow;
     }
 
     private float CalculateSlowdown(Vector3 overflow)
     {
         float normalizedOverflow = Mathf.Clamp01(
-            Mathf.Max(Mathf.Abs(overflow.x), Mathf.Abs(overflow.z)) / bufZone
+            Mathf.Max(Mathf.Abs(overflow.x), Mathf.Abs(overflow.z)) / slowdownStartDistance
         );
-
         return Mathf.Lerp(1f, maxSlowdownFactor, normalizedOverflow);
     }
 
@@ -142,15 +155,11 @@ public class cameraControl : MonoBehaviour
         float maxX = map.mapSize - highBorderMargin;
         float minZ = 0 - lowBorderMargin;
         float maxZ = map.mapSize - highBorderMargin;
-
         Vector3 clamped = position;
-
         if (position.x < minX) clamped.x = minX - (minX - position.x) * 0.5f;
         else if (position.x > maxX) clamped.x = maxX + (position.x - maxX) * 0.5f;
-
         if (position.z < minZ) clamped.z = minZ - (minZ - position.z) * 0.5f;
         else if (position.z > maxZ) clamped.z = maxZ + (position.z - maxZ) * 0.5f;
-
         return clamped;
     }
 
@@ -161,53 +170,14 @@ public class cameraControl : MonoBehaviour
             transform.position.y,
             Mathf.Clamp(transform.position.z, 0 - lowBorderMargin, map.mapSize - highBorderMargin)
         );
-
-        float speed = checkEdge(transform.position) ? returnSpeedInside : returnSpeedOutside;
-
-        transform.position = Vector3.Lerp(
-            transform.position,
-            targetPos,
-            speed * Time.deltaTime
-        );
-    }
-
-    private void HandlePinchZoom()
-    {
-        if (Input.GetTouch(1).phase == TouchPhase.Ended)
-        {
-            touchStart = GetWorldPos(0, 0);
-        }
-        else if (Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            touchStart = GetWorldPos(0, 1);
-        }
-
-        if (Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved)
-        {
-            curDist = Input.GetTouch(0).position - Input.GetTouch(1).position;
-            prevDist = ((Input.GetTouch(0).position - Input.GetTouch(0).deltaPosition) -
-                      (Input.GetTouch(1).position - Input.GetTouch(1).deltaPosition));
-            touchDelta = curDist.magnitude - prevDist.magnitude;
-
-            speedTouch0 = Input.GetTouch(0).deltaPosition.magnitude / Input.GetTouch(0).deltaTime;
-            speedTouch1 = Input.GetTouch(1).deltaPosition.magnitude / Input.GetTouch(1).deltaTime;
-
-            if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
-            {
-                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize + (1 * speed), MINSCALE, MAXSCALE);
-            }
-            else if ((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
-            {
-                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - (1 * speed), MINSCALE, MAXSCALE);
-            }
-        }
+        float currentSpeed = checkEdge(transform.position) ? returnSpeedInside : returnSpeedOutside;
+        transform.position = Vector3.Lerp(transform.position, targetPos, currentSpeed * Time.deltaTime);
     }
 
     public void panToPosition(Vector3 targetLocation)
     {
         Vector3 direction = (targetLocation - transform.position).normalized;
         transform.position += direction * panningSpeed * Time.deltaTime;
-
         if (Vector3.Distance(transform.position, targetLocation) < 0.1f)
         {
             pan = false;
@@ -224,24 +194,17 @@ public class cameraControl : MonoBehaviour
 
     private bool checkEdge(Vector3 t)
     {
-        return t.x >= 0 - lowBorderMargin - bufZone &&
-               t.z >= 0 - lowBorderMargin - bufZone &&
-               t.x <= map.mapSize - highBorderMargin + bufZone &&
-               t.z <= map.mapSize - highBorderMargin + bufZone;
+        return t.x >= 0 - lowBorderMargin - slowdownStartDistance &&
+               t.z >= 0 - lowBorderMargin - slowdownStartDistance &&
+               t.x <= map.mapSize - highBorderMargin + slowdownStartDistance &&
+               t.z <= map.mapSize - highBorderMargin + slowdownStartDistance;
     }
 
-    private Vector3 GetWorldPos(float y)
+    private Vector3 GetWorldPos(float y) => GetWorldPos(y, Input.mousePosition);
+    private Vector3 GetWorldPos(float y, int touchIndex) => GetWorldPos(y, Input.GetTouch(touchIndex).position);
+    private Vector3 GetWorldPos(float y, Vector2 screenPosition)
     {
-        Ray mousePos = cam.ScreenPointToRay(Input.mousePosition);
-        Plane ground = new Plane(Vector3.down, new Vector3(0, y, 0));
-        float distance;
-        ground.Raycast(mousePos, out distance);
-        return mousePos.GetPoint(distance);
-    }
-
-    private Vector3 GetWorldPos(float y, int touchIndex)
-    {
-        Ray mousePos = cam.ScreenPointToRay(Input.GetTouch(touchIndex).position);
+        Ray mousePos = cam.ScreenPointToRay(screenPosition);
         Plane ground = new Plane(Vector3.down, new Vector3(0, y, 0));
         float distance;
         ground.Raycast(mousePos, out distance);
