@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3747579308775444553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2941073485735954470}
+  - component: {fileID: 1379829301259911429}
+  - component: {fileID: 8569653031206120772}
+  - component: {fileID: 575465951739757352}
+  - component: {fileID: 998631563329254887}
+  - component: {fileID: -8091086582398326324}
+  m_Layer: 5
+  m_Name: CardSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2941073485735954470
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 350, y: 350}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1379829301259911429
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_CullTransparentMesh: 1
+--- !u!114 &8569653031206120772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 134a6d71b1fcadf4a9fb939418185ab7, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &575465951739757352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 170, y: 170}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
+--- !u!114 &998631563329254887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06deb9902320784d920e2bd9d189426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containedCard: {fileID: 0}
+  cardManager: {fileID: 0}
+  hasCard: 0
+--- !u!114 &-8091086582398326324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747579308775444553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5db3f12ed0865b41a5bc78e8b17ca1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Notes: "\u041F\u043E\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u043D\u0430 \u043F\u043E\u043B\u043E\u0442\u043D\u043E
+    \u043A\u0430\u043A \u0434\u043E\u0447\u0435\u0440\u043D\u0438\u0439 \u043E\u0431\u044A\u0435\u043A\u0442
+    CardManager.\n\u041D\u0435 \u043F\u043E\u043C\u0435\u0449\u0430\u0442\u044C \u0431\u043E\u043B\u044C\u0448\u0435
+    1 \u0434\u043E\u0447\u0435\u0440\u043D\u0435\u0433\u043E \u043E\u0431\u044A\u0435\u043A\u0442\u0430(\u043A\u0430\u0440\u0442\u044B),
+    \u043C\u043E\u0436\u0435\u0442 \u043F\u0440\u0438\u0432\u0435\u0441\u0442\u0438
+    \u043A \u043F\u0440\u043E\u0431\u043B\u0435\u043C\u0430\u043C.\n\u0412\u043C\u0435\u0441\u0442\u0435
+    \u0441 \u0440\u0430\u0437\u043C\u0435\u0440\u043E\u043C \u043C\u0435\u043D\u044F\u0442\u044C
+    \u0440\u0430\u0437\u043C\u0435\u0440 Grid Layout Group.\n\u041D\u0430\u0437\u043D\u0430\u0447\u0438\u0442\u044C
+    Card Manager.\n\u041D\u0438 \u0432 \u043A\u043E\u0435\u043C \u0441\u043B\u0443\u0447\u0430\u0435
+    \u043D\u0435 \u0432\u044B\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0443 Image
+    Raycast Target, \u0435\u0441\u043B\u0438 \u043D\u0430\u0434\u043E \u0441\u0434\u0435\u043B\u0430\u0442\u044C
+    \u043A\u0430\u0440\u0442\u0438\u043D\u043A\u0443 \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u043E\u0439
+    - \u043C\u0435\u043D\u044F\u0442\u044C \u0430\u043B\u044C\u0444\u0430 \u043A\u0430\u043D\u0430\u043B
+    \u0446\u0432\u0435\u0442\u0430."
