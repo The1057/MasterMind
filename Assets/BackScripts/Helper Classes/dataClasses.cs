@@ -33,6 +33,7 @@ public class saveData
     public moneyData MoneyData = new moneyData();
     public clockData ClockData = new clockData();
     public playerData PlayerData = new playerData();
+    public List<string> lastScenes = new();
     public saveData()
     {
 
@@ -135,6 +136,7 @@ public class Item
     public string name = "";
     public float selling_price_min = 0;
     public float selling_price_max = 0;
+    public float selling_price = 0;
     public float buying_price = 0;
     public float sold_number = 0;
     public float bought_number = 0;

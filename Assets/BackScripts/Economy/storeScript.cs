@@ -10,8 +10,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 {
     public enum demandCalcMethod
     {
-        normalDistribution = 0,
-        linearDistribution = 1
+        randomNormalDistribution = 0,
+        randomLinearDistribution = 1,
+        linear = 2
     }
 
 
@@ -20,6 +21,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     public List<Item> items = new List<Item>();
     
     public float adModifier = 1.1f;
+    public float rent = 1000;
+    public float randomExpenseMin = 0.03f;
+    public float randomExpenseMax = 0.05f;
     public float demandChangeDeviation = 5;
 
     public List<Vector2> points4Graph = Enumerable.Repeat(new Vector2(1, 0), 12).ToList();
@@ -61,7 +65,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 
         for (int i = 0; i < items.Count; i++)
         {
-            recalculateDemand(ref items[i].sold_number,demandChangeDeviation,demandCalcMethod.normalDistribution);
+            recalculateDemand(items[i],demandChangeDeviation,demandCalcMethod.randomNormalDistribution);
             //print($"New demand for {items[i].name} is {items[i].bought_number}");
         }
     }
@@ -107,15 +111,16 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         {
             res += item.buying_price * item.bought_number;
         }
-
+        res += rent;
+        res -= countIncome()*getRandomExpense();
         return res;
     }
-    public void recalculateDemand(ref float currentDemand,float deviation, demandCalcMethod calcMethod)
-    {
+    public void recalculateDemand(Item item,float deviation, demandCalcMethod calcMethod)
+    {        
         System.Random random = new System.Random();
         switch (calcMethod)
         {
-            case demandCalcMethod.normalDistribution:
+            case demandCalcMethod.randomNormalDistribution:
 
                 double randomsSum = 0;
                 for(int i = 0; i < 12; i++)
@@ -123,30 +128,54 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
                     randomsSum += random.NextDouble();
                 }
                 randomsSum -= 6;
-                currentDemand = (float)randomsSum * deviation + currentDemand;
+                item.sold_number = (float)randomsSum * deviation + item.sold_number;
                 
                 break;
-            case demandCalcMethod.linearDistribution:
+            case demandCalcMethod.randomLinearDistribution:
 
-                currentDemand = (currentDemand - deviation) * (float)random.NextDouble() + currentDemand;
+                item.sold_number = (item.sold_number - deviation) * (float)random.NextDouble() + item.sold_number;
 
+                break;
+            case demandCalcMethod.linear:
+
+                float yMean = (item.demand_max + item.demand_min) / 2f;
+                float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
+                float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
+                    (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
+                float b = yMean - m * xMean;
+                item.sold_number = m * item.selling_price + b;
                 break;
             default:
 
                 break;
 
         }
-        if (currentDemand < 0)
+        if (item.sold_number < 0)
         {
-            currentDemand = 0;
+            item.sold_number = 0;
         }
+    }
+
+    public float getRandomExpense()
+    {
+        float res=0;
+
+        res = UnityEngine.Random.Range(randomExpenseMin,randomExpenseMax);
+
+        return res;
     }
 
     [ContextMenu("Print first item")]
     public void showDebug()
     {
-        print($"id:{storeId}\n name: {items[0].name} " +
-            $"\n BP: {items[0].buying_price} " +
-            $"\n SP: {items[0].selling_price_min}");
+        Item item = new Item("Багет",new float[]{ 40, 80, 120, 200, 500 });
+        item.selling_price = 100;
+        float yMean = (item.demand_max + item.demand_min) / 2f;
+        float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
+        float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
+            (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
+        float b = yMean - m * xMean;
+        item.sold_number = m * item.selling_price + b;
+        print(item.sold_number);
     }
 }

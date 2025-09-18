@@ -109,7 +109,7 @@ public class RivalBizScript : ISaveLoadable, ITickable
         System.Random random = new System.Random();
         switch (calcMethod)
         {
-            case storeScript.demandCalcMethod.normalDistribution:
+            case storeScript.demandCalcMethod.randomNormalDistribution:
 
                 double randomsSum = 0;
                 for (int i = 0; i < 12; i++)
@@ -120,7 +120,7 @@ public class RivalBizScript : ISaveLoadable, ITickable
                 currentDemand = (float)randomsSum * deviation + currentDemand;
 
                 break;
-            case storeScript.demandCalcMethod.linearDistribution:
+            case storeScript.demandCalcMethod.randomLinearDistribution:
 
                 currentDemand = (currentDemand - deviation) * (float)random.NextDouble() + currentDemand;
 
