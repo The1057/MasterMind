@@ -26,6 +26,11 @@ public class cameraControl : MonoBehaviour
     public float returnSpeedOutside = 4.0f;
     public float edgeStiffness = 0.8f;
 
+    // Новые параметры для определения клика
+    private float tapStartTime;
+    private Vector2 tapStartScreenPos;
+    private const float MAX_TAP_DISTANCE_PIXELS = 20f; // Макс смещение пальца, чтобы считать это кликом
+    private const float MAX_TAP_DURATION_SECONDS = 0.3f; // Макс длительность тапа
 
     void Update()
     {
@@ -44,6 +49,7 @@ public class cameraControl : MonoBehaviour
 
     private void HandleCameraMovement()
     {
+        // Двухпальцевый жест — зум + пан
         if (Input.touchCount == 2)
         {
             HandleTwoFingerGestures();
@@ -51,28 +57,53 @@ public class cameraControl : MonoBehaviour
             return;
         }
 
-        bool newDragStarted = Input.GetMouseButtonDown(0);
-        bool switchedToOneFinger = prevTouchCount == 2 && Input.touchCount == 1;
-
-        if (newDragStarted || switchedToOneFinger)
+        // Однопальцевый жест — пан или клик
+        if (Input.touchCount == 1)
         {
-            touchStart = GetWorldPos(0);
-            wasDragging = true;
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                tapStartTime = Time.time;
+                tapStartScreenPos = touch.position;
+                touchStart = GetWorldPos(0);
+                wasDragging = false; // Пока не знаем — клик это или свайп
+            }
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                // Если палец сдвинулся слишком сильно — это свайп, не клик
+                if (Vector2.Distance(touch.position, tapStartScreenPos) > MAX_TAP_DISTANCE_PIXELS)
+                {
+                    wasDragging = true;
+                }
+            }
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                float tapDuration = Time.time - tapStartTime;
+                bool isTap = !wasDragging &&
+                             tapDuration <= MAX_TAP_DURATION_SECONDS &&
+                             Vector2.Distance(touch.position, tapStartScreenPos) <= MAX_TAP_DISTANCE_PIXELS;
+
+                if (isTap)
+                {
+                    HandleBuildingTap(touch.position);
+                }
+                wasDragging = false;
+            }
+
+            // Обработка свайпа (если это не клик)
+            if (wasDragging && touch.phase == TouchPhase.Moved)
+            {
+                Vector3 direction = touchStart - GetWorldPos(0);
+                Vector3 desiredPosition = transform.position + direction;
+                transform.position = ApplyRubberBorders(desiredPosition);
+                touchStart = GetWorldPos(0);
+            }
         }
 
-        if (Input.GetMouseButton(0) && wasDragging)
-        {
-            Vector3 direction = touchStart - GetWorldPos(0);
-            Vector3 desiredPosition = transform.position + direction;
-            transform.position = ApplyRubberBorders(desiredPosition);
-            touchStart = GetWorldPos(0);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            wasDragging = false;
-        }
-
+        // Возвращение в границы, если не тащим
         if (!wasDragging && !checkBorders(transform.position))
         {
             ReturnToBounds();
@@ -106,6 +137,21 @@ public class cameraControl : MonoBehaviour
         transform.position += panOffset + zoomCenteringOffset;
         transform.position = ApplyRubberBorders(transform.position);
     }
+
+    private void HandleBuildingTap(Vector2 screenPosition)
+    {
+        Ray ray = cam.ScreenPointToRay(screenPosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            clickBuildings building = hit.transform.GetComponent<clickBuildings>();
+            if (building != null)
+            {
+                building.OnClick();
+            }
+        }
+    }
+
+    // Остальные методы без изменений
 
     private Vector3 ApplyRubberBorders(Vector3 targetPos)
     {
@@ -201,7 +247,6 @@ public class cameraControl : MonoBehaviour
     }
 
     private Vector3 GetWorldPos(float y) => GetWorldPos(y, Input.mousePosition);
-    private Vector3 GetWorldPos(float y, int touchIndex) => GetWorldPos(y, Input.GetTouch(touchIndex).position);
     private Vector3 GetWorldPos(float y, Vector2 screenPosition)
     {
         Ray mousePos = cam.ScreenPointToRay(screenPosition);
