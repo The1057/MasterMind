@@ -4,11 +4,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+public enum backButtonMode
+{
+    lastScene = 0,
+    theory = 1,
+    test = 2
+}
 public class backButtonScript : MonoBehaviour
 {
 
     public saveLoadManager saveLoadManager;
     private bool isLoading = false;
+    public backButtonMode mode = backButtonMode.lastScene;
+    public GameObject theoryManager;
+    public GameObject testManager;
     void Start()
     {
         
@@ -19,8 +28,24 @@ public class backButtonScript : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            print("back");
-            loadPreviousScene();
+            switch(mode)
+            {
+                case backButtonMode.lastScene:
+                print("back");
+                loadPreviousScene();
+                break;
+
+                case backButtonMode.theory:
+
+                break;
+
+                case backButtonMode.test:
+                break;
+
+                default:
+
+                break;
+            }
         }
     }
 

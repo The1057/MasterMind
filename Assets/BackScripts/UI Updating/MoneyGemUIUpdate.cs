@@ -1,10 +1,11 @@
 using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MoneyGemUIUpdate : MonoBehaviour
 {
-    public GameObject moneyUI;
-    public GameObject gemUI;
+    public List<GameObject> moneyUI;
+    public List<GameObject> gemUI;
 
     public saveLoadManager saveLoadManager;
 
@@ -19,7 +20,13 @@ public class MoneyGemUIUpdate : MonoBehaviour
     public void updateUI()
     {
         saveData = saveLoadManager.loadData();
-        moneyUI.GetComponent<TextMeshProUGUI>().text = saveData.MoneyData.player_money.ToString();
-        gemUI.GetComponent<TextMeshProUGUI>().text = saveData.MoneyData.player_gems.ToString();
+        foreach (var moneyUI in moneyUI)
+        {
+            moneyUI.GetComponent<TextMeshProUGUI>().text = saveData.MoneyData.player_money.ToString();
+        }
+        foreach (var gemUI in gemUI)
+        {
+            gemUI.GetComponent<TextMeshProUGUI>().text = saveData.MoneyData.player_gems.ToString();
+        }
     }
 }
