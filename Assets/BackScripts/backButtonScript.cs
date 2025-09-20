@@ -18,14 +18,32 @@ public class backButtonScript : MonoBehaviour
     public backButtonMode mode = backButtonMode.lastScene;
     public GameObject theoryManager;
     public GameObject testManager;
+    public List<int> testIndList = new List<int>();
+    TestManager2 manager;
+    CanvasSequenceManager23 tManager;
     void Start()
     {
-        
+        if (mode == backButtonMode.test)
+        {
+            print("Trying to set testManager");
+            manager = testManager.GetComponent<TestManager2>();
+        }
+        else if (mode == backButtonMode.theory)
+        {
+            tManager = theoryManager.GetComponent<CanvasSequenceManager23>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(mode == backButtonMode.test)
+        {
+            if (testIndList.Count == 0 || manager.currentQuestion != testIndList.Last())
+            {
+                testIndList.Add(manager.currentQuestion);
+            }
+        }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             switch(mode)
@@ -35,12 +53,21 @@ public class backButtonScript : MonoBehaviour
                 loadPreviousScene();
                 break;
 
-                case backButtonMode.theory:
 
+                case backButtonMode.theory:
+                    tManager.ShowPreviousCanvas();
                 break;
+
 
                 case backButtonMode.test:
+                    if (testIndList.Count > 1)
+                    {
+                        print($"Trying to set question to index {testIndList[testIndList.Count - 2]}");
+                        manager.setQuestionByIndex(testIndList[testIndList.Count - 2]);
+                        testIndList.Remove(testIndList.Last());
+                    }
                 break;
+
 
                 default:
 

@@ -79,7 +79,7 @@ public class CanvasSequenceManager23 : MonoBehaviour
         UpdateButtonsState();
     }
 
-    private void ShowPreviousCanvas()
+    public void ShowPreviousCanvas()
     {
         if (currentIndex <= 0) return;
 

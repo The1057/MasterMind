@@ -604,7 +604,7 @@ public class TestManager2 : MonoBehaviour
         }
     }
 
-    private void setQuestionByIndex(int index)
+    public void setQuestionByIndex(int index)
     {
         if (index == currentQuestion) return; // Избегаем повторной активации/деактивации
 
