@@ -13952,7 +13952,7 @@ GameObject:
   - component: {fileID: 1120981838}
   - component: {fileID: 1120981837}
   - component: {fileID: 1120981836}
-  - component: {fileID: 1120981835}
+  - component: {fileID: 1120981839}
   m_Layer: 0
   m_Name: "\u0417\u0430\u0434\u0430\u0447\u0438"
   m_TagString: Untagged
@@ -13980,25 +13980,6 @@ RectTransform:
   m_AnchoredPosition: {x: -372, y: -927}
   m_SizeDelta: {x: 123, y: 123}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1120981835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120981833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: Tasks
-  defaultSprite: {fileID: 21300000, guid: b9d59f7909f06744cb70696a3beb5881, type: 3}
-  activeSprite: {fileID: 21300000, guid: c7aab1e49a0210a488d938b0794704fb, type: 3}
-  animationDuration: 0.2
-  scaleFactor: 0.9
-  useColorAnimation: 1
-  colorMultiplier: 0.8
 --- !u!114 &1120981836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14081,6 +14062,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1120981833}
   m_CullTransparentMesh: 1
+--- !u!114 &1120981839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120981833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d0bc00ba036eb4d80340195030bdf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSprite: {fileID: 21300000, guid: b9d59f7909f06744cb70696a3beb5881, type: 3}
+  activeSprite: {fileID: 21300000, guid: c7aab1e49a0210a488d938b0794704fb, type: 3}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
+  saveLoadManager: {fileID: 1711811052}
 --- !u!1 &1128270090
 GameObject:
   m_ObjectHideFlags: 0
@@ -20496,6 +20496,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7ff02719e16f3f4ebf33f55380a6eca, type: 3}
+--- !u!114 &1711811052 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7476352464319133834, guid: b7ff02719e16f3f4ebf33f55380a6eca, type: 3}
+  m_PrefabInstance: {fileID: 1711811051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdbd5b6b5ac3ba4e9428028da45edde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1719696985
 GameObject:
   m_ObjectHideFlags: 0
@@ -20859,7 +20870,7 @@ GameObject:
   - component: {fileID: 1744967184}
   - component: {fileID: 1744967183}
   - component: {fileID: 1744967182}
-  - component: {fileID: 1744967181}
+  - component: {fileID: 1744967185}
   m_Layer: 0
   m_Name: "\u0417\u0430\u0434\u0430\u0447\u0438"
   m_TagString: Untagged
@@ -20887,25 +20898,6 @@ RectTransform:
   m_AnchoredPosition: {x: -372, y: -927}
   m_SizeDelta: {x: 123, y: 123}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1744967181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1744967179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19eb5bc31c52e5d48bfff2868bc6b34d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: Tasks
-  defaultSprite: {fileID: 21300000, guid: b9d59f7909f06744cb70696a3beb5881, type: 3}
-  activeSprite: {fileID: 21300000, guid: c7aab1e49a0210a488d938b0794704fb, type: 3}
-  animationDuration: 0.2
-  scaleFactor: 0.9
-  useColorAnimation: 1
-  colorMultiplier: 0.8
 --- !u!114 &1744967182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20988,6 +20980,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744967179}
   m_CullTransparentMesh: 1
+--- !u!114 &1744967185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744967179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d0bc00ba036eb4d80340195030bdf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSprite: {fileID: 21300000, guid: b9d59f7909f06744cb70696a3beb5881, type: 3}
+  activeSprite: {fileID: 21300000, guid: c7aab1e49a0210a488d938b0794704fb, type: 3}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
+  saveLoadManager: {fileID: 1711811052}
 --- !u!1 &1757682337
 GameObject:
   m_ObjectHideFlags: 0

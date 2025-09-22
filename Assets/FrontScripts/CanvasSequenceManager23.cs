@@ -14,6 +14,9 @@ public class CanvasSequenceManager23 : MonoBehaviour
         public Button nextButton;
         [Tooltip("Кнопка перехода назад")]
         public Button previousButton;
+        [Tooltip("Кнопка выхода (если есть — сбросит теорию)")]
+        public Button exitButton;
+        public Button exitButton2;
     }
 
     [Header("Список Canvas-элементов")]
@@ -62,6 +65,12 @@ public class CanvasSequenceManager23 : MonoBehaviour
                 el.nextButton.onClick.AddListener(ShowNextCanvas);
             if (el.previousButton != null)
                 el.previousButton.onClick.AddListener(ShowPreviousCanvas);
+            if (el.exitButton != null) {
+                el.exitButton.onClick.AddListener(ResetAndShowFirst);
+                if (el.exitButton2 != null)
+                    el.exitButton2.onClick.AddListener(ResetAndShowFirst);
+            }
+                
         }
 
         ShowNextCanvas(); // Показываем первый
@@ -156,5 +165,18 @@ public class CanvasSequenceManager23 : MonoBehaviour
                 t.color = c;
             }
         }
+    }
+    public void ResetAndShowFirst()
+    {
+        if (currentIndex >= 0 && currentIndex < elements.Length && elements[currentIndex].canvas != null)
+        {
+            elements[currentIndex].canvas.SetActive(false);
+        }
+
+        currentIndex = -1;
+
+        ShowNextCanvas();
+
+        Debug.Log("Теория сброшена. Показан первый слайд.");
     }
 }

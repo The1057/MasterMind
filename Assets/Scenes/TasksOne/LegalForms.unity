@@ -4244,6 +4244,7 @@ GameObject:
   - component: {fileID: 1240655231}
   - component: {fileID: 1240655230}
   - component: {fileID: 1240655229}
+  - component: {fileID: 1240655233}
   m_Layer: 0
   m_Name: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
   m_TagString: Untagged
@@ -4372,6 +4373,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240655227}
   m_CullTransparentMesh: 1
+--- !u!114 &1240655233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240655227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d0bc00ba036eb4d80340195030bdf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSprite: {fileID: 21300000, guid: 896753dc3d13ee74f8a1d606336483e8, type: 3}
+  activeSprite: {fileID: 21300000, guid: 89741326bf0efc84582cf88b0e4980df, type: 3}
+  animationDuration: 0.2
+  scaleFactor: 0.9
+  useColorAnimation: 1
+  colorMultiplier: 0.8
+  saveLoadManager: {fileID: 1909686425}
 --- !u!1 &1257344316
 GameObject:
   m_ObjectHideFlags: 0
@@ -6543,6 +6563,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7ff02719e16f3f4ebf33f55380a6eca, type: 3}
+--- !u!114 &1909686425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7476352464319133834, guid: b7ff02719e16f3f4ebf33f55380a6eca, type: 3}
+  m_PrefabInstance: {fileID: 1909686424}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdbd5b6b5ac3ba4e9428028da45edde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1927831620
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,13 +1,11 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class dataButtonStores : MonoBehaviour
 {
-
-    [SerializeField] private Sprite defaultSprite;   // Спрайт по умолчанию
-    [SerializeField] private Sprite activeSprite;    // Спрайт для активной сцены
-
+    private Image buttonImage;
     private string filePath = "playerData.json"; // Имя файла с гендером
     public void Bak() {
         Transform canvasTransform = transform.parent.Find("Canvas (7.3)");
@@ -79,8 +77,10 @@ public class dataButtonStores : MonoBehaviour
             canvasTransform.gameObject.SetActive(true);
         }
     }
-   public void activateIcon() {
 
+    public void ActivateBeginTheory () {
+        Transform canvasTransform = transform.parent.Find("Начало");
+        canvasTransform.gameObject.SetActive(true);
     }
     private string GetPlayerGender() {
         playerData playerData;
