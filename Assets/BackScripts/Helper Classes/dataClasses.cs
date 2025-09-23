@@ -179,6 +179,7 @@ public class playerData
 {
     public string player_name = "";
     public string player_gender = "";
+    public int storePicIndex = 0;
     public biz_niche first_niche;
     public legal_form legal_form;
     public tax_system tax_system;

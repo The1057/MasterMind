@@ -14,6 +14,7 @@ public class backButtonScript : MonoBehaviour
 {
 
     public saveLoadManager saveLoadManager;
+    public CanvasSwitcher1 canvasSwitcher;
     private bool isLoading = false;
     public backButtonMode mode = backButtonMode.lastScene;
     public GameObject theoryManager;
@@ -21,6 +22,9 @@ public class backButtonScript : MonoBehaviour
     public List<int> testIndList = new List<int>();
     TestManager2 manager;
     CanvasSequenceManager23 tManager;
+    [Space(10)]
+    [Header("Canvas List")]
+    public List<GameObject> lastCanvases;
     void Start()
     {
         if (mode == backButtonMode.test)
@@ -37,26 +41,40 @@ public class backButtonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mode == backButtonMode.test)
+        if (mode == backButtonMode.test)
         {
             if (testIndList.Count == 0 || manager.currentQuestion != testIndList.Last())
             {
                 testIndList.Add(manager.currentQuestion);
             }
         }
+        else if (mode == backButtonMode.lastScene)
+        {
+            if (lastCanvases.Count > 0)
+            {
+                if (lastCanvases.Last() != canvasSwitcher.currentActiveCanvas)
+                {
+                    lastCanvases.Add(canvasSwitcher.currentActiveCanvas);
+                }
+            }
+            else 
+            {
+                lastCanvases.Add(canvasSwitcher.initialCanvas);
+            }
+        }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            switch(mode)
+            switch (mode)
             {
-                case backButtonMode.lastScene:
-                print("back");
-                loadPreviousScene();
-                break;
+                case backButtonMode.lastScene:                    
+                    print("back");
+                    loadPrevoiusCanvas();
+                    break;
 
 
                 case backButtonMode.theory:
                     tManager.ShowPreviousCanvas();
-                break;
+                    break;
 
 
                 case backButtonMode.test:
@@ -66,12 +84,12 @@ public class backButtonScript : MonoBehaviour
                         manager.setQuestionByIndex(testIndList[testIndList.Count - 2]);
                         testIndList.Remove(testIndList.Last());
                     }
-                break;
+                    break;
 
 
                 default:
 
-                break;
+                    break;
             }
         }
     }
@@ -96,6 +114,15 @@ public class backButtonScript : MonoBehaviour
             saveLoadManager.saveData(saveData);
             SceneManager.LoadScene(sceneName);
             isLoading = true;
+        }
+    }
+
+    public void loadPrevoiusCanvas()
+    {
+        if(lastCanvases.Count > 1)
+        {
+            lastCanvases.Remove(lastCanvases.Last());
+            canvasSwitcher.SwitchToCanvas(lastCanvases.Last());
         }
     }
 
