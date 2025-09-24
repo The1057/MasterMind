@@ -143,6 +143,6 @@ public class ConfirmW : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }

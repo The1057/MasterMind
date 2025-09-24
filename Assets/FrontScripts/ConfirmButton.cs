@@ -141,7 +141,7 @@ public class ConfirmButton : MonoBehaviour
             fadeOverlay.color = Color.Lerp(midColor, endColor, t);
             yield return null;
         }
-
-        SceneManager.LoadScene(nextSceneName);
+        gameObject.transform.parent.gameObject.SetActive(false);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }

@@ -200,8 +200,14 @@ public class CanvasSwitcher1 : MonoBehaviour
     {
         if (lastCanvases.Count > 1)
         {
-            lastCanvases.Remove(lastCanvases.Last());
-            SwitchToCanvas(lastCanvases.Last());
+            // Получаем предпоследний Canvas (на который хотим вернуться)
+            GameObject previousCanvas = lastCanvases[lastCanvases.Count - 2];
+
+            // Удаляем ПОСЛЕДНИЙ элемент (текущий)
+            lastCanvases.RemoveAt(lastCanvases.Count - 1);
+
+            // Переходим на предыдущий
+            SwitchToCanvas(previousCanvas);
         }
     }
     public void disableMoneyDisplay()
@@ -215,7 +221,7 @@ public class CanvasSwitcher1 : MonoBehaviour
     public GameObject GetCanvasByName(string name)
     {
         if (canvasMap.TryGetValue(name, out GameObject canvas))
-        {
+        { 
             return canvas;
         }
         Debug.LogWarning($"Canvas с именем '{name}' не найден в canvasMap!");

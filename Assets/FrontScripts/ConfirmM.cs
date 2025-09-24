@@ -144,6 +144,6 @@ public class ConfirmM : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }
