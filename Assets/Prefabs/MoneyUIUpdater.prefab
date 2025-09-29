@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8175848926712847591}
   - component: {fileID: 643716593654403125}
-  - component: {fileID: 1649819223648579208}
   m_Layer: 0
   m_Name: MoneyUIUpdater
   m_TagString: Untagged
@@ -45,22 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67badd04ea74abf4684454811c114458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyUI: []
-  gemUI: []
-  saveLoadManager: {fileID: 1649819223648579208}
---- !u!114 &1649819223648579208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3059349020741642484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cdbd5b6b5ac3ba4e9428028da45edde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveDirPath: 
-  saveFileName: save.json
-  storeObject: {fileID: 0}
-  rivalObject: {fileID: 0}
+  moneyUI:
+  - {fileID: 0}
+  gemUI:
+  - {fileID: 0}
+  saveLoadManager: {fileID: 0}

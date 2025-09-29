@@ -16,7 +16,7 @@ public class SkipScreensManager1 : MonoBehaviour
     public GameObject defaultStartCanvas;  // например, Canvas_Scene2
 
     public float fadeDuration = 1f;
-    playerData playerData;
+    public playerDataClass playerData;
     [SerializeField] private Image fadeImage;
 
     void Awake()
@@ -32,36 +32,25 @@ public class SkipScreensManager1 : MonoBehaviour
 
     void Start()
     {
-        string fullDataPath = GetFullPath(dataFilePath);
-
-        bool dataExists = File.Exists(fullDataPath) && File.ReadAllText(fullDataPath).Trim() != "";
-
         GameObject targetCanvas = defaultStartCanvas; // по умолчанию
 
-        if (dataExists)
+        bool genderIsSet = playerData.data.player_gender != null;
+
+        if (genderIsSet)
         {
-            string rawJSON;
-            using (FileStream stream = new FileStream(fullDataPath, FileMode.Open))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                rawJSON = reader.ReadToEnd();
-            }
-
-            playerData = JsonUtility.FromJson<playerData>(rawJSON);
-
-            if (playerData.player_gender == "F")
+            if (playerData.data.player_gender == "F")
             {
                 Debug.Log("Гендер Ж установлен. Показываем: " + femaleProfileCanvas.name);
                 targetCanvas = femaleProfileCanvas;
             }
-            else if (playerData.player_gender == "M")
+            else if (playerData.data.player_gender == "M")
             {
                 Debug.Log("Гендер М установлен. Показываем: " + maleProfileCanvas.name);
                 targetCanvas = maleProfileCanvas;
             }
-            else if (!string.IsNullOrEmpty(playerData.player_gender))
+            else
             {
-                Debug.LogWarning("Неизвестный гендер: " + playerData.player_gender + ". Показываем экран по умолчанию.");
+                Debug.LogWarning("Неизвестный гендер: " + playerData.data.player_gender + ". Показываем экран по умолчанию.");
             }
         }
         else

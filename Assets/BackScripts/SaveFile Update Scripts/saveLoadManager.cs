@@ -12,6 +12,7 @@ public class saveLoadManager : MonoBehaviour
 
     public string saveDirPath = "";
     public string saveFileName = "save.json";
+    public string statisticsDirName = "stat";
     public GameObject storeObject;
     public GameObject rivalObject;
 
@@ -163,6 +164,31 @@ public class saveLoadManager : MonoBehaviour
         {
             Debug.LogError($"Error while saving data from file: {fullPath} \n {e}");
         }
+    }
+    public void saveStatistics2NewFile(statistics statistics, int year)
+    {
+        string fullPath = Path.Combine(saveDirPath, statisticsDirName + year.ToString() + ".json");
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+            //creating directory 
+
+            string rawJSON = JsonUtility.ToJson(statistics, true);
+            //serializing
+
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(rawJSON);//magic to write to file
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error while saving data from file: {fullPath} \n {e}");
+        }
+
     }
 
     [ContextMenu("Destroy Stores")]

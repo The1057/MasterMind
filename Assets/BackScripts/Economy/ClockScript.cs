@@ -19,6 +19,7 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
     {        
         if((turnCriteria && turnPendingFlag) || forceNextTurn)
         {
+
             List<ITickable> tickableObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).
             OfType<ITickable>().ToList();
 
@@ -27,10 +28,10 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
                 tickableObject.nextTurn(month, year);
             }
 
+            month++;
             forceNextTurn = false;
             nextTurnFlag = true;
             turnPendingFlag = false;
-            month++;
         } else if (turnPendingFlag)
         {
             turnPendingFlag = false;

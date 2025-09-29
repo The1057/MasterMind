@@ -4,7 +4,9 @@ public class UltimateImageUpdateScript : MonoBehaviour
 {
     public ProfilePicUpload profilePicScript;
     public ProfilePicUpload storePicScript;
+    public ProfilePicUpload startComicScript;
     public playerDataClass playerData;
+
     void Start()
     {
         
@@ -17,10 +19,12 @@ public class UltimateImageUpdateScript : MonoBehaviour
         {
             case ("F"):
                 profilePicScript.imageIndex = 1;
+                startComicScript.imageIndex = 1;
             break;
             case ("M"):
                 profilePicScript.imageIndex = 0;
-            break;
+                startComicScript.imageIndex = 0;
+                break;
         }
 
         storePicScript.imageIndex = playerData.data.storePicIndex;

@@ -21,14 +21,10 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     public List<Item> items = new List<Item>();
     
     public float adModifier = 1.1f;
-    public float rent = 1000;
+    public float constExpense = 1000;//посто€нные затраты: аренда, зарплата
     public float randomExpenseMin = 0.03f;
     public float randomExpenseMax = 0.05f;
     public float demandChangeDeviation = 5;
-
-    public List<Vector2> points4Graph = Enumerable.Repeat(new Vector2(1, 0), 12).ToList();
-    public List<Vector2> points4GraphFinal  = Enumerable.Repeat(new Vector2(0, 0), 12).ToList();
-
     public void save(ref saveData data)
     {
         if(data.StoreDatas.Count <= storeId)
@@ -37,35 +33,28 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         }
         data.StoreDatas[storeId].adModifier = adModifier;
         data.StoreDatas[storeId].items = items;
-        data.StoreDatas[storeId].points4Graph = points4Graph;
-        data.StoreDatas[storeId].points4GraphFinal = points4GraphFinal;
         data.StoreDatas[storeId].storeID = storeId;
         data.StoreDatas[storeId].name = name;
+        data.StoreDatas[storeId].constExpense = constExpense;
+        data.StoreDatas[storeId].randomExpenseMax = randomExpenseMax;
+        data.StoreDatas[storeId].randomExpenseMin = randomExpenseMin;
+        data.StoreDatas[storeId].demandChangeDeviation = demandChangeDeviation;
     }
     public void load(saveData data)
     {
         this.adModifier = data.StoreDatas[storeId].adModifier;
-        this.items = data.StoreDatas[storeId].items;
-        //this.items = new List<Item>();
-        //foreach (var item in data.StoreDatas[storeId].items)
-        //{
-        //    this.items.Add(item);
-        //}
-        this.points4Graph = data.StoreDatas[storeId].points4Graph;
-        this.points4GraphFinal = data.StoreDatas[storeId].points4GraphFinal;
+        this.constExpense = data.StoreDatas[storeId].constExpense;
+        this.randomExpenseMin = data.StoreDatas[storeId].randomExpenseMin;
+        this.randomExpenseMax = data.StoreDatas[storeId].randomExpenseMax;
+        this.demandChangeDeviation = data.StoreDatas[storeId].demandChangeDeviation;
+        this.items = data.StoreDatas[storeId].items;        
         this.name = data.StoreDatas[storeId].name;
     }
     public void nextTurn(int month, int year)
     {
-        if (month == 1)
-        {
-            points4GraphFinal = new List<Vector2>(points4Graph);
-        }
-        points4Graph[month - 1] = new Vector2(month, countIncome() - countExpense());
-
         for (int i = 0; i < items.Count; i++)
         {
-            recalculateDemand(items[i],demandChangeDeviation,demandCalcMethod.randomNormalDistribution);
+            recalculateDemand(items[i],demandChangeDeviation,demandCalcMethod.linear);
             //print($"New demand for {items[i].name} is {items[i].bought_number}");
         }
     }
@@ -78,12 +67,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     [ContextMenu("Add debug item")]
     public void addDebug()
     {
-        items.Add(new Item());
-        items.Last().name = "€блоко";
-        items.Last().buying_price = 5;
-        items.Last().bought_number = 5;
-        items.Last().selling_price_min = 10;
-        items.Last().sold_number = 5;
+        items.Add(breadItemList.possibleItems.First());
+        items.Last().selling_price = 100;
+        items.Last().bought_number = 1000;
     }
     public float countIncome()
     {
@@ -111,7 +97,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         {
             res += item.buying_price * item.bought_number;
         }
-        res += rent;
+        res += constExpense;
         res -= countIncome()*getRandomExpense();
         return res;
     }
@@ -155,7 +141,6 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
             item.sold_number = 0;
         }
     }
-
     public float getRandomExpense()
     {
         float res=0;

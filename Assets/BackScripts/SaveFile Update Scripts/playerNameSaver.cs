@@ -8,8 +8,7 @@ using UnityEditor;
 
 public class playerNameSaver : MonoBehaviour
 {
-    playerData playerData;
-
+    public playerDataClass playerData;
     public InputField nameInputField;
     public Button confirmButton;
 
@@ -47,67 +46,7 @@ public class playerNameSaver : MonoBehaviour
 
     public void SaveName()
     {
-        LoadData();
-        playerData.player_name = nameInputField.text;
-        SaveData();
-
-        Debug.Log("Имя сохранено в player_name: " + playerData.player_name);
-    }
-
-    void SaveData()
-    {
-        try
-        {
-            // Сохраняем только имя в текстовый файл *** ***** *******
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            //creating directory 
-
-            string rawJSON = JsonUtility.ToJson(playerData, true);
-            //serializing
-
-            using (FileStream stream = new FileStream(filePath, FileMode.Create))
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.Write(rawJSON);//magic to write to file
-                }
-            }
-#if UNITY_EDITOR
-            UnityEditor.AssetDatabase.Refresh();
-#endif
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Ошибка при сохранении файла: " + e.Message);
-        }
-    }
-
-    void LoadData()
-    {
-        if (File.Exists(filePath))
-        {
-            try
-            {
-                string rawJSON;
-                using (FileStream stream = new FileStream(filePath, FileMode.Open))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        rawJSON = reader.ReadToEnd();//magic to read from file
-                    }
-                }
-                playerData = JsonUtility.FromJson<playerData>(rawJSON);
-
-                Debug.Log("Имя загружено из файла: " + playerData.player_name);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError("Ошибка при загрузке файла: " + e.Message);
-            }
-        }
-        else
-        {
-            playerData = new();
-        }
+        playerData.data.player_name = nameInputField.text;
+        Debug.Log("Имя сохранено в player_name: " + playerData.data.player_name);
     }
 }

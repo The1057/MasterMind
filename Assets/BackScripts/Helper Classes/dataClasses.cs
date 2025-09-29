@@ -33,6 +33,7 @@ public class saveData
     public moneyData MoneyData = new moneyData();
     public clockData ClockData = new clockData();
     public playerData PlayerData = new playerData();
+    public statistics statistics = new statistics();
     public List<string> lastScenes = new();
     public saveData()
     {
@@ -48,9 +49,11 @@ public class storeData
 
     public List<Item> items = new List<Item>();
     public float adModifier = 1.1f;
+    public float constExpense = 1000;//постоянные затраты: аренда, зарплата
+    public float randomExpenseMin = 0.03f;
+    public float randomExpenseMax = 0.05f;
+    public float demandChangeDeviation = 5;
 
-    public List<Vector2> points4Graph = new List<Vector2>();
-    public List<Vector2> points4GraphFinal = new List<Vector2>();
     public int storeID = 0;
 }
 
@@ -183,4 +186,13 @@ public class playerData
     public biz_niche first_niche;
     public legal_form legal_form;
     public tax_system tax_system;
+}
+
+[System.Serializable]
+public class statistics
+{
+    public float[] profitStat = new float[12];
+    public float[] taxExpenseStat = new float[12];
+    public float[] constExpenseStat = new float[12];
+    public float[] ROSStat = new float[12];
 }
