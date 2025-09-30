@@ -512,24 +512,37 @@ public class TestManager2 : MonoBehaviour
             // Назначаем обработчик
             Button button = nextButton.GetComponent<Button>();
             int thisQuestionIndex = questionIndex; // Локальная переменная для замыкания
+                                                   // Это новый код
             button.onClick.AddListener(() =>
             {
-                if (thisQuestionIndex == questions.Count - 1)
+                if (thisQuestionIndex < questions.Count - 1)
                 {
-                    if (finishCanvas != null)
-                    {
-                        finishCanvas.SetActive(true);
-                        currentQuestionObj.SetActive(false); // Опционально
-                        if (scoreText != null)
-                        {
-                            scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}"; // Обновляем текст
-                        }
-                    }
+                    // Если это не последний вопрос, просто переключаемся на следующий.
+                    setQuestionByIndex(thisQuestionIndex + 1);
                 }
                 else
                 {
-                    // Обычное переключение
-                    setQuestionByIndex(thisQuestionIndex + 1);
+                    // Если это последний вопрос, проверяем, закончен ли тест.
+                    if (IsTestComplete())
+                    {
+                        // Если да, показываем финальный экран.
+                        if (finishCanvas != null)
+                        {
+                            finishCanvas.SetActive(true);
+                            currentQuestionObj.SetActive(false);
+                            if (scoreText != null)
+                            {
+                                scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Если нет, вы можете показать сообщение, например:
+                        // "Чтобы закончить тест, ответьте на все вопросы."
+                        // или просто ничего не делать.
+                        // Например, можно подсветить неотвеченные вопросы.
+                    }
                 }
             });
 
@@ -596,11 +609,38 @@ public class TestManager2 : MonoBehaviour
         print($"Correct answers: {amount.score}\n Incorrect answers: {amount.errorCount}");
         return amount;
     }
+    public bool IsTestComplete()
+    {
+        // Проверяем, что все элементы в списке firstPresses являются false
+        foreach (bool firstPress in firstPresses)
+        {
+            if (firstPress)
+            {
+                // Если находим хотя бы один true, значит, есть неотвеченный вопрос
+                return false;
+            }
+        }
+        // Если цикл завершился, значит, все false и все вопросы отвечены
+        return true;
+    }
     public void NextQuestion()
     {
         if (currentQuestion < questions.Count - 1)
         {
             setQuestionByIndex(currentQuestion + 1);
+        }
+        else if (IsTestComplete())
+        {
+            // Показываем финальный экран, так как все вопросы отвечены
+            if (finishCanvas != null)
+            {
+                finishCanvas.SetActive(true);
+                questionObjects[currentQuestion].SetActive(false);
+                if (scoreText != null)
+                {
+                    scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
+                }
+            }
         }
     }
 
@@ -645,5 +685,16 @@ public class TestManager2 : MonoBehaviour
         // Устанавливаем TextMeshProUGUI локально для текущего вопроса
         TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
         pressedAnswers = new();
+    }
+    public void FinishTest()
+    {
+        if (finishCanvas != null)
+        {
+            finishCanvas.SetActive(true);
+            if (scoreText != null)
+            {
+                scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
+            }
+        }
     }
 }

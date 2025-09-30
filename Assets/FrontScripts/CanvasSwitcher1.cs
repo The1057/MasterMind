@@ -10,7 +10,9 @@ public enum canvasSwitchAttribute
 {
     disableMoneyDisplay = 0,
     enableTheory = 1,
-    enableTest = 2
+    enableTest = 2,
+    animationPlay = 3,
+    disableBack = 4
 }
 
 public class CanvasSwitcher1 : MonoBehaviour
@@ -22,8 +24,9 @@ public class CanvasSwitcher1 : MonoBehaviour
         public GameObject targetCanvas;   
         public List<canvasSwitchAttribute> switchAttributes;
     }
-    [Header("Объект для отображения валют")]
+    [Header("Объект для отображения валют и фона")]
     public GameObject moneyDisplay;
+    public GameObject back;
 
     [Header("Список канвасов, на которые нельзя перейти кнопкой назад")]
     public List<GameObject> canvasBlackList;
@@ -31,7 +34,7 @@ public class CanvasSwitcher1 : MonoBehaviour
     [Header("Настройка переходов: Кнопки - Целевой Canvas")]
     public List<ButtonToCanvasMapping> mappings;
 
-    [Header("Начальный Canvas (укажи вручную!)")]
+    [Header("Начальный Canvas")]
     public GameObject initialCanvas;
 
     public GameObject currentActiveCanvas;
@@ -48,6 +51,7 @@ public class CanvasSwitcher1 : MonoBehaviour
     public List<int> testIndList = new List<int>();
     TestManager2 manager;
     CanvasSequenceManager23 tManager;
+    public Animator canvasAnimator;
 
     void Start()
     {
@@ -180,6 +184,12 @@ public class CanvasSwitcher1 : MonoBehaviour
                         case (canvasSwitchAttribute.enableTest):
                             backButtonMode = backButtonMode.lastScene;
                             break;
+                        case canvasSwitchAttribute.animationPlay:
+                            playAnimationOnExit();
+                            break;
+                        case canvasSwitchAttribute.disableBack:
+                            enableBack();
+                            break;
                     }
                 }
             }
@@ -204,6 +214,12 @@ public class CanvasSwitcher1 : MonoBehaviour
                             backButtonMode = backButtonMode.test;
                             manager = targetCanvas.GetComponentInChildren<TestManager2>();
                         break;
+                        case canvasSwitchAttribute.animationPlay:
+                            playAnimationOnEnter();
+                            break;
+                        case canvasSwitchAttribute.disableBack:
+                            disableBack();
+                            break;
                     } 
                 }
             }        
@@ -242,14 +258,8 @@ public class CanvasSwitcher1 : MonoBehaviour
             }
         }
     }
-    public void disableMoneyDisplay()
-    {
-        moneyDisplay.SetActive(false);
-    }
-    public void enableMoneyDisplay()
-    {
-        moneyDisplay.SetActive(true);
-    }
+    public void disableMoneyDisplay() { moneyDisplay.SetActive(false); }
+    public void enableMoneyDisplay()  { moneyDisplay.SetActive(true);  }
     public GameObject GetCanvasByName(string name)
     {
         if (canvasMap.TryGetValue(name, out GameObject canvas))
@@ -280,4 +290,10 @@ public class CanvasSwitcher1 : MonoBehaviour
         }
         return false;
     }
+
+    void playAnimationOnExit()  { canvasAnimator.CrossFade("ValuteDown", 0.23f); }
+    void playAnimationOnEnter() { canvasAnimator.CrossFade("ValuteUp", 0.23f);   }
+    void enableBack()  { back.SetActive(true);  }
+    void disableBack() { back.SetActive(false); }
+
 }
