@@ -12969,8 +12969,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -21226,11 +21226,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1208603217417178719, guid: c4f1b64c420dc834794b62703e420cf4, type: 3}
+      propertyPath: saveLoadManager
+      value: 
+      objectReference: {fileID: 1243086339}
     - target: {fileID: 7563522229176118932, guid: c4f1b64c420dc834794b62703e420cf4, type: 3}
       propertyPath: m_Name
       value: Economy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7012518792913808043, guid: c4f1b64c420dc834794b62703e420cf4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -28228,8 +28233,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -46586,6 +46591,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyDisplay: {fileID: 33073369}
+  canvasBlackList:
+  - {fileID: 1518419854}
+  - {fileID: 1968239431}
+  - {fileID: 899624285}
+  - {fileID: 521705100}
+  - {fileID: 977787028}
+  - {fileID: 1719702725}
+  - {fileID: 1887158617}
+  - {fileID: 881186703}
+  - {fileID: 1959074762}
+  - {fileID: 1452809893}
+  - {fileID: 1641294479}
+  - {fileID: 254650311}
+  - {fileID: 1869622642}
+  - {fileID: 264710414}
+  - {fileID: 6172271}
+  - {fileID: 1162513231}
+  - {fileID: 1329984070}
+  - {fileID: 1633536379}
+  - {fileID: 463144143}
   mappings:
   - buttons:
     - {fileID: 1667479613}
@@ -46742,8 +46767,11 @@ MonoBehaviour:
     switchAttributes: 
   initialCanvas: {fileID: 1518419854}
   currentActiveCanvas: {fileID: 0}
+  tasksButton: {fileID: 442316613}
+  beginningImage: {fileID: 32250745}
   lastCanvases: []
-  mode: 0
+  lastButtons: []
+  backButtonMode: 0
   testIndList: 
 --- !u!1 &867677119
 GameObject:
@@ -63923,6 +63951,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241201985}
   m_CullTransparentMesh: 1
+--- !u!114 &1243086339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7525104747437864005, guid: 6010f854b55b7a341a0903205446f9a8, type: 3}
+  m_PrefabInstance: {fileID: 1835686451}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdbd5b6b5ac3ba4e9428028da45edde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1244959349
 GameObject:
   m_ObjectHideFlags: 0

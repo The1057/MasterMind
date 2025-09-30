@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem;
+using JetBrains.Annotations;
+using System.Collections;
 
 public enum canvasSwitchAttribute
 {
@@ -23,6 +25,9 @@ public class CanvasSwitcher1 : MonoBehaviour
     [Header("Объект для отображения валют")]
     public GameObject moneyDisplay;
 
+    [Header("Список канвасов, на которые нельзя перейти кнопкой назад")]
+    public List<GameObject> canvasBlackList;
+
     [Header("Настройка переходов: Кнопки - Целевой Canvas")]
     public List<ButtonToCanvasMapping> mappings;
 
@@ -31,11 +36,15 @@ public class CanvasSwitcher1 : MonoBehaviour
 
     public GameObject currentActiveCanvas;
 
+    public GameObject tasksButton;
+    public GameObject beginningImage;
+
     private Dictionary<string, GameObject> canvasMap = new Dictionary<string, GameObject>();
 
     [Header("Canvas List")]
     public List<GameObject> lastCanvases;
-    public backButtonMode mode;
+    public List<GameObject> lastButtons;
+    public backButtonMode backButtonMode;
     public List<int> testIndList = new List<int>();
     TestManager2 manager;
     CanvasSequenceManager23 tManager;
@@ -84,7 +93,7 @@ public class CanvasSwitcher1 : MonoBehaviour
 
     private void Update()
     {
-        if (mode == backButtonMode.test)
+        if (backButtonMode == backButtonMode.test)
         {
             if (testIndList.Count == 0 || manager.currentQuestion != testIndList.Last())
             {
@@ -95,16 +104,30 @@ public class CanvasSwitcher1 : MonoBehaviour
         {
             if (lastCanvases.Last() != currentActiveCanvas)
             {
-                lastCanvases.Add(currentActiveCanvas);
+                if (!isInCanvasBlacklist(currentActiveCanvas))
+                {
+                    lastCanvases.Add(currentActiveCanvas);
+                    var button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+                    if (button != beginningImage)
+                    {
+                        lastButtons.Add(button);
+                    }
+                    else
+                    {
+                        lastButtons.Add(tasksButton);//костыль потому-что я в отчаянии и не знаю, что с этим делать
+                        tasksButton.GetComponent<Activator>().setIconToActive();
+                    }
+                }
             }
         }
         else
         {
-            lastCanvases.Add(currentActiveCanvas);
+            lastCanvases.Add(null);
+            lastButtons.Add(null);
         }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            switch (mode)
+            switch (backButtonMode)
             {
                 case backButtonMode.lastScene:
                     print("back");
@@ -138,55 +161,53 @@ public class CanvasSwitcher1 : MonoBehaviour
     {
         if (targetCanvas == null) return;
 
-
-        var attrubutes = getSwitchAttributesFromMappings(currentActiveCanvas);
-        if (attrubutes != null)//обратные действия для текущего канваса
-        {
-            foreach (var attribute in attrubutes)
-            {
-                switch (attribute)
-                {
-                    case (canvasSwitchAttribute.disableMoneyDisplay):
-                        enableMoneyDisplay();
-                        break;
-
-                    case (canvasSwitchAttribute.enableTheory):
-                        mode = backButtonMode.lastScene;
-                        break;
-                    case (canvasSwitchAttribute.enableTest):
-                        mode = backButtonMode.lastScene;
-                        break;
-                }
-            }
-        }
-
-        attrubutes = getSwitchAttributesFromMappings(targetCanvas);
-        if (attrubutes != null)//действия для следующего канваса
-        {
-            foreach (var attribute in attrubutes)
-            {
-                switch(attribute)
-                {
-                    case (canvasSwitchAttribute.disableMoneyDisplay):
-                        disableMoneyDisplay();
-                    break;
-
-                    case (canvasSwitchAttribute.enableTheory):
-                        mode = backButtonMode.theory;
-                        tManager = targetCanvas.GetComponentInChildren<CanvasSequenceManager23>();
-                    break;
-
-                    case(canvasSwitchAttribute.enableTest):
-                        mode = backButtonMode.test;
-                        manager = targetCanvas.GetComponentInChildren<TestManager2>();
-                    break;
-                } 
-            }
-        }        
-
-        // Сохраняем предыдущий Canvas в историю (если он был)
         if (currentActiveCanvas != null && currentActiveCanvas != targetCanvas)
         {
+            var attrubutes = getSwitchAttributesFromMappings(currentActiveCanvas);
+            if (attrubutes != null)//обратные действия для текущего канваса
+            {
+                foreach (var attribute in attrubutes)
+                {
+                    switch (attribute)
+                    {
+                        case (canvasSwitchAttribute.disableMoneyDisplay):
+                            enableMoneyDisplay();
+                            break;
+
+                        case (canvasSwitchAttribute.enableTheory):
+                            backButtonMode = backButtonMode.lastScene;
+                            break;
+                        case (canvasSwitchAttribute.enableTest):
+                            backButtonMode = backButtonMode.lastScene;
+                            break;
+                    }
+                }
+            }
+
+            attrubutes = getSwitchAttributesFromMappings(targetCanvas);
+            if (attrubutes != null)//действия для следующего канваса
+            {
+                foreach (var attribute in attrubutes)
+                {
+                    switch(attribute)
+                    {
+                        case (canvasSwitchAttribute.disableMoneyDisplay):
+                            disableMoneyDisplay();
+                        break;
+
+                        case (canvasSwitchAttribute.enableTheory):
+                            backButtonMode = backButtonMode.theory;
+                            tManager = targetCanvas.GetComponentInChildren<CanvasSequenceManager23>();
+                        break;
+
+                        case(canvasSwitchAttribute.enableTest):
+                            backButtonMode = backButtonMode.test;
+                            manager = targetCanvas.GetComponentInChildren<TestManager2>();
+                        break;
+                    } 
+                }
+            }        
+       
             //SavePreviousCanvas(currentActiveCanvas.name);
             currentActiveCanvas.SetActive(false);
         }
@@ -202,12 +223,23 @@ public class CanvasSwitcher1 : MonoBehaviour
         {
             // Получаем предпоследний Canvas (на который хотим вернуться)
             GameObject previousCanvas = lastCanvases[lastCanvases.Count - 2];
-
             // Удаляем ПОСЛЕДНИЙ элемент (текущий)
             lastCanvases.RemoveAt(lastCanvases.Count - 1);
 
             // Переходим на предыдущий
             SwitchToCanvas(previousCanvas);
+            
+        }
+        if (lastButtons.Count > 1)
+        {
+            GameObject previousButton = lastButtons[lastButtons.Count - 2];
+
+            lastButtons.RemoveAt(lastButtons.Count - 1);
+            if (previousButton != null && previousButton.GetComponent<Activator>() != null)
+            {
+                previousButton.GetComponent<Activator>().OnButtonClick();
+                previousButton.GetComponent<Activator>().setIconToActive();
+            }
         }
     }
     public void disableMoneyDisplay()
@@ -238,5 +270,14 @@ public class CanvasSwitcher1 : MonoBehaviour
             }
         }
         return null;
+    }
+
+    bool isInCanvasBlacklist(GameObject targetCanvas)
+    {
+        foreach (var canvas in canvasBlackList)
+        {
+            if(targetCanvas==canvas) return true;
+        }
+        return false;
     }
 }

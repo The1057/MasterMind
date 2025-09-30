@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Activator : MonoBehaviour
 {
     [Header("Canvas Settings")]
-    [SerializeField] private GameObject targetCanvas; // Канвас, который должен активироваться
+    [SerializeField] public GameObject targetCanvas; // Канвас, который должен активироваться
 
     [Header("Sprite Settings")]
     [SerializeField] private Sprite defaultSprite;   // Спрайт по умолчанию
@@ -29,7 +29,7 @@ public class Activator : MonoBehaviour
         button.onClick.AddListener(OnButtonClick);
     }
 
-    private void OnButtonClick()
+    public void OnButtonClick()
     {
         // Сначала обновляем все иконки — деактивируем другие
         UpdateAllIcons();
@@ -47,7 +47,7 @@ public class Activator : MonoBehaviour
         }
     }
 
-    private void UpdateAllIcons()
+    public void UpdateAllIcons()
     {
         // Находим все объекты с этим скриптом в сцене
         Activator[] allActivators = FindObjectsOfType<Activator>();
@@ -67,6 +67,14 @@ public class Activator : MonoBehaviour
             {
                 activator.targetCanvas.SetActive(false);
             }
+        }
+    }
+
+    public void setIconToActive()
+    {
+        if (activeSprite != null)
+        {
+            buttonImage.sprite = activeSprite;
         }
     }
 
