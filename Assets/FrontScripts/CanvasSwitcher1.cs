@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.InputSystem;
 using JetBrains.Annotations;
 using System.Collections;
+using UnityEngine.InputSystem.Composites;
 
 public enum canvasSwitchAttribute
 {
@@ -39,14 +40,10 @@ public class CanvasSwitcher1 : MonoBehaviour
 
     public GameObject currentActiveCanvas;
 
-    public GameObject tasksButton;
-    public GameObject beginningImage;
-
     private Dictionary<string, GameObject> canvasMap = new Dictionary<string, GameObject>();
 
     [Header("Canvas List")]
     public List<GameObject> lastCanvases;
-    public List<GameObject> lastButtons;
     public backButtonMode backButtonMode;
     public List<int> testIndList = new List<int>();
     TestManager2 manager;
@@ -110,24 +107,13 @@ public class CanvasSwitcher1 : MonoBehaviour
             {
                 if (!isInCanvasBlacklist(currentActiveCanvas))
                 {
-                    lastCanvases.Add(currentActiveCanvas);
-                    var button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-                    if (button != beginningImage)
-                    {
-                        lastButtons.Add(button);
-                    }
-                    else
-                    {
-                        lastButtons.Add(tasksButton);//костыль потому-что я в отчаянии и не знаю, что с этим делать
-                        tasksButton.GetComponent<Activator>().setIconToActive();
-                    }
+                    lastCanvases.Add(currentActiveCanvas);                                      
                 }
             }
         }
         else
         {
-            lastCanvases.Add(null);
-            lastButtons.Add(null);
+            lastCanvases.Add(null);            
         }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
@@ -183,6 +169,7 @@ public class CanvasSwitcher1 : MonoBehaviour
                             break;
                         case (canvasSwitchAttribute.enableTest):
                             backButtonMode = backButtonMode.lastScene;
+                            testIndList.Clear();
                             break;
                         case canvasSwitchAttribute.animationPlay:
                             playAnimationOnExit();
@@ -235,27 +222,17 @@ public class CanvasSwitcher1 : MonoBehaviour
     }
     public void loadPrevoiusCanvas()
     {
+        GameObject previousCanvas = null;
         if (lastCanvases.Count > 1)
         {
             // Получаем предпоследний Canvas (на который хотим вернуться)
-            GameObject previousCanvas = lastCanvases[lastCanvases.Count - 2];
+            previousCanvas = lastCanvases[lastCanvases.Count - 2];
             // Удаляем ПОСЛЕДНИЙ элемент (текущий)
             lastCanvases.RemoveAt(lastCanvases.Count - 1);
 
             // Переходим на предыдущий
             SwitchToCanvas(previousCanvas);
             
-        }
-        if (lastButtons.Count > 1)
-        {
-            GameObject previousButton = lastButtons[lastButtons.Count - 2];
-
-            lastButtons.RemoveAt(lastButtons.Count - 1);
-            if (previousButton != null && previousButton.GetComponent<Activator>() != null)
-            {
-                previousButton.GetComponent<Activator>().OnButtonClick();
-                previousButton.GetComponent<Activator>().setIconToActive();
-            }
         }
     }
     public void disableMoneyDisplay() { moneyDisplay.SetActive(false); }
