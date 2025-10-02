@@ -88,41 +88,40 @@ public class BusinessTableAnimated : MonoBehaviour
         float contentHeight = paddingTop + paddingBottom + rows.Count * rowHeight + (rows.Count - 1) * spacing;
         float targetHeight = headerHeight + contentHeight;
 
-        for (int i = 0; i < rows.Count; i++)
-        {
-            rows[i].anchoredPosition = new Vector2(27f, -headerHeight - paddingTop - i * (rowHeight + spacing));
-            rows[i].localScale = new Vector3(1f, 0f, 1f);
-            rows[i].gameObject.SetActive(true);
-        }
-
+        // Сначала просто раскрываем панель (без строк)
         float elapsed = 0f;
         while (elapsed < animationDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / animationDuration);
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
-
-            for (int i = 0; i < rows.Count; i++)
-            {
-                float rowT = Mathf.Clamp01((smoothT - i * delayBetween) / (1f - i * delayBetween));
-                float rowSmooth = Mathf.SmoothStep(0f, 1f, rowT);
-                rows[i].localScale = new Vector3(1f, rowSmooth, 1f);
-            }
-
             buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, Mathf.Lerp(headerHeight, targetHeight, smoothT));
             yield return null;
         }
 
-        foreach (var row in rows)
-            row.localScale = Vector3.one;
-
+        // Готово — панель раскрыта
         buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, targetHeight);
+
+        // Теперь показываем строки
+        for (int i = 0; i < rows.Count; i++)
+        {
+            rows[i].anchoredPosition = new Vector2(27f, -headerHeight - paddingTop - i * (rowHeight + spacing));
+            rows[i].localScale = Vector3.one;
+            rows[i].gameObject.SetActive(true);
+        }
     }
 
     IEnumerator HideTable()
     {
         isOpen = false;
 
+        // 1. Сразу скрываем строки
+        foreach (var row in rows)
+        {
+            row.gameObject.SetActive(false);
+        }
+
+        // 3. Анимируем сжатие панели
         float startHeight = buttonRect.sizeDelta.y;
         float targetHeight = headerHeight;
 
@@ -132,27 +131,12 @@ public class BusinessTableAnimated : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / animationDuration);
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
-
-            for (int i = 0; i < rows.Count; i++)
-            {
-                int idx = rows.Count - 1 - i;
-                float rowT = Mathf.Clamp01((smoothT - i * delayBetween) / (1f - i * delayBetween));
-                float rowSmooth = Mathf.SmoothStep(1f, 0f, rowT);
-                rows[idx].localScale = new Vector3(1f, rowSmooth, 1f);
-            }
-
             buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, Mathf.Lerp(startHeight, targetHeight, smoothT));
             yield return null;
         }
-
-        foreach (var row in rows)
-        {
-            row.localScale = new Vector3(1f, 0f, 1f);
-            row.gameObject.SetActive(false);
-        }
-
         buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, targetHeight);
 
+        // 4. Возвращаем исходный спрайт
         if (buttonImage != null && originalSprite != null)
             buttonImage.sprite = originalSprite;
     }
