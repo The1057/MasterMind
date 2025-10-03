@@ -16,6 +16,10 @@ public class saveLoadManager : MonoBehaviour
     public GameObject storeObject;
     public GameObject rivalObject;
 
+    [Header("Canvas Switching")]
+    public CanvasSwitcher1 CanvasSwitcher;
+    public List<GameObject> coreCanvases;
+
     private void Awake()
     {
         if(instance != null)
@@ -26,9 +30,20 @@ public class saveLoadManager : MonoBehaviour
     }
     public void Start()
     {
-        SaveData = new saveData();
         saveLoadableObjects = findAllSaveLoadables();
         saveDirPath = Application.persistentDataPath;
+
+
+        SaveData = loadData();
+        if(SaveData != null && CanvasSwitcher != null)
+        {
+            CanvasSwitcher.SwitchToCanvas(coreCanvases[SaveData.targetCanvas]);
+            Debug.Log($"Trying to switch to canvas {coreCanvases[SaveData.targetCanvas]}");
+        }
+        else
+        {
+            Debug.Log($"SaveData is null");
+        }
     }
     [ContextMenu("Save Game")]
     public void saveGame()

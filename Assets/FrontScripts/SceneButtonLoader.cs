@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.IO.Archive;
 
 [RequireComponent(typeof(Button))]
 public class SceneButtonLoader : MonoBehaviour
@@ -22,6 +23,9 @@ public class SceneButtonLoader : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.7f;
     [Tooltip("Easing curve for fade alpha")]
     [SerializeField] private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("Canvas Loading")]
+    public saveLoadManager saveLoadManager;
 
     private Button _button;
     private Vector3 _initialScale;
@@ -108,5 +112,33 @@ public class SceneButtonLoader : MonoBehaviour
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;
+    }
+
+    public void setTargetCanvas(int canvasIndex)
+    {
+        var saveData = saveLoadManager.loadData();
+        saveData.targetCanvas = canvasIndex;
+        //switch (canvasIndex)
+        //{
+        //    case 0:
+        //        saveData.targetCanvas = "Tasks";
+        //    break;
+
+
+        //    case 1:
+        //        saveData.targetCanvas = "Shop";
+        //    break;
+
+
+        //    case 2:
+        //        saveData.targetCanvas = "Archive";
+        //    break;
+
+
+        //    case 3:
+        //        saveData.targetCanvas = "Profile";
+        //    break;
+        //}
+        saveLoadManager.saveData(saveData);
     }
 }

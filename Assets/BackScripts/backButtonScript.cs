@@ -8,7 +8,8 @@ public enum backButtonMode
 {
     lastScene = 0,
     theory = 1,
-    test = 2
+    test = 2,
+    toGeneral = 3
 }
 public class backButtonScript : MonoBehaviour
 {
@@ -87,6 +88,9 @@ public class backButtonScript : MonoBehaviour
                     break;
 
 
+                case backButtonMode.toGeneral:
+                    loadGeneralScene();
+                    break;
                 default:
 
                     break;
@@ -96,7 +100,7 @@ public class backButtonScript : MonoBehaviour
 
     private void OnDisable()
     {
-        if (!isLoading)
+        if (!isLoading && saveLoadManager != null)
         {
             var saveData = saveLoadManager.loadData();
             saveData.lastScenes.Add(SceneManager.GetActiveScene().name);
@@ -115,6 +119,10 @@ public class backButtonScript : MonoBehaviour
             SceneManager.LoadScene(sceneName);
             isLoading = true;
         }
+    }
+    public void loadGeneralScene()
+    {
+        SceneManager.LoadScene("Tasks 1");
     }
 
     public void loadPrevoiusCanvas()

@@ -35,6 +35,7 @@ public class saveData
     public playerData PlayerData = new playerData();
     public statistics statistics = new statistics();
     public List<string> lastScenes = new();
+    public int targetCanvas = 0;
     public saveData()
     {
 
