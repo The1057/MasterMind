@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.SceneManagement;
 
 public enum questionClass
@@ -25,6 +23,7 @@ public class Question
     public string comment;
     public string correctAnswer;
     public questionClass questionClass;
+    public int correctAnswerIndex;
 }
 [Serializable]
 public class Score
@@ -52,13 +51,10 @@ public class TestManager2 : MonoBehaviour
     public GameObject checkAnswerButtonPrefab;
     public GameObject nextQuestionButtonPrefab;
 
-
     [Header("Кнопки вопросов")]
-
     public Sprite qButtPressed;
     public Sprite qButtDefault;
     public Sprite qButtComplete;
-
 
     [Header("Кнопки ответов")]
     public Sprite ansButtPressedCorrect;
@@ -86,31 +82,17 @@ public class TestManager2 : MonoBehaviour
     public HashSet<char> pressedAnswers = new HashSet<char>();
     private List<Button> correctButtons;
     public Score score1 = new Score();
-    public float nextButtonOffsetX = -20f;
-    public float nextButtonOffsetY = 20f;
-
-    [Header("Позиция кнопки 'Следующий вопрос'")]
-    public Vector2 nextButtonAnchorMin = new Vector2(0.5f, 0); // Анкор по умолчанию: центр снизу
-    public Vector2 nextButtonAnchorMax = new Vector2(0.5f, 0);
-    public Vector2 nextButtonOffset = new Vector2(0, 20f); // Отступ от анкора
-    public Vector2 nextButtonSize = new Vector2(100f, 50f); // Размер кнопки
 
     [Header("Скролл-бар")]
     public Transform scrollContent;
 
     [Header("Завершение теста")]
     public GameObject finishCanvas;
-    public string archiveSceneName = "Archive";
     public TextMeshProUGUI scoreText;
 
     void Start()
     {
         generateTest();
-    }
-
-    void Update()
-    {
-
     }
 
     public void correctOption()
@@ -125,42 +107,20 @@ public class TestManager2 : MonoBehaviour
         {
             score1.score++;
             firstPresses[currentQuestion] = false;
-            // Обновляем TextMeshProUGUI перед использованием
             TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            if (TextMeshProUGUI != null)
-            {
-                TextMeshProUGUI.color = Color.white;
-            }
-
-            // Показываем стрелку
+            
+            if (TextMeshProUGUI != null) { TextMeshProUGUI.color = Color.white; }
             ShowNextButton();
         }
     }
-
     private void ShowNextButton()
     {
-        // Ищем кнопку по имени с учетом "(Clone)"
         Transform nextButton = questionObjects[currentQuestion].transform.Find("NextQuestionButton");
-        if (nextButton == null)
-        {
-            // Если не нашли, пробуем найти по компоненту
-            Button[] buttons = questionObjects[currentQuestion].GetComponentsInChildren<Button>();
-            foreach (var button in buttons)
-            {
-                if (button.name == "NextQuestionButton" || button.name.StartsWith("NextQuestionButton"))
-                {
-                    nextButton = button.transform;
-                    break;
-                }
-            }
-        }
-
         if (nextButton != null)
         {
             nextButton.gameObject.SetActive(true);
         }
     }
-
     public void incorrectOption()
     {
         if (firstPresses[currentQuestion])
@@ -177,14 +137,10 @@ public class TestManager2 : MonoBehaviour
         {
             score1.errorCount++;
             firstPresses[currentQuestion] = false;
-            // Обновляем TextMeshProUGUI перед использованием
             TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            if (TextMeshProUGUI != null)
-            {
-                TextMeshProUGUI.color = Color.white;
-            }
+            
+            if (TextMeshProUGUI != null) { TextMeshProUGUI.color = Color.white; }
 
-            // Показываем стрелку
             ShowNextButton();
         }
     }
@@ -247,7 +203,7 @@ public class TestManager2 : MonoBehaviour
                 score1.errorCount++;
             }
             Score tempScore = findCorrectAnswerAmount(correctAnswers);
-            // Обновляем TextMeshProUGUI перед использованием
+
             TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
             if (TextMeshProUGUI != null)
             {
@@ -255,7 +211,6 @@ public class TestManager2 : MonoBehaviour
                 TextMeshProUGUI.text = $"Правильных ответов:{tempScore.score}/{correctAnswers.Length}\nНеправильных ответов: {tempScore.errorCount}\n" + TextMeshProUGUI.text;
             }
 
-            // Показываем стрелку
             ShowNextButton();
         }
     }
@@ -276,7 +231,6 @@ public class TestManager2 : MonoBehaviour
 
         bool isCorrect = userAnswer == correctAnswer;
 
-        // Подсветка поля ввода
         if (isCorrect)
         {
             score1.score++;
@@ -287,7 +241,6 @@ public class TestManager2 : MonoBehaviour
         }
         inputField.interactable = false;
 
-        // Обновляем TextMeshProUGUI перед использованием
         TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
         if (TextMeshProUGUI != null)
         {
@@ -295,7 +248,6 @@ public class TestManager2 : MonoBehaviour
             TextMeshProUGUI.text = (isCorrect ? "Правильно!" : "Неправильно!") + "\n" + questions[currentQuestion].comment;
         }
 
-        // Показываем стрелку
         ShowNextButton();
     }
     public void setQuestion(GameObject button)
@@ -309,13 +261,12 @@ public class TestManager2 : MonoBehaviour
             questionObjects[oldQuestion].SetActive(false);
         }
 
-        // Обновляем TextMeshProUGUI после активации
         TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
 
         var images = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
         for (int i = 0; i < images.Length; i++)
         {
-            if (images[i] == null) continue; // Проверка на null для безопасности
+            if (images[i] == null) continue;
             if (i == currentQuestion)
             {
                 images[i].sprite = qButtPressed;
@@ -459,24 +410,19 @@ public class TestManager2 : MonoBehaviour
                         GameObject dummyButton = Instantiate(answerButtPrefabCorr, currentQuestionObj.transform);
                         dummyButton.SetActive(false);
 
-                        // Получаем позицию вопроса
                         Vector3 questionPosition = questionText.transform.position;
 
-                        // Создаем InputField
                         GameObject inputFieldGO = Instantiate(textInputPrefab, currentQuestionObj.transform);
                         TMP_InputField inputField = inputFieldGO.GetComponent<TMP_InputField>();
 
-                        // Позиционируем InputField ниже вопроса
                         float offsetFromQuestion = questionText.preferredHeight + inputField2QuestDist;
                         inputFieldGO.transform.position = new Vector3(questionPosition.x, questionPosition.y - offsetFromQuestion, questionPosition.z);
 
                         lastButton = inputFieldGO;
 
-                        // Создаем кнопку "Проверить"
                         GameObject checkButton = Instantiate(checkAnswerButtonPrefab, currentQuestionObj.transform);
                         checkButton.GetComponent<testAnsButtIFScript>().testManager = this;
 
-                        // Позиционируем кнопку под InputField
                         var inputSize = inputFieldGO.GetComponent<RectTransform>().sizeDelta;
                         var buttonSize = checkButton.GetComponent<RectTransform>().sizeDelta;
                         checkButton.transform.position = new Vector3(
@@ -496,23 +442,15 @@ public class TestManager2 : MonoBehaviour
             commentText.gameObject.transform.position = lastButton.transform.position
                 - new Vector3(0, comment2LastAnsGap + lastButton.GetComponent<RectTransform>().sizeDelta.y, 0);
 
-            // Создаём кнопку "Next" для всех вопросов
             GameObject nextButton = Instantiate(nextQuestionButtonPrefab, currentQuestionObj.transform);
             nextButton.name = "NextQuestionButton";
-            nextButton.SetActive(false); // Скрыть изначально
+            nextButton.SetActive(false); 
 
-            // Настройка RectTransform (твой текущий код, оставь как есть)
             RectTransform rect = nextButton.GetComponent<RectTransform>();
-            rect.anchorMin = nextButtonAnchorMin;
-            rect.anchorMax = nextButtonAnchorMax;
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = nextButtonOffset;
-            rect.sizeDelta = nextButtonSize;
 
-            // Назначаем обработчик
             Button button = nextButton.GetComponent<Button>();
-            int thisQuestionIndex = questionIndex; // Локальная переменная для замыкания
-                                                   // Это новый код
+            int thisQuestionIndex = questionIndex; 
+
             button.onClick.AddListener(() =>
             {
                 if (thisQuestionIndex < questions.Count - 1)
@@ -538,14 +476,10 @@ public class TestManager2 : MonoBehaviour
                     }
                     else
                     {
-                        // Если нет, вы можете показать сообщение, например:
-                        // "Чтобы закончить тест, ответьте на все вопросы."
-                        // или просто ничего не делать.
-                        // Например, можно подсветить неотвеченные вопросы.
+                        // Вот сюда надо переход на первый неотвеченный вопрос
                     }
                 }
             });
-
 
             firstPresses.Add(true);
             currentQuestionObj.SetActive(false);
@@ -558,22 +492,20 @@ public class TestManager2 : MonoBehaviour
         {
             var thisButton = Instantiate(template, content);
             thisButton.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
-            // Добавляем обработчик клика на кнопку скролл-бара
             Button btn = thisButton.GetComponent<Button>();
-            GameObject buttonObj = thisButton; // Для замыкания
+            GameObject buttonObj = thisButton;
             btn.onClick.AddListener(() => setQuestion(buttonObj));
-        }       //создаём и расставляем элементы скролл бара
+        }
 
         content.GetComponent<HorizontalLayoutGroup>().spacing = qButtonDistance;
         template.SetActive(false);
-        Destroy(template); // Уничтожаем шаблон, чтобы избежать лишнего элемента
+        Destroy(template); 
 
         currentQuestion = -1;
         setQuestion(content.GetChild(0).gameObject);
 
         correctButtons = findAllCorrectAnswers();
 
-        
     }
     public bool isCorrectChoice(string[] correctAnswers, char givenAnswer)
     {
@@ -611,16 +543,13 @@ public class TestManager2 : MonoBehaviour
     }
     public bool IsTestComplete()
     {
-        // Проверяем, что все элементы в списке firstPresses являются false
         foreach (bool firstPress in firstPresses)
         {
             if (firstPress)
             {
-                // Если находим хотя бы один true, значит, есть неотвеченный вопрос
                 return false;
             }
         }
-        // Если цикл завершился, значит, все false и все вопросы отвечены
         return true;
     }
     public void NextQuestion()
@@ -631,7 +560,6 @@ public class TestManager2 : MonoBehaviour
         }
         else if (IsTestComplete())
         {
-            // Показываем финальный экран, так как все вопросы отвечены
             if (finishCanvas != null)
             {
                 finishCanvas.SetActive(true);
@@ -646,7 +574,7 @@ public class TestManager2 : MonoBehaviour
 
     public void setQuestionByIndex(int index)
     {
-        if (index == currentQuestion) return; // Избегаем повторной активации/деактивации
+        if (index == currentQuestion) return;
 
         int oldQuestion = currentQuestion;
         currentQuestion = index;
@@ -656,8 +584,7 @@ public class TestManager2 : MonoBehaviour
             questionObjects[oldQuestion].SetActive(false);
         }
 
-        // Обновляем отображение кнопок вопросов и цвет текста
-        var scrollContent = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0); // Путь к содержимому скролл-бара
+        var scrollContent = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0);
         if (scrollContent != null)
         {
             var images = scrollContent.GetComponentsInChildren<Image>(true);
@@ -682,7 +609,6 @@ public class TestManager2 : MonoBehaviour
             }
         }
 
-        // Устанавливаем TextMeshProUGUI локально для текущего вопроса
         TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
         pressedAnswers = new();
     }

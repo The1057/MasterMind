@@ -13,7 +13,8 @@ public enum canvasSwitchAttribute
     enableTheory = 1,
     enableTest = 2,
     animationPlay = 3,
-    disableBack = 4
+    disableBack = 4,
+    addNextTheory = 5
 }
 
 public class CanvasSwitcher1 : MonoBehaviour
@@ -31,6 +32,10 @@ public class CanvasSwitcher1 : MonoBehaviour
 
     [Header("Список канвасов, на которые нельзя перейти кнопкой назад")]
     public List<GameObject> canvasBlackList;
+
+    [Header("Список канвасов с теорией и начальный")]
+    public List<GameObject> canvasTheory;
+    public GameObject firstTheory;
 
     [Header("Настройка переходов: Кнопки - Целевой Canvas")]
     public List<ButtonToCanvasMapping> mappings;
@@ -273,4 +278,39 @@ public class CanvasSwitcher1 : MonoBehaviour
     void enableBack()  { back.SetActive(true);  }
     void disableBack() { back.SetActive(false); }
 
+    public void addNextTheory(int numTheory)
+    {
+        // Make sure the index is valid
+        if (numTheory >= 0 && numTheory <= canvasTheory.Count)
+        {
+            if (numTheory == 0) {
+                CanvasGroup firstT = firstTheory.GetComponent<CanvasGroup>();
+                firstT.alpha = 0.23f;
+            }
+            if (numTheory > 0)
+            {
+                GameObject previousCanvas = canvasTheory[numTheory - 1];
+
+                // Get the CanvasGroup component from the previous canvas
+                CanvasGroup previousCanvasGroup = previousCanvas.GetComponent<CanvasGroup>();
+
+                // If a CanvasGroup component exists, change its alpha
+                if (previousCanvasGroup != null)
+                {
+                    previousCanvasGroup.alpha = 0.23f;
+                }
+                else
+                {
+                    Debug.LogWarning("CanvasGroup component not found on the previous canvas! Cannot change transparency.");
+                }
+            }
+
+            // Activate the new theory canvas
+            canvasTheory[numTheory].SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning($"Index {numTheory} is out of bounds for the canvasTheory list.");
+        }
+    }
 }
