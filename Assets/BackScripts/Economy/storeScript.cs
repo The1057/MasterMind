@@ -19,7 +19,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     public int storeId = 0;
 
     public List<Item> items = new List<Item>();
-    
+
+    public float gloabalAdModifier = 1;
+    public float localAdModifier = 0;
     public float adModifier = 1.1f;
     public float constExpense = 1000;//постоянные затраты: аренда, зарплата
     public float randomExpenseMin = 0.03f;
@@ -69,21 +71,21 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     {
         items.Add(breadItemList.possibleItems.First());
         items.Last().selling_price = 100;
-        items.Last().bought_number = 1000;
+        items.Last().bought_number = 400;
     }
     public float countIncome()
     {
         float res = 0;
-
+        adModifier = gloabalAdModifier + localAdModifier;
         foreach (var item in items)
         {
             if (item.sold_number <= item.bought_number)
             {
-                res += item.selling_price_min * item.sold_number * adModifier;
+                res += item.selling_price * item.sold_number * adModifier;
             }
             else
             {
-                res += item.selling_price_min * item.bought_number * adModifier;
+                res += item.selling_price * item.bought_number * adModifier;
             }
         }
 

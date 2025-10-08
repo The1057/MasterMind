@@ -4,15 +4,24 @@ using System.Collections.Generic;
 
 public class ShopItemRedactScript : MonoBehaviour
 {
-    public int storeIndex = 0; //to do: change this based on smth
+    public int storeIndex { get; set; } = 0; //to do: change this based on smth
+    public int itemIndex { get; set; } = 0;
+
+    [Header("MoneyData")]
+
+    public MoneyScript money;
+    public playerDataClass player;
+
+    [Header("Saving")]
 
     public saveData saveData;
     public saveLoadManager saveLoadManager;
     public biz_niche Get_Niche()
     {
-        saveData = saveLoadManager.loadData();
+        //saveData = saveLoadManager.loadData();
 
-        return saveData.PlayerData.first_niche;
+        //return saveData.PlayerData.first_niche;
+        return player.data.first_niche;
     }
     public List<Item> getPossibleItems()
     {
@@ -41,9 +50,10 @@ public class ShopItemRedactScript : MonoBehaviour
     }
     public void addItem(Item item)
     {
-        saveData = saveLoadManager.loadData();
-        saveData.StoreDatas[storeIndex].items.Add(item);
-        saveLoadManager.saveData(saveData);
+        //saveData = saveLoadManager.loadData();
+        //saveData.StoreDatas[storeIndex].items.Add(item);
+        //saveLoadManager.saveData(saveData);
+        money.storeList[storeIndex].items.Add(item);
     }
     public void addItemByButtonName()
     {
@@ -63,5 +73,9 @@ public class ShopItemRedactScript : MonoBehaviour
                 }
             }
         }
+    }
+    public void addItemById()
+    {
+        addItem(getPossibleItems()[itemIndex]);
     }
 }

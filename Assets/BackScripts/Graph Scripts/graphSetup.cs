@@ -3,22 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class graphSetup : MonoBehaviour
 {
+    [Header("Graph elements")]
     public GameObject graphDisplay;
     public GameObject grid;
     public GameObject line;
     public GameObject zone;
+    [Space(2)]
+    public TextMeshProUGUI textNumberPlus2;
+    public TextMeshProUGUI textNumberPlus1;
+    public TextMeshProUGUI textNumberMinus1;
+    public TextMeshProUGUI textNumberMinus2;
 
     public GraphCanvasScript gridScript;
     public LineScript lineScript;
     public zoneScript zoneScript;
 
     public storeScript sc;
-    private graphData graphData;
+    public graphData graphData;
     public string graphDataDirPath = "";
     public string graphDataFileName = "testGraph.json";
 
@@ -36,29 +43,38 @@ public class graphSetup : MonoBehaviour
     void Start()
     {
         graphData = new graphData();
+        //loadGraphFromFile();
 
-        loadGraphFromFile();
-
-        setup();
+        //setup();
     }
     private void Update()
     {
-        if (grid != null)
-        {
-            grid.transform.position = this.transform.position;
-            line.transform.position = this.transform.position;
-            gridScript.gridSize = this.gridSize;
-            gridScript.thickness = this.gridThickness;
-            lineScript.gridSize = this.gridSize;
-            lineScript.lineThickness = this.lineThickness;
-            lineScript.points = this.points;
-            zoneScript.points = this.points;
-            zoneScript.gridSize = this.gridSize;
-            zoneScript.maxY = this.findMaxY(points);
-        }
+        //if (grid != null)
+        //{
+        //    grid.transform.position = this.transform.position;
+        //    line.transform.position = this.transform.position;
+        //    gridScript.gridSize = this.gridSize;
+        //    gridScript.thickness = this.gridThickness;
+        //    lineScript.gridSize = this.gridSize;
+        //    lineScript.lineThickness = this.lineThickness;
+        //    lineScript.points = this.points;
+        //    zoneScript.points = this.points;
+        //    zoneScript.gridSize = this.gridSize;
+        //    zoneScript.maxY = this.findMaxY(points);
+        //}
     }
-    void setup()
+    public void setup()
     {
+        var tempGraph = new List<Vector2>(graphData.points);
+
+        float maxY = findABSMaxY(graphData.points);
+        print($"maxY: {maxY}");
+        yStretch = maxY / (graphHeight - 1);
+        for (int i = 0; i < tempGraph.Count; i++)
+        {
+            tempGraph[i] = new Vector2(tempGraph[i].x+1 - (graphHeight / gridSize.x), tempGraph[i].y / yStretch);
+        }
+
         grid.transform.position = this.transform.position;
         line.transform.position = this.transform.position;
         zone.transform.position = this.transform.position;
@@ -69,14 +85,20 @@ public class graphSetup : MonoBehaviour
 
         lineScript.gridSize = this.gridSize;
         lineScript.lineThickness = this.lineThickness;
-        lineScript.points = this.points;
+        lineScript.points = tempGraph;
         lineScript.lineColor = this.lineColor;
 
-        zoneScript.points = this.points;
+        zoneScript.points = tempGraph;
         zoneScript.gridSize = this.gridSize;
-        zoneScript.maxY = this.findMaxY(points);
+        zoneScript.maxY = this.findABSMaxY(points);
         zoneScript.topColor = this.zoneTopColor;
         zoneScript.bottomColor = this.zoneBottomColor;
+
+
+        textNumberPlus2.text = this.findABSMaxY(points).ToString();
+        textNumberPlus1.text = (this.findABSMaxY(points) / 2).ToString();
+        textNumberMinus1.text = (-this.findABSMaxY(points) / 2).ToString();
+        textNumberMinus2.text = (-this.findABSMaxY(points)).ToString();
     }
 
     [ContextMenu("Load graph from file")]
@@ -115,7 +137,7 @@ public class graphSetup : MonoBehaviour
 
         var tempGraph = new List<Vector2>(graphData.points);
 
-        float maxY = findMaxY(graphData.points);
+        float maxY = findABSMaxY(graphData.points);
         yStretch = maxY / (graphHeight - 1);
         for (int i = 0; i < tempGraph.Count; i++)
         {
@@ -155,16 +177,27 @@ public class graphSetup : MonoBehaviour
     {
         Destroy(graphDisplay);
     }
-    private float findMaxY(List<Vector2> points)
+    private float findABSMaxY(List<Vector2> points)
     {
         float max = -999999f;
 
         foreach (Vector2 point in points)
         {
-            if(max <  point.y) max = point.y;
+            if(max < Mathf.Abs(point.y)) max = point.y;
         }
 
-        return max;
+        return MathF.Abs(max);
+    }
+    private float findABSMaxYSign(List<Vector2> points)
+    {
+        float max = -999999f;
+
+        foreach (Vector2 point in points)
+        {
+            if (max < Mathf.Abs(point.y)) max = point.y;
+        }
+
+        return MathF.Sign(max);
     }
 
     [ContextMenu("Save debug graph")]

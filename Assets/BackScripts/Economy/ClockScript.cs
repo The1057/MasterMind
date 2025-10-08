@@ -68,6 +68,25 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
 
     [ContextMenu("Force next turn")]
     public void forceTurn() { forceNextTurn = true; }
+
+    [ContextMenu("Force N months")]
+    public void forceNMonths(int N)
+    {
+        StartCoroutine(forceNMonthsAsync(N));
+    }
+    [ContextMenu("Force year")]
+    public void forceYear()
+    {
+        StartCoroutine(forceNMonthsAsync(12));
+    }
+    public IEnumerator forceNMonthsAsync(int N)
+    {
+        for (int i = 0; i < N; i++)
+        {
+            forceNextTurn = true;
+            yield return new WaitForFixedUpdate();
+        }
+    }
     public int getMonth() { return month; } 
     public int getYear() { return year; } 
 }

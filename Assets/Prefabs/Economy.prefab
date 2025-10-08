@@ -98,6 +98,53 @@ MonoBehaviour:
     - 0
     - 0
   saveLoadManager: {fileID: 0}
+--- !u!1 &6575673755198640817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8786849694605700904}
+  - component: {fileID: 5029028832092200385}
+  m_Layer: 0
+  m_Name: StatisticsAnalyzer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8786849694605700904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6575673755198640817}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -612.34827, y: 579.19226, z: 45.448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 635155858262104744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5029028832092200385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6575673755198640817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8bca72ab675f348ab1d84a4858be8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statisticsScript: {fileID: 4963042082671338457}
+  desiredROS: 85
+  desiredYearProfit: 100000
 --- !u!1 &7563522229176118932
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +179,7 @@ Transform:
   - {fileID: 8526641536973650100}
   - {fileID: 6621447954833521389}
   - {fileID: 4197339990764007378}
+  - {fileID: 8786849694605700904}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2063907007331123698

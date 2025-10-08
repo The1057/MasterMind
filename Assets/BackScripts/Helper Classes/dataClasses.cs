@@ -34,6 +34,7 @@ public class saveData
     public clockData ClockData = new clockData();
     public playerData PlayerData = new playerData();
     public statistics statistics = new statistics();
+    public adSystemData adSystemData = new adSystemData();
     public List<string> lastScenes = new();
     public int targetCanvas = 0;
     public List<TaskSaveData> TasksData = new List<TaskSaveData>();
@@ -44,6 +45,13 @@ public class saveData
     }
 }
 
+[System.Serializable]
+public class adSystemData
+{
+    public float globalAdModifier = 1;
+    public AdUpgradeTree internetAd = new();
+    public activeTree activeTree;
+}
 
 [System.Serializable]
 public class storeData
@@ -210,6 +218,8 @@ public class playerData
 [System.Serializable]
 public class statistics
 {
+    public float[] incomeStat = new float[12];
+    public float[] expenceStat = new float[12];
     public float[] profitStat = new float[12];
     public float[] taxExpenseStat = new float[12];
     public float[] constExpenseStat = new float[12];

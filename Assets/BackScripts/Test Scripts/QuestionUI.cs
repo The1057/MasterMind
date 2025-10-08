@@ -18,30 +18,30 @@ public class QuestionUI : MonoBehaviour
 
     private int correctAnswerIndex;
 
-    public void Setup(Question question, TestManager3 manager)
-    {
-        questionText.text = question.question;
-        explanationText.text = question.comment;
-        explanationText.color = Color.clear;
+    //public void Setup(Question question, TestManager3 manager)
+    //{
+    //    questionText.text = question.question;
+    //    explanationText.text = question.comment;
+    //    explanationText.color = Color.clear;
 
-        // Очищаем старые обработчики, чтобы не было дублирования
-        foreach (var button in answerButtons)
-        {
-            button.onClick.RemoveAllListeners();
-        }
+    //    // Очищаем старые обработчики, чтобы не было дублирования
+    //    foreach (var button in answerButtons)
+    //    {
+    //        button.onClick.RemoveAllListeners();
+    //    }
 
-        // Привязываем кнопки к методу ответа в менеджере
-        for (int i = 0; i < answerButtons.Count; i++)
-        {
-            answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.answers[i];
-            int index = i;
-            answerButtons[i].onClick.AddListener(() => manager.OnAnswerSelected(index));
-        }
+    //    // Привязываем кнопки к методу ответа в менеджере
+    //    for (int i = 0; i < answerButtons.Count; i++)
+    //    {
+    //        answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.answers[i];
+    //        int index = i;
+    //        answerButtons[i].onClick.AddListener(() => manager.OnAnswerSelected(index));
+    //    }
 
-        correctAnswerIndex = question.correctAnswerIndex;
-        nextButton.onClick.AddListener(manager.GoToNextUnansweredQuestion);
-        nextButton.gameObject.SetActive(false);
-    }
+    //    correctAnswerIndex = question.correctAnswerIndex;
+    //    nextButton.onClick.AddListener(manager.GoToNextUnansweredQuestion);
+    //    nextButton.gameObject.SetActive(false);
+    //}
 
     public void DisplayCorrectness(int selectedIndex, bool isCorrect)
     {

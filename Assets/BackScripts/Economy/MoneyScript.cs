@@ -62,10 +62,26 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
         }
         profit = tax1 * (tax2 * totalIncome - totalExpense) + operationProfit;
         var taxExpense = profit - ((totalIncome - totalExpense) + operationProfit);
+
+        addMoney(profit);
+
+        statisticsScript.statistics.expenceStat[month - 1] = totalExpense;
+        statisticsScript.statistics.incomeStat[month - 1] = totalIncome;
         statisticsScript.statistics.profitStat[month-1] = profit;
         statisticsScript.statistics.taxExpenseStat[month-1] = taxExpense;
         statisticsScript.statistics.constExpenseStat[month - 1] = constExpenses;
-        statisticsScript.statistics.ROSStat[month-1] = (profit*100)/totalIncome;
+        if ((profit * 100) / totalIncome == Mathf.Infinity)
+        {
+            statisticsScript.statistics.ROSStat[month - 1] = 100;
+        }
+        else if((profit * 100) / totalIncome == Mathf.NegativeInfinity)
+        {
+            statisticsScript.statistics.ROSStat[month - 1] = -100;
+        }
+        else
+        {
+            statisticsScript.statistics.ROSStat[month - 1] = (profit * 100) / totalIncome;
+        }
     }
     public bool setMoney(float moneyAmount)
     {
@@ -82,6 +98,11 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
     public void addMoney(float moneyAmount)
     {
         player_money += moneyAmount;
+        if(player_money < 0)
+        {
+            player_money = 0;
+            Debug.Log("В долги уходишь, друг");
+        }
     }
     public float getMoney()
     {
