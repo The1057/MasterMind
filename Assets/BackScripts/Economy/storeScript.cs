@@ -54,11 +54,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     }
     public void nextTurn(int month, int year)
     {
-        for (int i = 0; i < items.Count; i++)
-        {
-            recalculateDemand(items[i],demandChangeDeviation,demandCalcMethod.linear);
-            //print($"New demand for {items[i].name} is {items[i].bought_number}");
-        }
+        
     }
 
     void Start()
@@ -77,6 +73,13 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     {
         float res = 0;
         adModifier = gloabalAdModifier + localAdModifier;
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            recalculateDemand(items[i], demandChangeDeviation, demandCalcMethod.linear);
+            //print($"New demand for {items[i].name} is {items[i].bought_number}");
+        }
+
         foreach (var item in items)
         {
             if (item.sold_number <= item.bought_number)
@@ -105,6 +108,8 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     }
     public void recalculateDemand(Item item,float deviation, demandCalcMethod calcMethod)
     {        
+        item.demand_max_modifier = adModifier;
+
         System.Random random = new System.Random();
         switch (calcMethod)
         {
@@ -126,9 +131,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
                 break;
             case demandCalcMethod.linear:
 
-                float yMean = (item.demand_max + item.demand_min) / 2f;
+                float yMean = (item.demand_max  + item.demand_min) / 2f;
                 float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
-                float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
+                float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max * item.demand_max_modifier - yMean))) /
                     (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
                 float b = yMean - m * xMean;
                 item.sold_number = m * item.selling_price + b;
@@ -157,9 +162,9 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     {
         Item item = new Item("Багет",new float[]{ 40, 80, 120, 200, 500 });
         item.selling_price = 100;
-        float yMean = (item.demand_max + item.demand_min) / 2f;
+        float yMean = (item.demand_max * item.demand_max_modifier + item.demand_min) / 2f;
         float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
-        float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
+        float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max * item.demand_max_modifier - yMean))) /
             (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
         float b = yMean - m * xMean;
         item.sold_number = m * item.selling_price + b;

@@ -45,6 +45,11 @@ public class saveLoadManager : MonoBehaviour, ITickable
             Debug.Log($"SaveData is null");
         }
     }
+
+    public void OnDisable()
+    {
+        saveGame();
+    }
     [ContextMenu("Save Game")]
     public void saveGame()
     {

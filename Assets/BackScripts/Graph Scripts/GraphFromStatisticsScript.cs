@@ -86,8 +86,9 @@ public class GraphFromStatisticsScript : MonoBehaviour
     }
     public void setYear(int index)
     {
-        print($"Capacity: {yearList.options.Count}");
+        print($"Trying to set year to {index}");
         int year = yearList.options.Count - index;
+        print($"Set year to {year}");
         statisticsYear = year;
     }
     private List<Vector2> float2VectorList(float[] floats)
