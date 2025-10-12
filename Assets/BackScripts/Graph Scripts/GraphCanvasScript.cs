@@ -25,7 +25,7 @@ public class GraphCanvasScript : MaskableGraphic
 
         int counter = 0;
         drawLine(0, counter, vh);
-        for (int y = - gridSize.y+1; y <= gridSize.y; y++)
+        for (int y = - gridSize.y+1; y <= gridSize.y +3 ; y++)
         {
             //for (int x = 0; x < gridSize.x; x++)
             //{
