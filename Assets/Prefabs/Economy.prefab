@@ -1,165 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3158120826889958483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6669036430242162888}
-  - component: {fileID: 3382061559346314739}
-  m_Layer: 0
-  m_Name: AdSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6669036430242162888
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3158120826889958483}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 635155858262104744}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3382061559346314739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3158120826889958483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff15e1fee4d4fc24d85c42a6ed02a074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moneyScript: {fileID: 2063907007331123698}
-  globalAdModifier: 1
-  internetAd:
-    upgrades: []
-  activeTree: 0
-  inactiveUpgrade: {fileID: 21300000, guid: 3411f1774d659454c8e703e8996e9d5c, type: 3}
-  possibleCampaigns:
-  - name: "\u0414\u043E\u043B\u0433\u043E\u0441\u0440\u043E\u0447\u043D\u0430\u044F
-      \u043A\u0430\u043C\u043F\u0430\u043D\u0438\u044F"
-    efficiency: 0
-    reach: 0
-    maxEfficiency: 0
-    efficiencyCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0.028769365
-        outSlope: 0.028769365
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.8092499
-      - serializedVersion: 3
-        time: 0.5
-        value: 2
-        inSlope: 10.080873
-        outSlope: 10.080873
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.07966429
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 0
-      m_RotationOrder: 4
-    adModifier: 0
-    intendedDuration: 24
-    currentDuration: 0
-  - name: "\u0421\u0440\u0435\u0434\u043D\u044F\u044F \u043A\u0430\u043C\u043F\u0430\u043D\u0438\u044F"
-    efficiency: 0
-    reach: 0
-    maxEfficiency: 0
-    efficiencyCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.5
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 0
-      m_RotationOrder: 4
-    adModifier: 0
-    intendedDuration: 12
-    currentDuration: 0
-  - name: "\u041A\u0440\u0430\u0442\u043A\u043E\u0441\u0440\u043E\u0447\u043D\u0430\u044F
-      \u043A\u0430\u043C\u043F\u0430\u043D\u0438\u044F"
-    efficiency: 0
-    reach: 0
-    maxEfficiency: 0
-    efficiencyCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0.0018539429
-        value: 0
-        inSlope: 1.2395039
-        outSlope: 1.2395039
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.12663178
-      - serializedVersion: 3
-        time: 0.5
-        value: 0.2032959
-        inSlope: 0.05421328
-        outSlope: 0.05421328
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.24394724
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 0
-      m_RotationOrder: 4
-    adModifier: 0
-    intendedDuration: 6
-    currentDuration: 0
-  currentCampaign:
-    name: 
-    efficiency: 0
-    reach: 0
-    maxEfficiency: 0
-    efficiencyCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    adModifier: 0
-    intendedDuration: 0
-    currentDuration: 0
 --- !u!1 &6135579654526774658
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,32 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statistics:
-    incomeStat:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    expenceStat:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
     profitStat:
     - 0
     - 0
@@ -366,7 +180,6 @@ Transform:
   - {fileID: 6621447954833521389}
   - {fileID: 4197339990764007378}
   - {fileID: 8786849694605700904}
-  - {fileID: 6669036430242162888}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2063907007331123698
@@ -414,24 +227,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 635155858262104744}
     m_Modifications:
     - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
-      propertyPath: adModifier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
-      propertyPath: constExpense
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
       propertyPath: items.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
-      propertyPath: randomExpenseMax
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
-      propertyPath: randomExpenseMin
-      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2296559648891393152, guid: 6021607ed29844f48b21f6aceee0c432, type: 3}
       propertyPath: items.Array.data[0].name
@@ -594,20 +391,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2547688304762262446, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
-      propertyPath: money
-      value: 
-      objectReference: {fileID: 2063907007331123698}
-    - target: {fileID: 2547688304762262446, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
-      propertyPath: saveLoadManager
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6946490599932337162, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
       propertyPath: m_Name
       value: Store Item Manager
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5967163450289223514, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

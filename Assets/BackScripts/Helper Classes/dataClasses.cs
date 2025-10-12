@@ -156,7 +156,6 @@ public class Item
     public float bought_number = 0;
     public float demand_min = 0;
     public float demand_max = 0;
-    public float demand_max_modifier = 1;
     //0 - цена покупки
     //1 - цена продажи
     //2 - число закупок
