@@ -14,7 +14,7 @@ public enum canvasSwitchAttribute
     enableTest = 2,
     animationPlay = 3,
     disableBack = 4,
-    addNextTheory = 5
+    addNextTheory = 5,
 }
 
 public class CanvasSwitcher1 : MonoBehaviour
