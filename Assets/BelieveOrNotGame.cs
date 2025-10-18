@@ -29,9 +29,13 @@ public class BelieveOrNotGame : MonoBehaviour
     private bool isAnswered = false;
     private bool isGameActive = false;
 
-    private const float INITIAL_TIME = 10f;
-    private const float RESTART_TIME = 5f;
+    private const float INITIAL_TIME = 6f;
+    private List<StatementData> currentStatements;
 
+    [Header("End Game UI")]
+    public TMP_Text resultText; // <-- Новое поле для отображения результата
+
+    private int correctAnswers = 0;
     void Start()
     {
         // Подписываем кнопки
@@ -41,14 +45,6 @@ public class BelieveOrNotGame : MonoBehaviour
         restartButton.onClick.AddListener(RestartGame);
 
         RestartGame();
-    }
-
-    void RestartGame()
-    {
-        currentStatementIndex = 0;
-        isGameActive = true;
-        endPanel.SetActive(false);
-        ShowNextStatement();
     }
 
     void ShowNextStatement()
@@ -64,11 +60,11 @@ public class BelieveOrNotGame : MonoBehaviour
         questionPanel.SetActive(true);
         resultPanel.SetActive(false);
 
-        StatementData current = statements[currentStatementIndex];
+        StatementData current = currentStatements[currentStatementIndex];
         statementText.text = current.statement;
 
         // Устанавливаем таймер
-        timeLeft = isGameActive ? INITIAL_TIME : RESTART_TIME;
+        timeLeft = INITIAL_TIME;
         StartCoroutine(TimerCoroutine());
     }
 
@@ -76,15 +72,26 @@ public class BelieveOrNotGame : MonoBehaviour
     {
         while (timeLeft > 0 && !isAnswered)
         {
-            timerText.text = Mathf.Ceil(timeLeft).ToString() + "s";
+            timerText.text = Mathf.Ceil(timeLeft).ToString() + "с";
             yield return new WaitForSeconds(1f);
             timeLeft -= 1f;
         }
 
         if (!isAnswered)
         {
-            // Время вышло — автоматически "неправильный" ответ
+            isAnswered = true;
             ProcessAnswer(false);
+        }
+    }
+
+    void ShuffleList<T>(List<T> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            T temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
         }
     }
 
@@ -93,7 +100,7 @@ public class BelieveOrNotGame : MonoBehaviour
         if (isAnswered) return;
         isAnswered = true;
 
-        StatementData current = statements[currentStatementIndex];
+        StatementData current = currentStatements[currentStatementIndex];
         bool isCorrect = (playerBelieves == current.isTrue);
 
         ProcessAnswer(isCorrect);
@@ -103,15 +110,15 @@ public class BelieveOrNotGame : MonoBehaviour
     {
         StopAllCoroutines(); // Останавливаем таймер
 
-        questionPanel.SetActive(false);
         resultPanel.SetActive(true);
 
-        StatementData current = statements[currentStatementIndex];
+        StatementData current = currentStatements[currentStatementIndex];
 
         if (isCorrect)
         {
             feedbackText.text = "Правильно!";
             feedbackText.color = Color.green;
+            correctAnswers++; // <-- Увеличиваем счётчик
         }
         else
         {
@@ -127,8 +134,26 @@ public class BelieveOrNotGame : MonoBehaviour
     void EndGame()
     {
         isGameActive = false;
-        endPanel.SetActive(true);
         questionPanel.SetActive(false);
         resultPanel.SetActive(false);
+        endPanel.SetActive(true);
+
+        // Форматируем и отображаем результат
+        resultText.text = $"Ваш результат: {correctAnswers} из {statements.Count}";
+    }
+
+    void RestartGame()
+    {
+        // Сбрасываем счётчик при перезапуске
+        correctAnswers = 0;
+
+        List<StatementData> shuffledStatements = new List<StatementData>(statements);
+        ShuffleList(shuffledStatements);
+        currentStatements = shuffledStatements;
+
+        currentStatementIndex = 0;
+        isGameActive = true;
+        endPanel.SetActive(false);
+        ShowNextStatement();
     }
 }
