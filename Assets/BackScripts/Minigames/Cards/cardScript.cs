@@ -9,6 +9,11 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public Transform parentAfterDrag;
     public UnityEngine.UI.Image image;
 
+    [Tooltip("ѕравильна€ ли карта, дл€ любой миниигры")]
+    public bool isCorrect;
+    [Tooltip("ѕримечание дл€ карты, дл€ любой миниигры")]
+    public string note;
+
     public void Start()
     {
         container = GetComponentInParent<cardContainerScript>();

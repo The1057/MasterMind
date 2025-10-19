@@ -279,4 +279,12 @@ public class saveLoadManager : MonoBehaviour, ITickable
             saveGame();
         }
     }
+    public void OnDisable()
+    {
+        saveGame();
+    }
+    public void OnApplicationQuit()
+    {
+        saveGame();
+    }
 }
