@@ -22,6 +22,7 @@ public class CanvasSwitcher1 : MonoBehaviour
     [System.Serializable]
     public class ButtonToCanvasMapping
     {
+        public string label;
         public List<Button> buttons;    
         public GameObject targetCanvas;   
         public List<canvasSwitchAttribute> switchAttributes;
