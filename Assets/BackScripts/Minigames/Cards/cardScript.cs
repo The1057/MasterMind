@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using TMPro;
 
 public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public cardContainerScript container;
     public Transform parentAfterDrag;
     public UnityEngine.UI.Image image;
+    Vector2 originalSize;
 
     [Tooltip("ѕравильна€ ли карта, дл€ любой миниигры")]
     public bool isCorrect;
@@ -16,12 +18,15 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void Start()
     {
+        originalSize = GetComponent<RectTransform>().sizeDelta;
         container = GetComponentInParent<cardContainerScript>();
         container.containedCard = this;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        image.raycastTarget = false;        
+        image.raycastTarget = false;
+        GetComponent<RectTransform>().sizeDelta = originalSize;
+        GetComponentInChildren<TextMeshProUGUI>().enabled = false;   
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();

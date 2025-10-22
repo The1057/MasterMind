@@ -10,6 +10,7 @@ public class DocumentPacketMinigame : MonoBehaviour
     public List<cardContainerScript> correctContainers;
     public List<cardContainerScript> incorrectContainers;
     public bool fullyCorrect = true;
+    public bool firstTimeAccept = true;
 
     int correctCardAmount = 0;
     public List<cardContainerScript> incorrectlyPlaced = new();
@@ -33,41 +34,45 @@ public class DocumentPacketMinigame : MonoBehaviour
 
     public void submit()
     {
-        fullyCorrect = true;
-        incorrectlyPlaced.Clear();
-        foreach (var container in correctContainers)
+        if(firstTimeAccept && spawner.spawnCards.Count == 0)
         {
-            if (container.containedCard != null)
+            firstTimeAccept = false;
+            fullyCorrect = true;
+            incorrectlyPlaced.Clear();
+            foreach (var container in correctContainers)
             {
-                if (!container.containedCard.isCorrect)
+                if (container.containedCard != null)
                 {
-                    fullyCorrect = false;
-                    incorrectlyPlaced.Add(container);
+                    if (!container.containedCard.isCorrect)
+                    {
+                        fullyCorrect = false;
+                        incorrectlyPlaced.Add(container);
+                    }
                 }
             }
-        }
 
-        foreach (var container in incorrectContainers)
-        {
-            if (container.containedCard != null)
+            foreach (var container in incorrectContainers)
             {
-                if (container.containedCard.isCorrect)
+                if (container.containedCard != null)
                 {
-                    fullyCorrect = false;
-                    incorrectlyPlaced.Add(container);
+                    if (container.containedCard.isCorrect)
+                    {
+                        fullyCorrect = false;
+                        incorrectlyPlaced.Add(container);
+                    }
                 }
             }
-        }
 
-        foreach(var container in incorrectlyPlaced)
-        {
-            var tip = Instantiate(TipPrefab, transform.position, new Quaternion(), transform.root);
-            tip.GetComponentInChildren<TextMeshProUGUI>().text = container.containedCard.note;
-        }
+            foreach(var container in incorrectlyPlaced)
+            {
+                var tip = Instantiate(TipPrefab, transform.position, new Quaternion(), transform.root);
+                tip.GetComponentInChildren<TextMeshProUGUI>().text = container.containedCard.note;
+            }
 
-        if (fullyCorrect)
-        {//вот здесь можно сделать, что будет при полностью правильном варианте
+            if (fullyCorrect)
+            {//вот здесь можно сделать, что будет при полностью правильном варианте
 
+            }
         }
     }
 }
