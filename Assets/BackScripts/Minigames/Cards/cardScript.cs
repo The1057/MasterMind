@@ -10,6 +10,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public Transform parentAfterDrag;
     public UnityEngine.UI.Image image;
     Vector2 originalSize;
+    private Canvas parentCanvas;
 
     [Tooltip("ѕравильна€ ли карта, дл€ любой миниигры")]
     public bool isCorrect;
@@ -18,6 +19,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void Start()
     {
+        parentCanvas = GetComponentInParent<Canvas>();
         originalSize = GetComponent<RectTransform>().sizeDelta;
         container = GetComponentInParent<cardContainerScript>();
         container.containedCard = this;
@@ -28,7 +30,12 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         GetComponent<RectTransform>().sizeDelta = originalSize;
         GetComponentInChildren<TextMeshProUGUI>().enabled = false;   
         parentAfterDrag = transform.parent;
-        transform.SetParent(transform.root);
+        cardContainerScript originalContainer = parentAfterDrag.GetComponent<cardContainerScript>();
+        if (originalContainer != null)
+        {
+            originalContainer.ResetHighlight();
+        }
+        transform.SetParent(parentCanvas.transform);
         transform.SetAsLastSibling();
         transform.localScale *= 1.2f;
         image.color = new Color(1,1,1,0.8f);
@@ -42,11 +49,18 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnEndDrag(PointerEventData eventData)
     {
         container.containedCard = null;
+        Transform dropTarget = eventData.pointerCurrentRaycast.gameObject.transform;
+        cardContainerScript targetContainer = dropTarget.GetComponentInParent<cardContainerScript>();
         transform.SetParent(parentAfterDrag);
         container = parentAfterDrag.gameObject.GetComponent<cardContainerScript>();
         container.containedCard = this;
         image.raycastTarget = true;
         transform.localScale *= 0.8333f;
         image.color = new Color(1, 1, 1, 1f);
+        if (targetContainer == null)
+        {
+            var text = GetComponentInChildren<TextMeshProUGUI>();
+            text.enabled = true;
+        }
     }
 }

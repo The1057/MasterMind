@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -53, y: 56}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -50, y: -275}
+  m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3064609202247995462
 CanvasRenderer:
@@ -65,10 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u0430"
+  m_text: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u0430\u0440\u0435\u043D\u0434\u044B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 110139d7acd48d041a3d7c6370e2db7a, type: 2}
-  m_sharedMaterial: {fileID: -6235917156794241075, guid: 110139d7acd48d041a3d7c6370e2db7a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 82ee91208e760b54bb5428151e9bad18, type: 2}
+  m_sharedMaterial: {fileID: 2610431109823581841, guid: 82ee91208e760b54bb5428151e9bad18, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,15 +92,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.2
-  m_fontSizeBase: 67.2
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -242,12 +242,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824286101275925755, guid: b245080062abaf944b4be2c205214977, type: 3}
       propertyPath: m_Name
-      value: DocumentCard0 Variant
+      value: dog
       objectReference: {fileID: 0}
     - target: {fileID: 5303725258893693658, guid: b245080062abaf944b4be2c205214977, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 786064c3152a1e140abc166e701598ff, type: 3}
+      objectReference: {fileID: 21300000, guid: 4dfa83ea8626f2c4bab351fbf5fdb3ec, type: 3}
     - target: {fileID: 7341961437286130465, guid: b245080062abaf944b4be2c205214977, type: 3}
       propertyPath: note
       value: "\u0410 \u044D\u0442\u043E \u0431\u044B\u043B\u043E \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E
@@ -255,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7341961437286130465, guid: b245080062abaf944b4be2c205214977, type: 3}
       propertyPath: isCorrect
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

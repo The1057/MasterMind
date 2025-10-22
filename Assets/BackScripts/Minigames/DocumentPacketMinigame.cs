@@ -10,7 +10,9 @@ public class DocumentPacketMinigame : MonoBehaviour
     public List<cardContainerScript> correctContainers;
     public List<cardContainerScript> incorrectContainers;
     public bool fullyCorrect = true;
-    public bool firstTimeAccept = true;
+    public Canvas uiCanvas;
+    public GameObject gameplayCanvas;
+    public GameObject successCanvas;
 
     int correctCardAmount = 0;
     public List<cardContainerScript> incorrectlyPlaced = new();
@@ -34,9 +36,8 @@ public class DocumentPacketMinigame : MonoBehaviour
 
     public void submit()
     {
-        if(firstTimeAccept && spawner.spawnCards.Count == 0)
+        if(spawner.spawnCards.Count == 0)
         {
-            firstTimeAccept = false;
             fullyCorrect = true;
             incorrectlyPlaced.Clear();
             foreach (var container in correctContainers)
@@ -65,13 +66,13 @@ public class DocumentPacketMinigame : MonoBehaviour
 
             foreach(var container in incorrectlyPlaced)
             {
-                var tip = Instantiate(TipPrefab, transform.position, new Quaternion(), transform.root);
-                tip.GetComponentInChildren<TextMeshProUGUI>().text = container.containedCard.note;
+                container.MarkAsIncorrect(true);
             }
 
             if (fullyCorrect)
-            {//вот здесь можно сделать, что будет при полностью правильном варианте
-
+            {
+                gameplayCanvas.SetActive(false);
+                successCanvas.SetActive(true);
             }
         }
     }
