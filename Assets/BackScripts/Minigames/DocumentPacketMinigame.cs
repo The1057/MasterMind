@@ -36,15 +36,35 @@ public class DocumentPacketMinigame : MonoBehaviour
 
     public void submit()
     {
-        if(spawner.spawnCards.Count == 0)
+        if (spawner.spawnCards.Count == 0)
         {
             fullyCorrect = true;
             incorrectlyPlaced.Clear();
-            foreach (var container in correctContainers)
+
+            // Проверяем ВСЕ контейнеры, включая правильные и неправильные
+            var allContainers = new List<cardContainerScript>();
+            allContainers.AddRange(correctContainers);      // теперь это "потенциальные правильные"
+            allContainers.AddRange(incorrectContainers);    // неправильные остаются
+
+            foreach (var container in allContainers)
             {
                 if (container.containedCard != null)
                 {
-                    if (!container.containedCard.isCorrect)
+                    bool isCorrectPlacement = false;
+
+                    // Если контейнер — из "правильных", проверяем совпадение зоны
+                    if (correctContainers.Contains(container))
+                    {
+                        // Сравниваем зону карточки и контейнера
+                        if (container.containedCard.correctZoneId == container.zoneId)
+                        {
+                            isCorrectPlacement = true;
+                        }
+                    }
+                    // Если контейнер — из "неправильных", то размещение всегда неверно
+                    // (или можно разрешить туда только неправильные карточки — зависит от логики)
+
+                    if (!isCorrectPlacement)
                     {
                         fullyCorrect = false;
                         incorrectlyPlaced.Add(container);
@@ -52,19 +72,7 @@ public class DocumentPacketMinigame : MonoBehaviour
                 }
             }
 
-            foreach (var container in incorrectContainers)
-            {
-                if (container.containedCard != null)
-                {
-                    if (container.containedCard.isCorrect)
-                    {
-                        fullyCorrect = false;
-                        incorrectlyPlaced.Add(container);
-                    }
-                }
-            }
-
-            foreach(var container in incorrectlyPlaced)
+            foreach (var container in incorrectlyPlaced)
             {
                 container.MarkAsIncorrect(true);
             }

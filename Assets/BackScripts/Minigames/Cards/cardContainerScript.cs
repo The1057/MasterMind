@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class cardContainerScript : MonoBehaviour, IDropHandler
 {
+    public int zoneId;
     public cardScript containedCard;
     public bool hasCard = false;
     public bool disableTextOnDrop = false;
