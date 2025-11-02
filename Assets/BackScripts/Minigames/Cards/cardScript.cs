@@ -10,7 +10,9 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public Transform parentAfterDrag;
     public UnityEngine.UI.Image image;
     Vector2 originalSize;
+    private Color originalColor;
     private Canvas parentCanvas;
+    public int correctZoneId;
 
     [Tooltip("ѕравильна€ ли карта, дл€ любой миниигры")]
     public bool isCorrect;
@@ -23,6 +25,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         originalSize = GetComponent<RectTransform>().sizeDelta;
         container = GetComponentInParent<cardContainerScript>();
         container.containedCard = this;
+        originalColor = image.color;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -38,7 +41,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         transform.SetParent(parentCanvas.transform);
         transform.SetAsLastSibling();
         transform.localScale *= 1.2f;
-        image.color = new Color(1,1,1,0.8f);
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.8f);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -56,7 +59,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         container.containedCard = this;
         image.raycastTarget = true;
         transform.localScale *= 0.8333f;
-        image.color = new Color(1, 1, 1, 1f);
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         if (targetContainer == null)
         {
             var text = GetComponentInChildren<TextMeshProUGUI>();
