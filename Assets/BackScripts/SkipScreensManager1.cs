@@ -17,17 +17,17 @@ public class SkipScreensManager1 : MonoBehaviour
 
     public float fadeDuration = 1f;
     public playerDataClass playerData;
-    [SerializeField] private Image fadeImage;
+    //SerializeField] private Image fadeImage;
 
     void Awake()
     {
-        if (fadeImage == null)
-        {
-            SetupFadeImage();
-        }
+        //if (fadeImage == null)
+        //{
+        //    SetupFadeImage();
+        //}
 
-        fadeImage.color = Color.black;
-        StartCoroutine(FadeIn());
+        //fadeImage.color = Color.black;
+        //StartCoroutine(FadeIn());
     }
 
     void Start()
@@ -61,24 +61,24 @@ public class SkipScreensManager1 : MonoBehaviour
         StartCoroutine(SwitchToCanvasWithFade(targetCanvas));
     }
 
-    private void SetupFadeImage()
-    {
-        GameObject canvasObj = new GameObject("FadeCanvas");
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvasObj.AddComponent<CanvasScaler>();
-        canvasObj.AddComponent<GraphicRaycaster>();
+    //private void SetupFadeImage()
+    //{
+    //    GameObject canvasObj = new GameObject("FadeCanvas");
+    //    Canvas canvas = canvasObj.AddComponent<Canvas>();
+    //    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+    //    canvasObj.AddComponent<CanvasScaler>();
+    //    canvasObj.AddComponent<GraphicRaycaster>();
 
-        GameObject imageObj = new GameObject("FadeImage");
-        imageObj.transform.SetParent(canvasObj.transform, false);
-        fadeImage = imageObj.AddComponent<Image>();
-        fadeImage.color = Color.black;
+    //    GameObject imageObj = new GameObject("FadeImage");
+    //    imageObj.transform.SetParent(canvasObj.transform, false);
+    //    //fadeImage = imageObj.AddComponent<Image>();
+    //    //fadeImage.color = Color.black;
 
-        RectTransform rect = fadeImage.rectTransform;
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.sizeDelta = Vector2.zero;
-    }
+    //    //RectTransform rect = fadeImage.rectTransform;
+    //    rect.anchorMin = Vector2.zero;
+    //    rect.anchorMax = Vector2.one;
+    //    rect.sizeDelta = Vector2.zero;
+    //}
 
     IEnumerator FadeIn()
     {
@@ -89,17 +89,17 @@ public class SkipScreensManager1 : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
+            //fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
             yield return null;
         }
-        fadeImage.gameObject.SetActive(false);
+        //fadeImage.gameObject.SetActive(false);
     }
 
     IEnumerator SwitchToCanvasWithFade(GameObject targetCanvas)
     {
 
         // Показываем затемнение
-        fadeImage.gameObject.SetActive(true);
+        //fadeImage.gameObject.SetActive(true);
         float elapsedTime = 0f;
         Color startColor = new Color(0f, 0f, 0f, 0f);
         Color endColor = Color.black;
@@ -107,7 +107,7 @@ public class SkipScreensManager1 : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
+            //fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
             yield return null;
         }
 
@@ -118,7 +118,7 @@ public class SkipScreensManager1 : MonoBehaviour
         }
 
         initialCanvas2.SetActive(false);
-        fadeImage.gameObject.SetActive(false);
+        //fadeImage.gameObject.SetActive(false);
     }
 
 
