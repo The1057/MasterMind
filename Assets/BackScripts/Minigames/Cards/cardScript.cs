@@ -28,7 +28,10 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         image.raycastTarget = false;
         GetComponent<RectTransform>().sizeDelta = originalSize;
-        GetComponentInChildren<TextMeshProUGUI>().enabled = false;   
+        if (GetComponentInChildren<TextMeshProUGUI>() != null)
+        {
+            GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        }
         parentAfterDrag = transform.parent;
         cardContainerScript originalContainer = parentAfterDrag.GetComponent<cardContainerScript>();
         if (originalContainer != null)
@@ -57,7 +60,7 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         image.raycastTarget = true;
         transform.localScale *= 0.8333f;
         image.color = new Color(1, 1, 1, 1f);
-        if (targetContainer == null)
+        if (targetContainer == null && GetComponentInChildren<TextMeshProUGUI>() != null)
         {
             var text = GetComponentInChildren<TextMeshProUGUI>();
             text.enabled = true;
