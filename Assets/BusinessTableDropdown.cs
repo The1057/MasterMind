@@ -22,8 +22,8 @@ public class BusinessTableAnimated : MonoBehaviour
     public float animationDuration = 0.4f;
     public float delayBetween = 0.05f;
 
-    //[Header("Position")]
-    //public Vector2 startPosition = new Vector2(0f, -127f);
+    [Header("Position")]
+    public Vector2 startPosition = new Vector2(0f, -127f);
 
     private RectTransform buttonRect;
     private Image buttonImage;
@@ -49,10 +49,10 @@ public class BusinessTableAnimated : MonoBehaviour
 
         // Ставим кнопку внутри панели
         buttonRect.SetParent(panel, false);
-        //buttonRect.anchoredPosition = startPosition;
-        //buttonRect.pivot = new Vector2(0.5f, 1f);
-        //buttonRect.anchorMin = new Vector2(buttonRect.anchorMin.x, 1f);
-        //buttonRect.anchorMax = new Vector2(buttonRect.anchorMax.x, 1f);
+        buttonRect.anchoredPosition = startPosition;
+        buttonRect.pivot = new Vector2(0.5f, 1f);
+        buttonRect.anchorMin = new Vector2(buttonRect.anchorMin.x, 1f);
+        buttonRect.anchorMax = new Vector2(buttonRect.anchorMax.x, 1f);
 
         // Подготовка строк внутри кнопки
         for (int i = 0; i < rows.Count; i++)
@@ -105,20 +105,7 @@ public class BusinessTableAnimated : MonoBehaviour
         // Теперь показываем строки
         for (int i = 0; i < rows.Count; i++)
         {
-
-            RectTransform rowRect = rows[i];
-
-            // Устанавливаем режим растяжения по горизонтали
-            rowRect.anchorMin = new Vector2(0, 1); // привязка к левому верхнему углу
-            rowRect.anchorMax = new Vector2(1, 1); // растягиваем по ширине
-
-            // Устанавливаем отступы: слева 23, справа -23 (относительно ширины родителя)
-            rowRect.offsetMin = new Vector2(23, -rowHeight);        // left = 23, bottom = -rowHeight (или как нужно)
-            rowRect.offsetMax = new Vector2(-23, 0);                // right = -23, top = 0
-
-            // Позиционируем по вертикали (Y остаётся как у вас)
-            float yPos = -headerHeight - paddingTop - i * (rowHeight + spacing);
-            rowRect.anchoredPosition = new Vector2(0, yPos); // X = 0, потому что растягиваем по анкерам
+            rows[i].anchoredPosition = new Vector2(27f, -headerHeight - paddingTop - i * (rowHeight + spacing));
             rows[i].localScale = Vector3.one;
             rows[i].gameObject.SetActive(true);
         }

@@ -9,6 +9,7 @@ public class cardContainerScript : MonoBehaviour, IDropHandler
     public bool hasCard = false;
     public bool disableTextOnDrop = false;
     public UnityEngine.UI.Image background;
+    public Vector2Int position;
     private Color defaultColor;
     public Color incorrectColor = new Color(0.8f, 0.8f, 0.8f, 1f);
     public void OnDrop(PointerEventData eventData)
