@@ -7,16 +7,19 @@ using System.Linq;
 public class TaskManager23 : MonoBehaviour, ISaveLoadable
 {
     [Header("Настройки")]
-    public float expandDuration = 0.3f; // Длительность анимации
-    public float childHeight = 50f;     // Высота одного дочернего элемента (подзадачи)
-    public float spacing = 4f;          // Отступ между элементами
-    public float paddingTop = 8f;       // Отступ сверху
-    public float paddingBottom = 8f;    // Отступ снизу
+    public float expandDuration = 0.3f;
+    public float childHeight = 50f;
+    public float spacing = 4f;
+    public float paddingTop = 8f;
+    public float paddingBottom = 8f;
 
     [Header("Спрайты")]
-    public Sprite completedSprite;       // Спрайт для выполненного элемента
-    public Sprite uncompletedSprite;     // Спрайт для невыполненного элемента
-    public Sprite lockedOverlaySprite;   // Спрайт-заглушка для заблокированных задач
+    public Sprite completedSprite;
+    public Sprite uncompletedSprite;
+    public Sprite lockedOverlaySprite;
+
+    [Header("Прогресс-бар (заполняющий элемент)")]
+    public Image progressFillImage; // Дочерний Image, который будет "заполняться"
 
     [Header("Список задач")]
     public List<TaskData> tasks = new List<TaskData>();
@@ -24,7 +27,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     private int currentTaskIndex = 0;
     private int expandedTaskIndex = -1;
 
-    // Класс для хранения данных одной подзадачи
     [System.Serializable]
     public class SubtaskData
     {
@@ -34,7 +36,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         [HideInInspector] public bool isCompleted = false;
     }
 
-    // Класс для хранения данных одной задачи
     [System.Serializable]
     public class TaskData
     {
@@ -90,6 +91,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
 
         UpdateTaskState(0);
+        UpdateProgressFill();
     }
 
     void ToggleExpand(int taskIndex)
@@ -119,16 +121,12 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
     }
 
-    // Изменение: передаем только подзадачу, а не родительскую задачу
     void CompleteSubtask(SubtaskData subtaskToComplete)
     {
-        // Проверка: можно выполнить подзадачу только один раз
         if (subtaskToComplete.isCompleted)
         {
             return;
         }
-
-        Debug.Log("Подзадача выполнена!");
 
         subtaskToComplete.isCompleted = true;
 
@@ -137,11 +135,11 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             subtaskToComplete.completionImage.sprite = completedSprite;
         }
 
-        // Находим родительскую задачу для этой подзадачи
         TaskData parentTask = FindParentTask(subtaskToComplete);
         if (parentTask != null)
         {
             CheckTaskCompletion(parentTask);
+            UpdateProgressFill(); // Обновляем прогресс
         }
     }
 
@@ -180,6 +178,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
                 {
                     currentTaskIndex = completedTaskIndex + 1;
                     UpdateTaskState(currentTaskIndex);
+                    ResetProgressFill(); // Сброс при переходе к следующей задаче
                 }
             }
         }
@@ -206,12 +205,40 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             }
         }
     }
+
+    // Новые методы для обновления прогресса
+    void UpdateProgressFill()
+    {
+        if (progressFillImage == null) return;
+
+        TaskData currentTask = tasks[currentTaskIndex];
+        int total = currentTask.subtasks.Count;
+        if (total == 0)
+        {
+            progressFillImage.fillAmount = 0f;
+            return;
+        }
+
+        int completed = currentTask.subtasks.Count(st => st.isCompleted);
+        float progress = (float)completed / total;
+
+        // Если Image использует Type = Filled (Image Type = Filled)
+        progressFillImage.fillAmount = progress;
+    }
+
+    void ResetProgressFill()
+    {
+        if (progressFillImage != null)
+        {
+            progressFillImage.fillAmount = 0f;
+        }
+    }
+
+    // Реализация интерфейса сохранения/загрузки (оставлено без изменений)
     public void save(ref saveData saveData)
     {
-        // Очищаем предыдущие данные, чтобы не было дублирования
         saveData.TasksData.Clear();
 
-        // Проходим по всем задачам и сохраняем их состояние
         for (int i = 0; i < tasks.Count; i++)
         {
             TaskData task = tasks[i];
@@ -219,7 +246,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             taskSave.taskIndex = i;
             taskSave.isExpanded = task.isExpanded;
 
-            bool allSubtasksCompleted = true; // Флаг для проверки завершения всей задачи
+            bool allSubtasksCompleted = true;
             for (int j = 0; j < task.subtasks.Count; j++)
             {
                 SubtaskData subtask = task.subtasks[j];
@@ -240,33 +267,27 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
 
     public void load(saveData loadData)
     {
-        // Проверяем, есть ли данные для загрузки
         if (loadData.TasksData.Count == 0) return;
 
-        // Восстанавливаем состояние каждой задачи
         foreach (var taskSave in loadData.TasksData)
         {
             if (taskSave.taskIndex < tasks.Count)
             {
                 TaskData task = tasks[taskSave.taskIndex];
 
-                // Восстанавливаем состояние подзадач
                 foreach (var subtaskSave in taskSave.subtasksData)
                 {
                     if (subtaskSave.subtaskIndex < task.subtasks.Count)
                     {
                         task.subtasks[subtaskSave.subtaskIndex].isCompleted = subtaskSave.isCompleted;
-                        // Обновляем спрайт подзадачи сразу после загрузки
                         UpdateSubtaskSprite(task.subtasks[subtaskSave.subtaskIndex]);
                     }
                 }
 
-                // Устанавливаем статус задачи (выполнена или нет)
                 CheckTaskCompletion(task);
             }
         }
 
-        // Находим текущую активную задачу
         for (int i = 0; i < tasks.Count; i++)
         {
             bool allSubtasksCompleted = tasks[i].subtasks.All(s => s.isCompleted);
@@ -281,11 +302,10 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             }
         }
 
-        // Обновляем состояние блокировки
         UpdateTaskState(currentTaskIndex);
+        UpdateProgressFill(); // После загрузки обновляем прогресс
     }
 
-    // Новая вспомогательная функция для обновления спрайта
     private void UpdateSubtaskSprite(SubtaskData subtask)
     {
         if (subtask.completionImage != null)
@@ -293,6 +313,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             subtask.completionImage.sprite = subtask.isCompleted ? completedSprite : uncompletedSprite;
         }
     }
+
     IEnumerator Expand(TaskData task, int taskIndex)
     {
         task.isExpanded = true;
@@ -335,7 +356,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             }
             yPos -= (childHeight + spacing);
 
-            // ИСПРАВЛЕНИЕ: Проверяем состояние перед установкой спрайта
             if (subtask.isCompleted)
             {
                 if (subtask.completionImage != null && completedSprite != null)

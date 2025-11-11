@@ -476,7 +476,12 @@ public class TestManager2 : MonoBehaviour
                     }
                     else
                     {
-                        // Вот сюда надо переход на первый неотвеченный вопрос
+                        int nextUnansweredIndex = FindFirstUnansweredQuestionIndex();
+                        if (nextUnansweredIndex != -1)
+                        {
+                            // Переходим к первому неотвченному вопросу
+                            setQuestionByIndex(nextUnansweredIndex);
+                        }
                     }
                 }
             });
@@ -499,13 +504,26 @@ public class TestManager2 : MonoBehaviour
 
         content.GetComponent<HorizontalLayoutGroup>().spacing = qButtonDistance;
         template.SetActive(false);
-        Destroy(template); 
+        Destroy(template);
 
         currentQuestion = -1;
         setQuestion(content.GetChild(0).gameObject);
+        setQuestionByIndex(1);
 
         correctButtons = findAllCorrectAnswers();
 
+    }
+    private int FindFirstUnansweredQuestionIndex()
+    {
+        for (int i = 0; i < firstPresses.Count; i++)
+        {
+            if (firstPresses[i]) // Если firstPresses[i] == true, значит вопрос i не отвечен
+            {
+                return i;
+            }
+        }
+        // Если все вопросы отвечены, возвращаем -1 (или можно вернуть, например, questions.Count)
+        return -1;
     }
     public bool isCorrectChoice(string[] correctAnswers, char givenAnswer)
     {

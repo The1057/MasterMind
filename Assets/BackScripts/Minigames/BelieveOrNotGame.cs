@@ -15,6 +15,7 @@ public class BelieveOrNotGame : MonoBehaviour
     public TMP_Text timerText;
     public TMP_Text feedbackText;
     public TMP_Text explanationText;
+    public TMP_Text questionCounterText;
 
     public Button believeButton;
     public Button notBelieveButton;
@@ -28,6 +29,8 @@ public class BelieveOrNotGame : MonoBehaviour
     private float timeLeft;
     private bool isAnswered = false;
     private bool isGameActive = false;
+
+    public int numberOfQuestionsToUse = 10;
 
     private const float INITIAL_TIME = 6f;
     private List<StatementData> currentStatements;
@@ -63,6 +66,8 @@ public class BelieveOrNotGame : MonoBehaviour
         StatementData current = currentStatements[currentStatementIndex];
         statementText.text = current.statement;
 
+        questionCounterText.text = $"{currentStatementIndex + 1}/{currentStatements.Count}";
+
         // Устанавливаем таймер
         timeLeft = INITIAL_TIME;
         StartCoroutine(TimerCoroutine());
@@ -94,7 +99,21 @@ public class BelieveOrNotGame : MonoBehaviour
             list[j] = temp;
         }
     }
+    List<StatementData> GetRandomStatements(List<StatementData> sourceList, int count)
+    {
+        if (count <= 0 || sourceList.Count == 0)
+        {
+            return new List<StatementData>();
+        }
 
+        // Создаем копию списка, чтобы не изменять оригинальный
+        List<StatementData> shuffled = new List<StatementData>(sourceList);
+        ShuffleList(shuffled);
+
+        // Возвращаем первые N элементов
+        int actualCount = Mathf.Min(count, shuffled.Count);
+        return shuffled.GetRange(0, actualCount);
+    }
     void OnAnswerSelected(bool playerBelieves)
     {
         if (isAnswered) return;
@@ -139,7 +158,7 @@ public class BelieveOrNotGame : MonoBehaviour
         endPanel.SetActive(true);
 
         // Форматируем и отображаем результат
-        resultText.text = $"Ваш результат: {correctAnswers} из {statements.Count}";
+        resultText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
     }
 
     void RestartGame()
@@ -147,9 +166,7 @@ public class BelieveOrNotGame : MonoBehaviour
         // Сбрасываем счётчик при перезапуске
         correctAnswers = 0;
 
-        List<StatementData> shuffledStatements = new List<StatementData>(statements);
-        ShuffleList(shuffledStatements);
-        currentStatements = shuffledStatements;
+        currentStatements = GetRandomStatements(statements, numberOfQuestionsToUse);
 
         currentStatementIndex = 0;
         isGameActive = true;
