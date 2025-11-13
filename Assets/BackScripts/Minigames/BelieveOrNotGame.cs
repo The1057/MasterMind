@@ -52,7 +52,7 @@ public class BelieveOrNotGame : MonoBehaviour
 
     void ShowNextStatement()
     {
-        if (currentStatementIndex >= statements.Count)
+        if (currentStatementIndex >= currentStatements.Count)
         {
             // Конец игры
             EndGame();
