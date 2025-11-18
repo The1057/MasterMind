@@ -18,16 +18,16 @@ public static class breadItemList
 
     public static List<Item> possibleItems = new()
     {
-        new Item("Багет", baguetteArgs),
-        new Item("Хлеб цельнозерновой",breadWheatArgs),
-        new Item("Хлеб ржаной",breadRyeArgs),
-        new Item("Круассан классический",croissantArgs),
-        new Item("Круассан с начинкой",croissantFilledArgs),
-        new Item("Торт шоколадный, кг",cakeChocoArgs),
-        new Item("Торт ягодный, кг",cakeBerryArgs),
-        new Item("Пирожное эклер",eclairArgs),
-        new Item("Пирожное медовик",cakeHoneyArgs),
-        new Item("Печенье (ассорти)",cookieArgs)
+        new Item(0, "Багет", baguetteArgs),
+        new Item(1,"Хлеб цельнозерновой",breadWheatArgs),
+        new Item(2,"Хлеб ржаной",breadRyeArgs),
+        new Item(3,"Круассан классический",croissantArgs),
+        new Item(4,"Круассан с начинкой",croissantFilledArgs),
+        new Item(5,"Торт шоколадный, кг",cakeChocoArgs),
+        new Item(6,"Торт ягодный, кг",cakeBerryArgs),
+        new Item(7,"Пирожное эклер",eclairArgs),
+        new Item(8,"Пирожное медовик",cakeHoneyArgs),
+        new Item(9,"Печенье (ассорти)",cookieArgs)
     };
 
 }

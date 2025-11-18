@@ -17,14 +17,14 @@ public static class bookItemList
 
     public static List<Item> possibleItems = new() 
     { 
-        new Item("Комикс", argsComic),
-        new Item("Энциклопедия",argsEncic),
-        new Item("Книга Детская",argsChildBook),
-        new Item("Книга художественная",argsFictionBook),
-        new Item("Учебник школьный",argsStudyBook),
-        new Item("Ежедневник",argsDiary),
-        new Item("Блокнот",argsNotepad),
-        new Item("Настольная игра",argsBoardGame),
-        new Item("Открытка",argsPostcard)
+        new Item(0,"Комикс", argsComic),
+        new Item(1,"Энциклопедия",argsEncic),
+        new Item(2,"Книга Детская",argsChildBook),
+        new Item(3,"Книга художественная",argsFictionBook),
+        new Item(4,"Учебник школьный",argsStudyBook),
+        new Item(5,"Ежедневник",argsDiary),
+        new Item(6,"Блокнот",argsNotepad),
+        new Item(7,"Настольная игра",argsBoardGame),
+        new Item(8,"Открытка",argsPostcard)
     };
 }

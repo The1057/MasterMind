@@ -78,4 +78,8 @@ public class ShopItemRedactScript : MonoBehaviour
     {
         addItem(getPossibleItems()[itemIndex]);
     }
+    public void addItemById(int id)
+    {
+        addItem(getPossibleItems()[id]);
+    }
 }

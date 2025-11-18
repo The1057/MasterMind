@@ -29,9 +29,16 @@ public class BusinessTableAnimated : MonoBehaviour
     private Image buttonImage;
     private Sprite originalSprite;
     private float headerHeight;
-    private bool isOpen = false;
+    public bool isOpen = false;
 
     void Awake()
+    {
+        setupTable();
+        headerHeight = buttonRect.sizeDelta.y;
+        analyzeButton.onClick.AddListener(ToggleTable);
+    }
+
+    public void setupTable()
     {
         if (analyzeButton == null || panel == null)
         {
@@ -45,7 +52,7 @@ public class BusinessTableAnimated : MonoBehaviour
         if (buttonImage != null)
             originalSprite = buttonImage.sprite;
 
-        headerHeight = buttonRect.sizeDelta.y;
+        
 
         // Ставим кнопку внутри панели
         buttonRect.SetParent(panel, false);
@@ -67,9 +74,8 @@ public class BusinessTableAnimated : MonoBehaviour
             row.gameObject.SetActive(false);
         }
 
-        analyzeButton.onClick.AddListener(ToggleTable);
+        
     }
-
     void ToggleTable()
     {
         StopAllCoroutines();
@@ -124,14 +130,15 @@ public class BusinessTableAnimated : MonoBehaviour
         // 3. Анимируем сжатие панели
         float startHeight = buttonRect.sizeDelta.y;
         float targetHeight = headerHeight;
+        print($"Target: {targetHeight}");
 
         float elapsed = 0f;
         while (elapsed < animationDuration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / animationDuration);
+            float t = Mathf.Clamp01(elapsed / animationDuration);            
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
-            buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, Mathf.Lerp(startHeight, targetHeight, smoothT));
+            buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, Mathf.Lerp(startHeight, targetHeight, smoothT));            
             yield return null;
         }
         buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, targetHeight);

@@ -155,14 +155,6 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     [ContextMenu("Print first item")]
     public void showDebug()
     {
-        Item item = new Item("Багет",new float[]{ 40, 80, 120, 200, 500 });
-        item.selling_price = 100;
-        float yMean = (item.demand_max + item.demand_min) / 2f;
-        float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
-        float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
-            (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
-        float b = yMean - m * xMean;
-        item.sold_number = m * item.selling_price + b;
-        print(item.sold_number);
+        
     }
 }

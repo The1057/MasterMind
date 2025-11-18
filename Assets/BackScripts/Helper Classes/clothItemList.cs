@@ -18,16 +18,16 @@ public static class clothItemList
 
     public static List<Item> possibleItems = new()
     {
-        new Item("Джинсы скинни",jeansSkinnyArgs),
-        new Item("Джинсы классические",jeansClassicArgs),
-        new Item("Футболка базовая",tshirtBaseArgs),
-        new Item("Футболка оверсайз", tshirtOversizeArgs),
-        new Item("Кроссовки спортивные",sneakersSportArgs),
-        new Item("Кроссовки кэжул",sneakersCasualArgs),
-        new Item("Рубашка оверсайз",shirtOversizeArgs),
-        new Item("Рубашка классическая",shirtClassicArgs),
-        new Item("Платье вечернее",formalDressArgs),
-        new Item("Платье кэжуал",casualDressArgs),
+        new Item(0,"Джинсы скинни",jeansSkinnyArgs),
+        new Item(1,"Джинсы классические",jeansClassicArgs),
+        new Item(2,"Футболка базовая",tshirtBaseArgs),
+        new Item(3,"Футболка оверсайз", tshirtOversizeArgs),
+        new Item(4,"Кроссовки спортивные",sneakersSportArgs),
+        new Item(5,"Кроссовки кэжул",sneakersCasualArgs),
+        new Item(6,"Рубашка оверсайз",shirtOversizeArgs),
+        new Item(7,"Рубашка классическая",shirtClassicArgs),
+        new Item(8,"Платье вечернее",formalDressArgs),
+        new Item(9,"Платье кэжуал",casualDressArgs),
     };
 
 }

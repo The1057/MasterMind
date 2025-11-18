@@ -14,6 +14,9 @@ public class UltimateTextUpdateScript : MonoBehaviour
     public TextMeshProUGUI nameField;
     public TextMeshProUGUI moneyField;
     public TextMeshProUGUI gemField;
+
+    float money;
+    float gems;
     void Start()
     {
     }
@@ -25,8 +28,37 @@ public class UltimateTextUpdateScript : MonoBehaviour
     }
     void updateMoney()
     {
-        moneyField.text = MoneyScript.player_money.ToString();
-        gemField.text = MoneyScript.player_gems.ToString();
+        money = MoneyScript.player_money;
+        gems = MoneyScript.player_gems;
+        if(money > 1000000)
+        {
+            money /= 100000;
+            moneyField.text = (Mathf.RoundToInt(money) / 10f).ToString() + " Ì";
+        }
+        else if (money > 1000)
+        {
+            money /= 100;
+            moneyField.text = (Mathf.RoundToInt(money)/10f).ToString() + " ê";
+        }
+        else
+        {
+            moneyField.text = money.ToString();
+        }
+
+        if (gems > 1000000)
+        {
+            gems /= 100000;
+            gemField.text = (Mathf.RoundToInt(gems) / 10).ToString() + " Ì";
+        }
+        else if (gems > 1000)
+        {
+            gems /= 100;
+            gemField.text = (Mathf.RoundToInt(gems)/10).ToString() + " ê";
+        }
+        else
+        {
+            gemField.text = gems.ToString();
+        }        
     }
     void updateName()
     {
