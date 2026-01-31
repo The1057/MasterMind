@@ -36,7 +36,9 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
     public void load(saveData loadData) 
     {
         this.operationProfit = loadData.MoneyData.operationProfit;
-        this.storeList = loadData.MoneyData.storeList;
+
+        this.storeList = FindObjectsByType<storeScript>(FindObjectsSortMode.None).ToList().OrderBy(a => a.storeId).ToList();
+
         this.profit = loadData.MoneyData.profit;
         this.player_money = loadData.MoneyData.player_money;
         this.player_gems = loadData.MoneyData.player_gems;

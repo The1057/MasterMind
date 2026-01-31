@@ -63,7 +63,7 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
 
     void Start()
     {
-        addDebug();
+        //addDebug();
     }
 
     [ContextMenu("Add debug item")]

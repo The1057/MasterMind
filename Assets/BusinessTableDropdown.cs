@@ -76,7 +76,7 @@ public class BusinessTableAnimated : MonoBehaviour
 
         
     }
-    void ToggleTable()
+    public void ToggleTable()
     {
         StopAllCoroutines();
 

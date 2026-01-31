@@ -33,7 +33,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
         saveLoadableObjects = findAllSaveLoadables();
         saveDirPath = Application.persistentDataPath;
 
-
+        loadGame();
         SaveData = loadData();
         if(SaveData != null && CanvasSwitcher != null)
         {

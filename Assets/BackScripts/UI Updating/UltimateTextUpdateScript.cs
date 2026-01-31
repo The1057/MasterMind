@@ -15,6 +15,9 @@ public class UltimateTextUpdateScript : MonoBehaviour
     public TextMeshProUGUI moneyField;
     public TextMeshProUGUI gemField;
 
+    [Header("Settings")]
+    public bool doNameUpdate = true;
+
     float money;
     float gems;
     void Start()
@@ -24,7 +27,10 @@ public class UltimateTextUpdateScript : MonoBehaviour
     void Update()
     {
         updateMoney();
-        updateName();
+        if (doNameUpdate)
+        {
+            updateName();
+        }
     }
     void updateMoney()
     {

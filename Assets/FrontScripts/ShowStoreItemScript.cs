@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class ShowStoreItemScript : MonoBehaviour
 {
     [Header("Required objects, store")]
@@ -32,11 +33,19 @@ public class ShowStoreItemScript : MonoBehaviour
 
         var plusButton = BusinessTableAnimated.rows.Last();
         BusinessTableAnimated.rows.Remove(plusButton);
+        int i = 0;
         foreach (var item in currentStore.items)
         {
             currentItems.Add(Instantiate(itemPrefab,itemList));
             currentItems.Last().GetComponent<TextMeshProUGUI>().text = item.name;
+            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().text = item.bought_number.ToString();
+            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().text = item.selling_price.ToString();
+
+            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].bought_number); });
+            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].selling_price); });
+            
             BusinessTableAnimated.rows.Add(currentItems.Last().GetComponent<RectTransform>());
+
         }
         BusinessTableAnimated.rows.Add(plusButton);
 
