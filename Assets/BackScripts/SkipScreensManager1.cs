@@ -1,135 +1,61 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
 using System.Collections;
 
 public class SkipScreensManager1 : MonoBehaviour
 {
-    public string dataFilePath = "PlayerData.json";
+    public playerDataClass playerDataObject; // Ссылка на компонент с данными
+    public CanvasSwitcher1 canvasSwitcher; // Ссылка на твой переключатель
 
-    public GameObject initialCanvas2; // например, Canvas_Intro или Canvas_Start
+    [Header("Канвасы")]
+    public GameObject initialCanvas2;      // То, что выключаем (заставка)
+    public GameObject profileCanvas;       // Куда идем, если данные ЕСТЬ
+    public GameObject registrationCanvas;  // Куда идем, если данных НЕТ
 
-
-    // ВМЕСТО имён сцен — Canvas-объекты
-    public GameObject maleProfileCanvas;   // например, Canvas_ProfileMan
-    public GameObject femaleProfileCanvas; // например, Canvas_ProfileW
-    public GameObject defaultStartCanvas;  // например, Canvas_Scene2
-
-    public float fadeDuration = 1f;
-    public playerDataClass playerData;
-    //SerializeField] private Image fadeImage;
-
-    void Awake()
+    IEnumerator Start()
     {
-        //if (fadeImage == null)
-        //{
-        //    SetupFadeImage();
-        //}
+        // 1. Ждем чуть-чуть, чтобы система сохранения успела прогнать метод Load()
+        // Если загрузка идет из файла, 0.1 сек обычно достаточно.
+        yield return new WaitForSeconds(0.1f);
 
-        //fadeImage.color = Color.black;
-        //StartCoroutine(FadeIn());
-    }
-
-    void Start()
-    {
-        GameObject targetCanvas = defaultStartCanvas; // по умолчанию
-
-        bool genderIsSet = playerData.data.player_gender != null;
-
-        if (genderIsSet)
+        // 2. Проверяем данные
+        if (playerDataObject == null || playerDataObject.data == null)
         {
-            if (playerData.data.player_gender == "F")
-            {
-                Debug.Log("Гендер Ж установлен. Показываем: " + femaleProfileCanvas.name);
-                targetCanvas = femaleProfileCanvas;
-            }
-            else if (playerData.data.player_gender == "M")
-            {
-                Debug.Log("Гендер М установлен. Показываем: " + maleProfileCanvas.name);
-                targetCanvas = maleProfileCanvas;
-            }
-            else
-            {
-                Debug.LogWarning("Неизвестный гендер: " + playerData.data.player_gender + ". Показываем экран по умолчанию.");
-            }
+            Debug.LogError("Данные игрока не найдены!");
+            Switch(registrationCanvas);
+            yield break;
+        }
+
+        // Проверяем заполненность профиля
+        bool hasGender = !string.IsNullOrEmpty(playerDataObject.data.player_gender);
+        bool hasName = !string.IsNullOrEmpty(playerDataObject.data.player_name);
+
+        if (hasGender && hasName)
+        {
+            Debug.Log("Профиль заполнен, идем в Profile");
+            Switch(profileCanvas);
         }
         else
         {
-            Debug.Log("Данных не найдено. Показываем: " + defaultStartCanvas.name);
+            Debug.Log("Профиль пуст, идем на Регистрацию");
+            Switch(registrationCanvas);
         }
-
-        StartCoroutine(SwitchToCanvasWithFade(targetCanvas));
     }
 
-    //private void SetupFadeImage()
-    //{
-    //    GameObject canvasObj = new GameObject("FadeCanvas");
-    //    Canvas canvas = canvasObj.AddComponent<Canvas>();
-    //    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-    //    canvasObj.AddComponent<CanvasScaler>();
-    //    canvasObj.AddComponent<GraphicRaycaster>();
-
-    //    GameObject imageObj = new GameObject("FadeImage");
-    //    imageObj.transform.SetParent(canvasObj.transform, false);
-    //    //fadeImage = imageObj.AddComponent<Image>();
-    //    //fadeImage.color = Color.black;
-
-    //    //RectTransform rect = fadeImage.rectTransform;
-    //    rect.anchorMin = Vector2.zero;
-    //    rect.anchorMax = Vector2.one;
-    //    rect.sizeDelta = Vector2.zero;
-    //}
-
-    IEnumerator FadeIn()
+    void Switch(GameObject target)
     {
-        float elapsedTime = 0f;
-        Color startColor = Color.black;
-        Color endColor = new Color(0f, 0f, 0f, 0f);
+        if (target == null) return;
 
-        while (elapsedTime < fadeDuration)
+        // Вместо простого SetActive, вызываем метод у твоего Switcher, 
+        // чтобы он зафиксировал изменение в своей логике (lastCanvases и т.д.)
+        if (canvasSwitcher != null)
         {
-            elapsedTime += Time.deltaTime;
-            //fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
-            yield return null;
+            canvasSwitcher.SwitchToCanvas(target);
         }
-        //fadeImage.gameObject.SetActive(false);
-    }
-
-    IEnumerator SwitchToCanvasWithFade(GameObject targetCanvas)
-    {
-
-        // Показываем затемнение
-        //fadeImage.gameObject.SetActive(true);
-        float elapsedTime = 0f;
-        Color startColor = new Color(0f, 0f, 0f, 0f);
-        Color endColor = Color.black;
-
-        while (elapsedTime < fadeDuration)
+        else
         {
-            elapsedTime += Time.deltaTime;
-            //fadeImage.color = Color.Lerp(startColor, endColor, elapsedTime / fadeDuration);
-            yield return null;
+            target.SetActive(true);
         }
 
-        // Показываем нужный Canvas
-        if (targetCanvas != null)
-        {
-            targetCanvas.SetActive(true);
-        }
-
-        initialCanvas2.SetActive(false);
-        //fadeImage.gameObject.SetActive(false);
-    }
-
-
-    private string GetFullPath(string fileName)
-    {
-#if UNITY_EDITOR
-        string scriptPath = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.MonoScript.FromMonoBehaviour(this));
-        string scriptDirectory = Path.GetDirectoryName(scriptPath);
-        return Path.Combine(scriptDirectory, fileName);
-#else
-        return Path.Combine(Application.persistentDataPath, fileName);
-#endif
+        if (initialCanvas2 != null) initialCanvas2.SetActive(false);
     }
 }

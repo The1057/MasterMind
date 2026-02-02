@@ -183,7 +183,7 @@ public class TaskSaveData
     public int taskIndex;
     public List<SubtaskSaveData> subtasksData = new List<SubtaskSaveData>();
     public bool isExpanded;
-    public bool isCompleted; // Добавим этот флаг для отслеживания завершения всей задачи
+    public bool isCompleted; 
 }
 
 [System.Serializable]

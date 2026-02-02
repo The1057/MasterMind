@@ -1,11 +1,20 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TaskManager23 : MonoBehaviour, ISaveLoadable
 {
+    [Header("Тестирование")]
+    public bool debugLogs = true;
+
+    [Header("Настройки префаба")]
+    public GameObject subtaskPrefab;
+    public string checkmarkObjectName = "Checkmark";
+
     [Header("Настройки")]
     public float expandDuration = 0.3f;
     public float childHeight = 50f;
@@ -17,6 +26,8 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     public Sprite completedSprite;
     public Sprite uncompletedSprite;
     public Sprite lockedOverlaySprite;
+    public Sprite collapsedTaskSprite;    // Спрайт для свернутой задачи
+    public Sprite expandedTaskSprite;     // Спрайт для раскрытой задачи
 
     [Header("Прогресс-бар (заполняющий элемент)")]
     public Image progressFillImage; // Дочерний Image, который будет "заполняться"
@@ -30,18 +41,22 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     [System.Serializable]
     public class SubtaskData
     {
-        public GameObject subtaskObject;
+        public string description;
+        public Button navigationButton;
         public List<Button> completionButtons;
-        public Image completionImage;
         [HideInInspector] public bool isCompleted = false;
+        [HideInInspector] public Image autoCheckmark;
+        [HideInInspector] public GameObject instantiatedUI;
     }
 
     [System.Serializable]
     public class TaskData
     {
+        
         public Button headerButton;
         public List<SubtaskData> subtasks;
         public Image lockedOverlayImage;
+        [HideInInspector] public Image headerButtonImage;
         [HideInInspector] public bool isExpanded = false;
         [HideInInspector] public RectTransform headerRect;
         [HideInInspector] public float originalHeight;
@@ -57,29 +72,50 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         for (int i = 0; i < tasks.Count; i++)
         {
             TaskData task = tasks[i];
-
-            if (task.headerButton == null)
-            {
-                Debug.LogError($"Задача {i + 1}: Кнопка-заголовок не назначена!");
-                continue;
-            }
+            if (task.headerButton == null) continue;
 
             task.headerRect = task.headerButton.GetComponent<RectTransform>();
             task.originalHeight = task.headerRect.sizeDelta.y;
+            task.headerButtonImage = task.headerButton.GetComponent<Image>();
 
-            int index = i;
-            task.headerButton.onClick.AddListener(() => ToggleExpand(index));
+            int taskIndex = i;
+            task.headerButton.onClick.AddListener(() => ToggleExpand(taskIndex));
 
             foreach (var subtask in task.subtasks)
             {
-                if (subtask.subtaskObject != null)
+                if (subtaskPrefab != null)
                 {
-                    subtask.subtaskObject.SetActive(false);
+                    subtask.instantiatedUI = Instantiate(subtaskPrefab, task.headerRect);
+                    subtask.instantiatedUI.SetActive(false);
+
+                    // 1. АВТО-ПОИСК ГАЛОЧКИ: ищем объект по имени внутри созданного префаба
+                    Transform checkTransform = subtask.instantiatedUI.transform.Find(checkmarkObjectName);
+                    if (checkTransform != null)
+                        subtask.autoCheckmark = checkTransform.GetComponent<Image>();
+
+                    // 2. Установка текста
+                    var txt = subtask.instantiatedUI.GetComponentInChildren<TMP_Text>();
+                    if (txt != null) txt.text = subtask.description;
+
+                    // 3. Установка начального спрайта (важно!)
+                    if (subtask.autoCheckmark != null)
+                        subtask.autoCheckmark.sprite = subtask.isCompleted ? completedSprite : uncompletedSprite;
                 }
 
-                foreach (var button in subtask.completionButtons)
+                // Кнопка навигации (растягиваем как раньше)
+                if (subtask.navigationButton != null && subtask.instantiatedUI != null)
                 {
-                    button.onClick.AddListener(() => CompleteSubtask(subtask));
+                    subtask.navigationButton.transform.SetParent(subtask.instantiatedUI.transform, false);
+                    RectTransform navRt = subtask.navigationButton.GetComponent<RectTransform>();
+                    navRt.anchorMin = Vector2.zero; navRt.anchorMax = Vector2.one;
+                    navRt.offsetMin = Vector2.zero; navRt.offsetMax = Vector2.zero;
+                }
+
+                // Подписка кнопок выполнения
+                foreach (var compButton in subtask.completionButtons)
+                {
+                    if (compButton != null)
+                        compButton.onClick.AddListener(() => CompleteSubtask(subtask));
                 }
             }
 
@@ -89,57 +125,35 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
                 task.lockedOverlayImage.gameObject.SetActive(true);
             }
         }
-
         UpdateTaskState(0);
         UpdateProgressFill();
     }
 
     void ToggleExpand(int taskIndex)
     {
-        if (taskIndex > currentTaskIndex)
-        {
-            return;
-        }
-
+        if (taskIndex > currentTaskIndex) return;
         StopAllCoroutines();
-
-        if (expandedTaskIndex == taskIndex)
-        {
-            StartCoroutine(Contract(tasks[taskIndex]));
-            expandedTaskIndex = -1;
-        }
+        if (expandedTaskIndex == taskIndex) { StartCoroutine(Contract(tasks[taskIndex])); expandedTaskIndex = -1; }
         else
         {
-            if (expandedTaskIndex != -1)
-            {
-                StartCoroutine(Contract(tasks[expandedTaskIndex], () => StartCoroutine(Expand(tasks[taskIndex], taskIndex))));
-            }
-            else
-            {
-                StartCoroutine(Expand(tasks[taskIndex], taskIndex));
-            }
+            if (expandedTaskIndex != -1) StartCoroutine(Contract(tasks[expandedTaskIndex], () => StartCoroutine(Expand(tasks[taskIndex], taskIndex))));
+            else StartCoroutine(Expand(tasks[taskIndex], taskIndex));
         }
     }
 
-    void CompleteSubtask(SubtaskData subtaskToComplete)
+    public void CompleteSubtask(SubtaskData subtask)
     {
-        if (subtaskToComplete.isCompleted)
-        {
-            return;
-        }
+        if (subtask.isCompleted) return;
 
-        subtaskToComplete.isCompleted = true;
+        subtask.isCompleted = true;
+        if (subtask.autoCheckmark != null)
+            subtask.autoCheckmark.sprite = completedSprite;
 
-        if (subtaskToComplete.completionImage != null && completedSprite != null)
-        {
-            subtaskToComplete.completionImage.sprite = completedSprite;
-        }
-
-        TaskData parentTask = FindParentTask(subtaskToComplete);
+        TaskData parentTask = tasks.FirstOrDefault(t => t.subtasks.Contains(subtask));
         if (parentTask != null)
         {
             CheckTaskCompletion(parentTask);
-            UpdateProgressFill(); // Обновляем прогресс
+            UpdateProgressFill();
         }
     }
 
@@ -157,29 +171,13 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
 
     void CheckTaskCompletion(TaskData task)
     {
-        bool allSubtasksCompleted = true;
-        foreach (var subtask in task.subtasks)
+        if (task.subtasks.All(st => st.isCompleted))
         {
-            if (!subtask.isCompleted)
+            int idx = tasks.IndexOf(task);
+            if (idx + 1 < tasks.Count)
             {
-                allSubtasksCompleted = false;
-                break;
-            }
-        }
-
-        if (allSubtasksCompleted)
-        {
-            int completedTaskIndex = tasks.IndexOf(task);
-            if (completedTaskIndex != -1)
-            {
-                Debug.Log($"Задача '{task.headerButton.name}' выполнена!");
-
-                if (completedTaskIndex + 1 < tasks.Count)
-                {
-                    currentTaskIndex = completedTaskIndex + 1;
-                    UpdateTaskState(currentTaskIndex);
-                    ResetProgressFill(); // Сброс при переходе к следующей задаче
-                }
+                currentTaskIndex = idx + 1;
+                UpdateTaskState(currentTaskIndex);
             }
         }
     }
@@ -188,21 +186,8 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     {
         for (int i = 0; i < tasks.Count; i++)
         {
-            if (i < taskIndex)
-            {
-                if (tasks[i].lockedOverlayImage != null)
-                    tasks[i].lockedOverlayImage.gameObject.SetActive(false);
-            }
-            else if (i == taskIndex)
-            {
-                if (tasks[i].lockedOverlayImage != null)
-                    tasks[i].lockedOverlayImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                if (tasks[i].lockedOverlayImage != null)
-                    tasks[i].lockedOverlayImage.gameObject.SetActive(true);
-            }
+            if (tasks[i].lockedOverlayImage != null)
+                tasks[i].lockedOverlayImage.gameObject.SetActive(i > taskIndex);
         }
     }
 
@@ -234,7 +219,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
     }
 
-    // Реализация интерфейса сохранения/загрузки (оставлено без изменений)
     public void save(ref saveData saveData)
     {
         saveData.TasksData.Clear();
@@ -280,7 +264,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
                     if (subtaskSave.subtaskIndex < task.subtasks.Count)
                     {
                         task.subtasks[subtaskSave.subtaskIndex].isCompleted = subtaskSave.isCompleted;
-                        UpdateSubtaskSprite(task.subtasks[subtaskSave.subtaskIndex]);
                     }
                 }
 
@@ -306,98 +289,128 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         UpdateProgressFill(); // После загрузки обновляем прогресс
     }
 
-    private void UpdateSubtaskSprite(SubtaskData subtask)
-    {
-        if (subtask.completionImage != null)
-        {
-            subtask.completionImage.sprite = subtask.isCompleted ? completedSprite : uncompletedSprite;
-        }
-    }
+
 
     IEnumerator Expand(TaskData task, int taskIndex)
     {
         task.isExpanded = true;
         expandedTaskIndex = taskIndex;
+        if (task.headerButtonImage != null && expandedTaskSprite != null) task.headerButtonImage.sprite = expandedTaskSprite;
 
-        float contentHeight = paddingTop + paddingBottom;
-        if (task.subtasks.Count > 0)
-        {
-            contentHeight += task.subtasks.Count * childHeight;
-            contentHeight += (task.subtasks.Count - 1) * spacing;
-        }
-        float targetHeight = task.originalHeight + contentHeight;
-
-        float elapsed = 0f;
-        while (elapsed < expandDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / expandDuration);
-            float smoothT = Mathf.SmoothStep(0f, 1f, t);
-            task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, Mathf.Lerp(task.originalHeight, targetHeight, smoothT));
-            yield return null;
-        }
-        task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, targetHeight);
+        float targetHeight = task.originalHeight + paddingTop + paddingBottom + (task.subtasks.Count * childHeight) + ((task.subtasks.Count - 1) * spacing);
+        yield return StartCoroutine(AnimateHeight(task.headerRect, task.originalHeight, targetHeight));
 
         float yPos = -task.originalHeight - paddingTop;
         foreach (var subtask in task.subtasks)
         {
-            if (subtask.subtaskObject == null) continue;
+            if (subtask.instantiatedUI == null) continue;
 
-            subtask.subtaskObject.SetActive(true);
-            RectTransform rt = subtask.subtaskObject.GetComponent<RectTransform>();
-            if (rt != null)
-            {
-                rt.SetParent(task.headerRect, false);
-                rt.anchorMin = new Vector2(0f, 1f);
-                rt.anchorMax = new Vector2(1f, 1f);
-                rt.pivot = new Vector2(0.5f, 1f);
-                rt.sizeDelta = new Vector2(0f, childHeight);
-                rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, yPos);
-            }
+            subtask.instantiatedUI.SetActive(true);
+            RectTransform rt = subtask.instantiatedUI.GetComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0f, 1f); rt.anchorMax = new Vector2(1f, 1f); rt.pivot = new Vector2(0.5f, 1f);
+            rt.sizeDelta = new Vector2(0f, childHeight);
+            rt.anchoredPosition = new Vector2(0, yPos);
+
             yPos -= (childHeight + spacing);
 
-            if (subtask.isCompleted)
-            {
-                if (subtask.completionImage != null && completedSprite != null)
-                {
-                    subtask.completionImage.sprite = completedSprite;
-                }
-            }
-            else
-            {
-                if (subtask.completionImage != null && uncompletedSprite != null)
-                {
-                    subtask.completionImage.sprite = uncompletedSprite;
-                }
-            }
+            if (subtask.autoCheckmark != null)
+                subtask.autoCheckmark.sprite = subtask.isCompleted ? completedSprite : uncompletedSprite;
         }
     }
 
     IEnumerator Contract(TaskData task, System.Action onComplete = null)
     {
         task.isExpanded = false;
+        if (task.headerButtonImage != null && collapsedTaskSprite != null) task.headerButtonImage.sprite = collapsedTaskSprite;
+        foreach (var subtask in task.subtasks) if (subtask.instantiatedUI != null) subtask.instantiatedUI.SetActive(false);
+        yield return StartCoroutine(AnimateHeight(task.headerRect, task.headerRect.sizeDelta.y, task.originalHeight));
+        onComplete?.Invoke();
+    }
 
-        foreach (var subtask in task.subtasks)
-        {
-            if (subtask.subtaskObject != null)
-            {
-                subtask.subtaskObject.SetActive(false);
-            }
-        }
-
-        float startHeight = task.headerRect.sizeDelta.y;
-        float targetHeight = task.originalHeight;
+    IEnumerator AnimateHeight(RectTransform rt, float start, float end)
+    {
         float elapsed = 0f;
         while (elapsed < expandDuration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / expandDuration);
-            float smoothT = Mathf.SmoothStep(0f, 1f, t);
-            task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, Mathf.Lerp(startHeight, targetHeight, smoothT));
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, Mathf.Lerp(start, end, Mathf.SmoothStep(0f, 1f, elapsed / expandDuration)));
             yield return null;
         }
-        task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, targetHeight);
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, end);
+    }
+    // Метод для пропуска следующей невыполненной подзадачи
+    public void DebugSkipNextSubtask()
+    {
+        if (currentTaskIndex >= tasks.Count)
+        {
+            if (debugLogs) Debug.Log("Все задачи уже выполнены!");
+            return;
+        }
 
-        onComplete?.Invoke();
+        TaskData currentTask = tasks[currentTaskIndex];
+        // Находим первую подзадачу, которая еще не завершена
+        SubtaskData nextSubtask = currentTask.subtasks.FirstOrDefault(s => !s.isCompleted);
+
+        if (nextSubtask != null)
+        {
+            if (debugLogs) Debug.Log($"Тест: Пропускаем подзадачу '{nextSubtask.description}'");
+            CompleteSubtask(nextSubtask);
+        }
+        else
+        {
+            // Если в текущей задаче всё выполнено (на всякий случай)
+            if (debugLogs) Debug.Log("В текущей задаче нет невыполненных подзадач.");
+        }
+    }
+
+    // Метод для полного сброса прогресса
+    public void DebugResetAllProgress()
+    {
+        saveData currentFileState = saveLoadManager.instance.loadData();
+
+        if (currentFileState != null)
+        {
+            // 2. Очищаем конкретно список данных задач
+            if (currentFileState.TasksData != null)
+            {
+                currentFileState.TasksData.Clear();
+                Debug.Log("<color=yellow>Данные задач в файле очищены.</color>");
+            }
+
+            saveLoadManager.instance.saveData(currentFileState);
+        }
+
+        // 4. Теперь сбрасываем визуальное состояние в текущей сцене
+        currentTaskIndex = 0;
+        expandedTaskIndex = -1;
+
+        foreach (var task in tasks)
+        {
+            task.isExpanded = false;
+            // Возвращаем высоту заголовков
+            if (task.headerRect != null)
+                task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, task.originalHeight);
+
+            if (task.headerButtonImage != null && collapsedTaskSprite != null)
+                task.headerButtonImage.sprite = collapsedTaskSprite;
+
+            foreach (var subtask in task.subtasks)
+            {
+                subtask.isCompleted = false;
+                // Сбрасываем галочки на пустые
+                if (subtask.autoCheckmark != null && uncompletedSprite != null)
+                    subtask.autoCheckmark.sprite = uncompletedSprite;
+
+                // Прячем подзадачи
+                if (subtask.instantiatedUI != null)
+                    subtask.instantiatedUI.SetActive(false);
+            }
+        }
+
+        // Обнуляем прогресс-бар и закрытые замочки
+        UpdateTaskState(0);
+        UpdateProgressFill();
+
+        Debug.Log("<color=green>Прогресс задач сброшен локально и в файле!</color>");
     }
 }

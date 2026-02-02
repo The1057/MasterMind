@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using System.Linq;
@@ -35,14 +36,20 @@ public class saveLoadManager : MonoBehaviour, ITickable
 
         loadGame();
         SaveData = loadData();
-        if(SaveData != null && CanvasSwitcher != null)
+        if (SaveData != null && CanvasSwitcher != null)
         {
-            CanvasSwitcher.SwitchToCanvas(coreCanvases[SaveData.targetCanvas]);
-            Debug.Log($"Trying to switch to canvas {coreCanvases[SaveData.targetCanvas]}");
-        }
-        else
-        {
-            Debug.Log($"SaveData is null");
+            bool hasProfile = !string.IsNullOrEmpty(SaveData.PlayerData.player_name) &&
+                              !string.IsNullOrEmpty(SaveData.PlayerData.player_gender);
+
+            if (hasProfile)
+            {
+                CanvasSwitcher.SwitchToCanvas(coreCanvases[SaveData.targetCanvas]);
+                Debug.Log($"Профиль есть, загружаем канвас: {coreCanvases[SaveData.targetCanvas].name}");
+            }
+            else
+            {
+                Debug.Log("Профиль не заполнен, переключение из saveLoadManager отменено.");
+            }
         }
     }
     [ContextMenu("Save Game")]
@@ -131,6 +138,16 @@ public class saveLoadManager : MonoBehaviour, ITickable
             }
         }
         Debug.Log("Done loading");
+    }
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        // На мобилках это самый надежный способ. 
+        // Если pauseStatus == true, значит игрок свернул игру или вышел на рабочий стол.
+        if (pauseStatus)
+        {
+            saveGame();
+            Debug.Log("Игра сохранена при уходе в паузу (Mobile)");
+        }
     }
 
     //just load and save without placing shit
@@ -286,5 +303,29 @@ public class saveLoadManager : MonoBehaviour, ITickable
     public void OnApplicationQuit()
     {
         saveGame();
+    }
+    public void ResetAllProgress()
+    {
+        
+        string mainSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+
+        if (File.Exists(mainSavePath))
+        {
+            File.Delete(mainSavePath);
+            Debug.Log("Основной файл сохранения удален.");
+        }
+
+        string[] statFiles = Directory.GetFiles(Application.persistentDataPath, statisticsDirName + "*.json");
+        foreach (string file in statFiles)
+        {
+            File.Delete(file);
+            Debug.Log($"Файл статистики удален: {file}");
+        }
+
+        SaveData = new saveData();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        Debug.Log("Прогресс полностью сброшен!");
     }
 }
