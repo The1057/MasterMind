@@ -13,7 +13,8 @@ public enum backButtonMode
 }
 public class backButtonScript : MonoBehaviour
 {
-
+    private Stack<int> questionHistory = new Stack<int>();
+    public TestManager2 quizManager;
     public saveLoadManager saveLoadManager;
     public CanvasSwitcher1 canvasSwitcher;
     private bool isLoading = false;
@@ -40,61 +41,69 @@ public class backButtonScript : MonoBehaviour
     }
 
     // Update is called once per frame
+    //void Update()
+    //{
+    //    if (mode == backButtonMode.test)
+    //    {
+    //        if (testIndList.Count == 0 || manager.currentQuestion != testIndList.Last())
+    //        {
+    //            testIndList.Add(manager.currentQuestion);
+    //        }
+    //    }
+    //    else if (mode == backButtonMode.lastScene)
+    //    {
+    //        if (lastCanvases.Count > 0)
+    //        {
+    //            if (lastCanvases.Last() != canvasSwitcher.currentActiveCanvas)
+    //            {
+    //                lastCanvases.Add(canvasSwitcher.currentActiveCanvas);
+    //            }
+    //        }
+    //        else 
+    //        {
+    //            lastCanvases.Add(canvasSwitcher.initialCanvas);
+    //        }
+    //    }
+    //    if (Keyboard.current.escapeKey.wasPressedThisFrame)
+    //    {
+    //        switch (mode)
+    //        {
+    //            case backButtonMode.lastScene:                    
+    //                print("back");
+    //                loadPrevoiusCanvas();
+    //                break;
+
+
+    //            case backButtonMode.theory:
+    //                tManager.ShowPreviousCanvas();
+    //                break;
+
+
+    //            case backButtonMode.test:
+    //                if (testIndList.Count > 1)
+    //                {
+    //                    print($"Trying to set question to index {testIndList[testIndList.Count - 2]}");
+    //                    manager.setQuestionByIndex(testIndList[testIndList.Count - 2]);
+    //                    testIndList.Remove(testIndList.Last());
+    //                }
+    //                break;
+
+
+    //            case backButtonMode.toGeneral:
+    //                loadGeneralScene();
+    //                break;
+    //            default:
+
+    //                break;
+    //        }
+    //    }
+    //}
     void Update()
     {
-        if (mode == backButtonMode.test)
+        // Проверяем нажатие Escape (кнопка "Назад" на Android)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (testIndList.Count == 0 || manager.currentQuestion != testIndList.Last())
-            {
-                testIndList.Add(manager.currentQuestion);
-            }
-        }
-        else if (mode == backButtonMode.lastScene)
-        {
-            if (lastCanvases.Count > 0)
-            {
-                if (lastCanvases.Last() != canvasSwitcher.currentActiveCanvas)
-                {
-                    lastCanvases.Add(canvasSwitcher.currentActiveCanvas);
-                }
-            }
-            else 
-            {
-                lastCanvases.Add(canvasSwitcher.initialCanvas);
-            }
-        }
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            switch (mode)
-            {
-                case backButtonMode.lastScene:                    
-                    print("back");
-                    loadPrevoiusCanvas();
-                    break;
-
-
-                case backButtonMode.theory:
-                    tManager.ShowPreviousCanvas();
-                    break;
-
-
-                case backButtonMode.test:
-                    if (testIndList.Count > 1)
-                    {
-                        print($"Trying to set question to index {testIndList[testIndList.Count - 2]}");
-                        manager.setQuestionByIndex(testIndList[testIndList.Count - 2]);
-                        testIndList.Remove(testIndList.Last());
-                    }
-                    break;
-
-
-                case backButtonMode.toGeneral:
-                    loadGeneralScene();
-                    break;
-                default:
-
-                    break;
-            }
+            GoBack();
         }
     }
 
@@ -105,6 +114,20 @@ public class backButtonScript : MonoBehaviour
             var saveData = saveLoadManager.loadData();
             saveData.lastScenes.Add(SceneManager.GetActiveScene().name);
             saveLoadManager.saveData(saveData);
+        }
+    }
+    public void GoBack()
+    {
+        if (questionHistory.Count > 1)
+        {
+            questionHistory.Pop(); // Удаляем текущий вопрос
+            int previousIndex = questionHistory.Peek();
+            quizManager.ShowQuestion(previousIndex); // Показываем предыдущий
+        }
+        else
+        {
+            // Если история пуста, выходим в меню
+            SceneManager.LoadScene("Tasks 1");
         }
     }
 

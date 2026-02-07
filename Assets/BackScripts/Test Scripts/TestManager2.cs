@@ -1,644 +1,303 @@
-﻿using NUnit.Framework;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Linq;
 using TMPro;
-using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Linq;
 
-public enum questionClass
-{
-    oneChoice,
-    multiChoice,
-    textInput
-}
+public enum QuestionType { OneChoice, MultiChoice, TextInput }
 
-[Serializable]
+[System.Serializable]
 public class Question
 {
     public string question;
-    public List<string> answers;
+    public QuestionType type;
+    public List<string> answers; // Для выбора
+    public List<int> correctAnswerIndex; // Индексы правильных ответов
+    public string correctAnswer; // Для текстового ввода
     public string comment;
-    public string correctAnswer;
-    public questionClass questionClass;
-    public int correctAnswerIndex;
+    public bool isAnswered = false;
+    public List<int> playerSelectedIndices = new List<int>();
 }
-[Serializable]
+
+[System.Serializable]
 public class Score
 {
-    public int score;
-    public int errorCount;
+    public int score = 0;
+    public int errorCount = 0;
 }
 
 public class TestManager2 : MonoBehaviour
 {
+    public Score sessionScore = new Score();
+    bool isCorrect = false;
+
+    [Header("Data")]
     public List<Question> questions;
-    private List<GameObject> questionObjects = new();
+    private int currentQuestionIndex = 0;
+    private List<Image> navButtonsImages = new List<Image>();
+    private List<int> selectedIndices = new List<int>();
 
-
-    [Header("Префабы")]
-    public GameObject QuestionPrefab;
-    public GameObject answerButtPrefabIncorr;
-    public GameObject answerButtPrefabCorr;
-    public GameObject scrollPrefab;
-    public GameObject qButtonPrefab;
-    public GameObject answerMCCorPrefab;
-    public GameObject answerMCIncorPrefab;
-    public GameObject acceptButtonPrefab;
-    public GameObject textInputPrefab;
-    public GameObject checkAnswerButtonPrefab;
-    public GameObject nextQuestionButtonPrefab;
-
-    [Header("Кнопки вопросов")]
-    public Sprite qButtPressed;
-    public Sprite qButtDefault;
-    public Sprite qButtComplete;
-
-    [Header("Кнопки ответов")]
-    public Sprite ansButtPressedCorrect;
-    public Sprite ansButtPressedIncorrect;
-    public Sprite ansButtDefault;
-    public Sprite ansButtMCpressed;
-    public Sprite IFAcceptGrey;
-    public Sprite IFAcceptPink;
-
-    [Header("Настройка текста")]
-    public float ansButtonDistance = 150;
-    public float qButtonDistance = 80;
-    public int ansButt2QuestDistance = 20;
-    public float inputField2QuestDist = 100;
-    public int ansButtSizeModifier = 20;
-    public float comment2LastAnsGap = 100;
-    public float ansButtBaseHeight = 400;
-
-    [Header("Разное")]
-    private TextMeshProUGUI TextMeshProUGUI;
-    private GameObject scrollBar;
-    private List<GameObject> qButtons = new();
-    public int currentQuestion = 0;
-    public List<bool> firstPresses = new List<bool>();
-    public HashSet<char> pressedAnswers = new HashSet<char>();
-    private List<Button> correctButtons;
-    public Score score1 = new Score();
-
-    [Header("Скролл-бар")]
-    public Transform scrollContent;
-
-    [Header("Завершение теста")]
-    public GameObject finishCanvas;
+    [Header("UI References")]
+    public TextMeshProUGUI questionText;
+    public Transform optionsParent;
+    public GameObject winCanvas;  
+    public GameObject loseCanvas;
+    public TMP_InputField inputField;
+    public Button submitButton;
+    public Button nextButton;
+    public TextMeshProUGUI commentText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText2;
+
+    [Header("Navigation Panel")]
+    public GameObject navButtonPrefab; // Префаб маленькой кнопки номера
+    public Transform navPanelParent;   // Сюда они спавнятся (Horizontal Layout Group)
+
+    [Header("Prefabs")]
+    public GameObject optionButtonPrefab; // Всего ОДИН префаб кнопки
+
+    [Header("Settings")]
+    public Color defaultColor = Color.white;
+    public Color selectedColor = new Color(0.7f, 0.7f, 1f); // Голубоватый при нажатии
+    public Color correctColor = Color.green;
+    public Color wrongColor = Color.red;
+    public Color missedCorrectColor = new Color(0.2f, 0.5f, 0.2f);
+    public Color activeNavColor = Color.blue;
+    public Color inactiveNavColor = Color.blue;
+    public Color answeredNavColor = Color.blue;
 
     void Start()
     {
-        generateTest();
+        CreateNavigationPanel();
+        ShowQuestion(0);
+
+        // Вешаем логику на кнопки управления
+        submitButton.onClick.AddListener(CheckAnswer);
+        nextButton.onClick.AddListener(OnNextClick);
     }
 
-    public void correctOption()
+    void CreateNavigationPanel()
     {
-        if (firstPresses[currentQuestion])
-        {
-            var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-            thisButton.GetComponent<Image>().sprite = ansButtPressedCorrect;
-        }
+        // Очищаем панель перед созданием
+        foreach (Transform child in navPanelParent) Destroy(child.gameObject);
+        navButtonsImages.Clear();
 
-        if (firstPresses[currentQuestion])
+        for (int i = 0; i < questions.Count; i++)
         {
-            score1.score++;
-            firstPresses[currentQuestion] = false;
-            TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            
-            if (TextMeshProUGUI != null) { TextMeshProUGUI.color = Color.white; }
-            ShowNextButton();
+            int index = i;
+            GameObject go = Instantiate(navButtonPrefab, navPanelParent);
+            go.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
+
+            Button btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(() => ShowQuestion(index));
+
+            navButtonsImages.Add(go.GetComponent<Image>());
         }
     }
-    private void ShowNextButton()
+
+    public void ShowQuestion(int index)
     {
-        Transform nextButton = questionObjects[currentQuestion].transform.Find("NextQuestionButton");
-        if (nextButton != null)
+        currentQuestionIndex = index;
+        Question q = questions[index];
+        selectedIndices.Clear();
+
+        questionText.text = q.question;
+        inputField.gameObject.SetActive(q.type == QuestionType.TextInput);
+
+        // Очистка старых кнопок
+        foreach (Transform child in optionsParent) Destroy(child.gameObject);
+
+        if (q.type != QuestionType.TextInput)
         {
+            for (int i = 0; i < q.answers.Count; i++)
+            {
+                int optionIndex = i;
+                GameObject btnObj = Instantiate(optionButtonPrefab, optionsParent);
+                btnObj.GetComponentInChildren<TMP_Text>().text = q.answers[i];
+                btnObj.GetComponent<Image>().color = defaultColor;
+
+                Button btn = btnObj.GetComponent<Button>();
+                btn.onClick.AddListener(() => OnOptionClick(optionIndex));
+            }
+        }
+
+        // ЛОГИКА ДЛЯ УЖЕ ОТВЕЧЕННЫХ ВОПРОСОВ
+        if (q.isAnswered)
+        {
+            commentText.text = q.comment;
+            commentText.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(true);
-        }
-    }
-    public void incorrectOption()
-    {
-        if (firstPresses[currentQuestion])
-        {
-            var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-            thisButton.GetComponent<Image>().sprite = ansButtPressedIncorrect;
-            if (correctButtons != null && correctButtons.Count > currentQuestion)
+            submitButton.gameObject.SetActive(false);
+
+            if (q.type == QuestionType.TextInput)
             {
-                correctButtons[currentQuestion].image.sprite = ansButtPressedCorrect;
-            }
-        }
-
-        if (firstPresses[currentQuestion])
-        {
-            score1.errorCount++;
-            firstPresses[currentQuestion] = false;
-            TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            
-            if (TextMeshProUGUI != null) { TextMeshProUGUI.color = Color.white; }
-
-            ShowNextButton();
-        }
-    }
-
-    public void MCcorrectOption()
-    {
-        var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        var thisAnsLetter = thisButton.GetComponentInChildren<TextMeshProUGUI>().text[0];
-        if (firstPresses[currentQuestion])
-        {
-            if (!pressedAnswers.Contains(thisAnsLetter))
-            {
-                pressedAnswers.Add(thisAnsLetter);
-                thisButton.GetComponent<Image>().sprite = ansButtMCpressed;
+                inputField.text = q.correctAnswer; // Можно показать правильный ответ в поле
+                inputField.interactable = false;
             }
             else
             {
-                pressedAnswers.Remove(thisAnsLetter);
-                thisButton.GetComponent<Image>().sprite = ansButtDefault;
+                // Используем сохраненные индексы игрока для подсветки
+                HighlightButtons(q.playerSelectedIndices);
             }
-        }
-    }
-
-    public void MCIncorrectOption()
-    {
-        var thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        var thisAnsLetter = thisButton.GetComponentInChildren<TextMeshProUGUI>().text[0];
-        if (firstPresses[currentQuestion])
-        {
-            if (!pressedAnswers.Contains(thisAnsLetter))
-            {
-                pressedAnswers.Add(thisAnsLetter);
-                thisButton.GetComponent<Image>().sprite = ansButtMCpressed;
-            }
-            else
-            {
-                pressedAnswers.Remove(thisAnsLetter);
-                thisButton.GetComponent<Image>().sprite = ansButtDefault;
-            }
-        }
-    }
-
-    public void MCAccept()
-    {
-        if (firstPresses[currentQuestion])
-        {
-            firstPresses[currentQuestion] = false;
-            var correctAnswerButtons = findAllCorrectAnswersMC();
-            var correctAnswers = questions[currentQuestion].correctAnswer.Split(' ');
-            foreach (var correctAnswerButton in correctAnswerButtons)
-            {
-                correctAnswerButton.image.sprite = ansButtPressedCorrect;
-            }
-            if (isCorrectAnswerMC(correctAnswers))
-            {
-                score1.score++;
-            }
-            else
-            {
-                score1.errorCount++;
-            }
-            Score tempScore = findCorrectAnswerAmount(correctAnswers);
-
-            TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            if (TextMeshProUGUI != null)
-            {
-                TextMeshProUGUI.color = Color.white;
-                TextMeshProUGUI.text = $"Правильных ответов:{tempScore.score}/{correctAnswers.Length}\nНеправильных ответов: {tempScore.errorCount}\n" + TextMeshProUGUI.text;
-            }
-
-            ShowNextButton();
-        }
-    }
-
-    public void IFCheckAnswer()
-    {
-        if (!firstPresses[currentQuestion]) return;
-
-        TMP_InputField inputField = questionObjects[currentQuestion].GetComponentInChildren<TMP_InputField>();
-        if (inputField == null) return;
-
-        string inputText = inputField.text;
-
-        firstPresses[currentQuestion] = false;
-
-        string correctAnswer = questions[currentQuestion].correctAnswer.Trim().ToLower();
-        string userAnswer = inputText.Trim().ToLower();
-
-        bool isCorrect = userAnswer == correctAnswer;
-
-        if (isCorrect)
-        {
-            score1.score++;
         }
         else
         {
-            score1.errorCount++;
-        }
-        inputField.interactable = false;
-
-        TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-        if (TextMeshProUGUI != null)
-        {
-            TextMeshProUGUI.color = Color.white;
-            TextMeshProUGUI.text = (isCorrect ? "Правильно!" : "Неправильно!") + "\n" + questions[currentQuestion].comment;
+            // Для новых вопросов сбрасываем состояние
+            commentText.gameObject.SetActive(false);
+            nextButton.gameObject.SetActive(false);
+            submitButton.gameObject.SetActive(q.type != QuestionType.OneChoice);
+            inputField.interactable = true;
+            inputField.text = "";
         }
 
-        ShowNextButton();
+        UpdateNavUI(index);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(optionsParent.GetComponent<RectTransform>());
     }
-    public void setQuestion(GameObject button)
+
+    void UpdateNavUI(int index)
     {
-        int newIndex = int.Parse(button.GetComponentInChildren<TextMeshProUGUI>().text) - 1;
-        int oldQuestion = currentQuestion;
-        currentQuestion = newIndex;
-        questionObjects[currentQuestion].SetActive(true);
-        if (oldQuestion != currentQuestion && oldQuestion >= 0)
+        for (int i = 0; i < navButtonsImages.Count; i++)
         {
-            questionObjects[oldQuestion].SetActive(false);
+            if (i == index) navButtonsImages[i].color = activeNavColor;
+            else if (questions[i].isAnswered) navButtonsImages[i].color = answeredNavColor;
+            else navButtonsImages[i].color = inactiveNavColor;
         }
+    }
 
-        TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
+    void OnOptionClick(int index)
+    {
+        Question q = questions[currentQuestionIndex];
+        if (q.isAnswered) return;
 
-        var images = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponentsInChildren<Image>();
-        for (int i = 0; i < images.Length; i++)
+        if (q.type == QuestionType.OneChoice)
         {
-            if (images[i] == null) continue;
-            if (i == currentQuestion)
-            {
-                images[i].sprite = qButtPressed;
-                this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
-            }
-            else if (!firstPresses[i])
-            {
-                images[i].sprite = qButtComplete;
-                this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
-            }
+            q.playerSelectedIndices = new List<int> { index }; // Сохраняем выбор
+            bool isCorrect = q.correctAnswerIndex.Contains(index);
+            HighlightButtons(q.playerSelectedIndices);
+            Validate(isCorrect);
+        }
+        else if (q.type == QuestionType.MultiChoice)
+        {
+            // Переключаем выбор
+            if (selectedIndices.Contains(index))
+                selectedIndices.Remove(index);
             else
+                selectedIndices.Add(index);
+
+            // Визуально подсвечиваем выбранные (пока не нажата "Принять")
+            for (int i = 0; i < optionsParent.childCount; i++)
             {
-                images[i].sprite = qButtDefault;
-                this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
-            }
-        }
-
-        pressedAnswers = new();
-    }
-    public List<Button> findAllCorrectAnswers()
-    {
-        var buttons = this.gameObject.transform.GetComponentsInChildren<Button>(true);
-        List<Button> correctButtons = new();
-
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if (buttons[i].onClick.GetPersistentEventCount() > 0 && buttons[i].onClick.GetPersistentMethodName(0) == "correct_oc")
-            {
-                correctButtons.Add(buttons[i]);
-            }
-        }
-        return correctButtons;
-    }
-    public List<Button> findAllCorrectAnswersMC()
-    {
-        var buttons = this.gameObject.transform.GetComponentsInChildren<Button>();
-        List<Button> correctButtons = new();
-
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if (buttons[i].onClick.GetPersistentEventCount() > 0 && buttons[i].onClick.GetPersistentMethodName(0) == "correct")
-            {
-                correctButtons.Add(buttons[i]);
-            }
-        }
-        return correctButtons;
-    }
-    public void generateTest()
-    {
-        for (int questionIndex = 0; questionIndex < questions.Count; questionIndex++)
-        {
-            Question question = questions[questionIndex];
-            GameObject currentQuestionObj = Instantiate(QuestionPrefab, this.transform);
-            questionObjects.Add(currentQuestionObj);
-
-            TextMeshProUGUI questionText = currentQuestionObj.transform.Find("Вопрос").GetComponent<TextMeshProUGUI>();
-            questionText.text = question.question;
-
-            GameObject lastButton = null;
-
-            switch (question.questionClass)
-            {
-
-                case questionClass.oneChoice:
-                    for (int i = 0; i < question.answers.Count; i++)
-                    {
-                        var answer = question.answers[i];
-                        float buttHeightModif = questionText.preferredHeight + ansButt2QuestDistance;
-                        GameObject thisButton;
-                        if (answer[0] == question.correctAnswer[0])
-                        {
-                            thisButton = Instantiate(answerButtPrefabCorr, currentQuestionObj.transform);
-                        }
-                        else
-                        {
-                            thisButton = Instantiate(answerButtPrefabIncorr, currentQuestionObj.transform);
-                        }
-
-                        if (i == 0)
-                        {
-                            lastButton = thisButton;
-                            thisButton.transform.position -= new Vector3(0, buttHeightModif, 0);
-                        }
-                        thisButton.GetComponent<testAnsButtScript>().testManager = this;
-                        thisButton.GetComponentInChildren<TextMeshProUGUI>().text = answer;
-
-                        var buttSizeModifHeight = thisButton.GetComponentInChildren<TextMeshProUGUI>().preferredHeight;
-                        var buttSizeModifWidth = thisButton.GetComponent<RectTransform>().sizeDelta.x;
-                        thisButton.GetComponent<RectTransform>().sizeDelta = new Vector2(buttSizeModifWidth, buttSizeModifHeight + ansButtSizeModifier);
-                        var lastButtSize = lastButton.GetComponent<RectTransform>().sizeDelta;
-                        var thisButtSize = thisButton.GetComponent<RectTransform>().sizeDelta;
-
-                        thisButton.transform.position = lastButton.transform.position - new Vector3(0, lastButtSize.y / 2 + thisButtSize.y / 2 + ansButtonDistance, 0);
-                        lastButton = thisButton;
-                    }
-                    break;
-                case questionClass.multiChoice:
-                    var butt = Instantiate(answerButtPrefabCorr, currentQuestionObj.transform);//кнопка-костыль
-                    butt.SetActive(false);
-
-                    butt = Instantiate(acceptButtonPrefab, currentQuestionObj.transform);
-                    butt.GetComponent<testAnsButtMCScript>().testManager = this;
-
-                    var correctLetters = question.correctAnswer.Split(' ');
-                    for (int i = 0; i < question.answers.Count; i++)
-                    {
-                        var answer = question.answers[i];
-                        float buttHeightModif = questionText.preferredHeight + ansButt2QuestDistance;
-                        GameObject thisButton;
-                        if (isCorrectChoice(correctLetters, answer[0]))
-                        {
-                            thisButton = Instantiate(answerMCCorPrefab, currentQuestionObj.transform);
-                        }
-                        else
-                        {
-                            thisButton = Instantiate(answerMCIncorPrefab, currentQuestionObj.transform);
-                        }
-                        thisButton.GetComponent<testAnsButtMCScript>().testManager = this;
-                        thisButton.GetComponentInChildren<TextMeshProUGUI>().text = answer;
-
-                        if (i == 0)
-                        {
-                            lastButton = thisButton;
-                            thisButton.transform.position -= new Vector3(0, buttHeightModif, 0);
-                        }
-                        var buttSizeModifHeight = thisButton.GetComponentInChildren<TextMeshProUGUI>().preferredHeight;
-                        var buttSizeModifWidth = thisButton.GetComponent<RectTransform>().sizeDelta.x;
-                        thisButton.GetComponent<RectTransform>().sizeDelta = new Vector2(buttSizeModifWidth, buttSizeModifHeight + ansButtSizeModifier);
-                        var lastButtSize = lastButton.GetComponent<RectTransform>().sizeDelta;
-                        var thisButtSize = thisButton.GetComponent<RectTransform>().sizeDelta;
-
-                        thisButton.transform.position = lastButton.transform.position - new Vector3(0, lastButtSize.y / 2 + thisButtSize.y / 2 + ansButtonDistance, 0);
-
-                        lastButton = thisButton;
-                    }
-                    break;
-
-                case questionClass.textInput:
-                    {
-                        // Кнопка-костыль
-                        GameObject dummyButton = Instantiate(answerButtPrefabCorr, currentQuestionObj.transform);
-                        dummyButton.SetActive(false);
-
-                        Vector3 questionPosition = questionText.transform.position;
-
-                        GameObject inputFieldGO = Instantiate(textInputPrefab, currentQuestionObj.transform);
-                        TMP_InputField inputField = inputFieldGO.GetComponent<TMP_InputField>();
-
-                        float offsetFromQuestion = questionText.preferredHeight + inputField2QuestDist;
-                        inputFieldGO.transform.position = new Vector3(questionPosition.x, questionPosition.y - offsetFromQuestion, questionPosition.z);
-
-                        lastButton = inputFieldGO;
-
-                        GameObject checkButton = Instantiate(checkAnswerButtonPrefab, currentQuestionObj.transform);
-                        checkButton.GetComponent<testAnsButtIFScript>().testManager = this;
-
-                        var inputSize = inputFieldGO.GetComponent<RectTransform>().sizeDelta;
-                        var buttonSize = checkButton.GetComponent<RectTransform>().sizeDelta;
-                        checkButton.transform.position = new Vector3(
-                            inputFieldGO.transform.position.x,
-                            inputFieldGO.transform.position.y - (inputSize.y / 2 + buttonSize.y / 2 + ansButtonDistance),
-                            inputFieldGO.transform.position.z
-                        );
-
-                        lastButton = checkButton;
-                        break;
-                    }
-
-            }
-            TextMeshProUGUI commentText = currentQuestionObj.transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-            commentText.text = question.comment;
-            commentText.color = Color.clear;
-            commentText.gameObject.transform.position = lastButton.transform.position
-                - new Vector3(0, comment2LastAnsGap + lastButton.GetComponent<RectTransform>().sizeDelta.y, 0);
-
-            GameObject nextButton = Instantiate(nextQuestionButtonPrefab, currentQuestionObj.transform);
-            nextButton.name = "NextQuestionButton";
-            nextButton.SetActive(false); 
-
-            RectTransform rect = nextButton.GetComponent<RectTransform>();
-
-            Button button = nextButton.GetComponent<Button>();
-            int thisQuestionIndex = questionIndex; 
-
-            button.onClick.AddListener(() =>
-            {
-                if (thisQuestionIndex < questions.Count - 1)
-                {
-                    // Если это не последний вопрос, просто переключаемся на следующий.
-                    setQuestionByIndex(thisQuestionIndex + 1);
-                }
-                else
-                {
-                    // Если это последний вопрос, проверяем, закончен ли тест.
-                    if (IsTestComplete())
-                    {
-                        // Если да, показываем финальный экран.
-                        if (finishCanvas != null)
-                        {
-                            finishCanvas.SetActive(true);
-                            currentQuestionObj.SetActive(false);
-                            if (scoreText != null)
-                            {
-                                scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int nextUnansweredIndex = FindFirstUnansweredQuestionIndex();
-                        if (nextUnansweredIndex != -1)
-                        {
-                            // Переходим к первому неотвченному вопросу
-                            setQuestionByIndex(nextUnansweredIndex);
-                        }
-                    }
-                }
-            });
-
-            firstPresses.Add(true);
-            currentQuestionObj.SetActive(false);
-        }
-
-        scrollBar = GameObject.Find("TestScrollView");
-        Transform content = scrollBar.transform.GetChild(0).GetChild(0);
-        GameObject template = content.GetChild(0).gameObject;
-        for (int i = 0; i < questions.Count; i++)
-        {
-            var thisButton = Instantiate(template, content);
-            thisButton.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
-            Button btn = thisButton.GetComponent<Button>();
-            GameObject buttonObj = thisButton;
-            btn.onClick.AddListener(() => setQuestion(buttonObj));
-        }
-
-        content.GetComponent<HorizontalLayoutGroup>().spacing = qButtonDistance;
-        template.SetActive(false);
-        Destroy(template);
-
-        currentQuestion = -1;
-        setQuestion(content.GetChild(0).gameObject);
-        setQuestionByIndex(1);
-
-        correctButtons = findAllCorrectAnswers();
-
-    }
-    private int FindFirstUnansweredQuestionIndex()
-    {
-        for (int i = 0; i < firstPresses.Count; i++)
-        {
-            if (firstPresses[i]) // Если firstPresses[i] == true, значит вопрос i не отвечен
-            {
-                return i;
-            }
-        }
-        // Если все вопросы отвечены, возвращаем -1 (или можно вернуть, например, questions.Count)
-        return -1;
-    }
-    public bool isCorrectChoice(string[] correctAnswers, char givenAnswer)
-    {
-        foreach (var correctAnswer in correctAnswers)
-        {
-            if (givenAnswer.Equals(correctAnswer[0])) return true;
-        }
-        return false;
-    }
-    public bool isCorrectAnswerMC(string[] correctAnswers)
-    {
-        char[] charAns = new char[correctAnswers.Length];
-        for (int i = 0; i < correctAnswers.Length; i++)
-        {
-            charAns[i] = correctAnswers[i][0];
-        }
-        return pressedAnswers.SetEquals(charAns);
-    }
-    public Score findCorrectAnswerAmount(string[] correctAnswers)
-    {
-        Score amount = new();
-
-        char[] charAnsCorr = new char[correctAnswers.Length];
-        HashSet<char> corrAnsSet = new HashSet<char>();
-        for (int i = 0; i < correctAnswers.Length; i++)
-        {
-            charAnsCorr[i] = correctAnswers[i][0];
-            corrAnsSet.Add(charAnsCorr[i]);
-            print(charAnsCorr[i]);
-        }
-        amount.score = pressedAnswers.Intersect(corrAnsSet).Count();
-        amount.errorCount = pressedAnswers.Count() - amount.score;
-        print($"Correct answers: {amount.score}\n Incorrect answers: {amount.errorCount}");
-        return amount;
-    }
-    public bool IsTestComplete()
-    {
-        foreach (bool firstPress in firstPresses)
-        {
-            if (firstPress)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    public void NextQuestion()
-    {
-        if (currentQuestion < questions.Count - 1)
-        {
-            setQuestionByIndex(currentQuestion + 1);
-        }
-        else if (IsTestComplete())
-        {
-            if (finishCanvas != null)
-            {
-                finishCanvas.SetActive(true);
-                questionObjects[currentQuestion].SetActive(false);
-                if (scoreText != null)
-                {
-                    scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
-                }
+                optionsParent.GetChild(i).GetComponentInChildren<Image>().color =
+                    selectedIndices.Contains(i) ? selectedColor : defaultColor;
             }
         }
     }
 
-    public void setQuestionByIndex(int index)
+    public void CheckAnswer()
     {
-        if (index == currentQuestion) return;
+        Question q = questions[currentQuestionIndex];
+        if (q.isAnswered) return;
 
-        int oldQuestion = currentQuestion;
-        currentQuestion = index;
-        questionObjects[currentQuestion].SetActive(true);
-        if (oldQuestion != currentQuestion && oldQuestion >= 0)
+        bool isCorrect = false;
+
+        if (q.type == QuestionType.TextInput)
         {
-            questionObjects[oldQuestion].SetActive(false);
+            isCorrect = (inputField.text.ToLower().Trim() == q.correctAnswer.ToLower().Trim());
+            Validate(isCorrect);
         }
-
-        var scrollContent = this.gameObject.transform.GetChild(0).GetChild(0).GetChild(0);
-        if (scrollContent != null)
+        else if (q.type == QuestionType.MultiChoice)
         {
-            var images = scrollContent.GetComponentsInChildren<Image>(true);
-            for (int i = 0; i < images.Length; i++)
-            {
-                var textComponent = images[i].transform.GetComponentInChildren<TextMeshProUGUI>();
-                if (i == currentQuestion && textComponent != null)
-                {
-                    images[i].sprite = qButtPressed;
-                    textComponent.color = Color.white;
-                }
-                else if (!firstPresses[i] && textComponent != null)
-                {
-                    images[i].sprite = qButtComplete;
-                    textComponent.color = Color.black;
-                }
-                else if (textComponent != null)
-                {
-                    images[i].sprite = qButtDefault;
-                    textComponent.color = Color.black;
-                }
-            }
-        }
+            q.playerSelectedIndices = new List<int>(selectedIndices); // Сохраняем выбор
+            var correctList = q.correctAnswerIndex;
+            isCorrect = selectedIndices.Count == correctList.Count && !selectedIndices.Except(correctList).Any();
 
-        TextMeshProUGUI = questionObjects[currentQuestion].transform.Find("Пояснение").GetComponent<TextMeshProUGUI>();
-        pressedAnswers = new();
+            HighlightButtons(q.playerSelectedIndices);
+            Validate(isCorrect);
+        }
     }
-    public void FinishTest()
+
+    void HighlightButtons(List<int> playerChoices)
     {
-        if (finishCanvas != null)
+        Question q = questions[currentQuestionIndex];
+        for (int i = 0; i < optionsParent.childCount; i++)
         {
-            finishCanvas.SetActive(true);
+            Image img = optionsParent.GetChild(i).GetComponentInChildren<Image>();
+            bool isCorrectIdx = q.correctAnswerIndex.Contains(i);
+            bool isSelected = playerChoices.Contains(i);
+
+            if (isSelected && isCorrectIdx) img.color = correctColor; // Правильно выбрал
+            else if (isSelected && !isCorrectIdx) img.color = wrongColor; // Ошибся
+            else if (!isSelected && isCorrectIdx) img.color = missedCorrectColor; // Не выбрал правильный (подсказка)
+            else img.color = new Color(0.5f, 0.5f, 0.5f, 0.5f); // Остальные затемняем
+
+            // Выключаем кнопку после ответа
+            optionsParent.GetChild(i).GetComponentInChildren<Button>().interactable = false;
+        }
+    }
+
+    void Validate(bool isCorrect)
+    {
+        questions[currentQuestionIndex].isAnswered = true;
+
+        if (isCorrect) sessionScore.score++;
+        else sessionScore.errorCount++;
+
+        commentText.text = questions[currentQuestionIndex].comment;
+        commentText.gameObject.SetActive(true);
+        nextButton.gameObject.SetActive(true);
+        submitButton.gameObject.SetActive(false);
+
+        UpdateNavUI(currentQuestionIndex);
+    }
+
+    public void RestartTest()
+    {
+        sessionScore.score = 0;
+        sessionScore.errorCount = 0;
+
+        foreach (var q in questions)
+        {
+            q.isAnswered = false;
+            q.playerSelectedIndices.Clear(); // Очищаем историю нажатий
+        }
+
+        if (winCanvas != null) winCanvas.SetActive(false);
+        if (loseCanvas != null) loseCanvas.SetActive(false);
+
+        ShowQuestion(0);
+    }
+
+    void OnNextClick()
+    {
+        int firstUnanswered = questions.FindIndex(q => !q.isAnswered);
+
+        if (firstUnanswered == -1) // Если ответили на все вопросы
+        {
+            // 1. Сначала считаем, какой канвас показать
+            // В данном примере 7 баллов и выше — это победа
+            bool isWin = sessionScore.score >= 7;
+
+            // 2. Активируем нужный и выключаем ненужный
+            if (winCanvas != null) winCanvas.SetActive(isWin);
+            if (loseCanvas != null) loseCanvas.SetActive(!isWin);
+
+            // 3. Обновляем текст результата
+            // (Убедитесь, что scoreText есть на обоих канвасах или он общий)
             if (scoreText != null)
-            {
-                scoreText.text = $"Ваш результат \n{score1.score} / {questions.Count}";
-            }
+                scoreText.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
+            if (scoreText2 != null)
+                scoreText2.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
+
+            return;
         }
+
+        if (currentQuestionIndex == questions.Count - 1)
+        {
+            ShowQuestion(firstUnanswered);
+            return;
+        }
+
+        if (questions[currentQuestionIndex + 1].isAnswered) ShowQuestion(firstUnanswered);
+        else ShowQuestion(currentQuestionIndex + 1);
     }
 }
