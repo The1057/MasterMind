@@ -35,7 +35,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
         saveDirPath = Application.persistentDataPath;
 
         loadGame();
-        SaveData = loadData();
+        //SaveData = loadData();
         if (SaveData != null && CanvasSwitcher != null)
         {
             bool hasProfile = !string.IsNullOrEmpty(SaveData.PlayerData.player_name) &&
@@ -91,36 +91,44 @@ public class saveLoadManager : MonoBehaviour, ITickable
     {
         Debug.Log("Starting loading....");
         string fullPath = Path.Combine(saveDirPath, saveFileName);
+
+        // Инициализируем данные ПЕРЕД загрузкой, чтобы они не были null
+        if (SaveData == null) SaveData = new saveData();
+
         if (File.Exists(fullPath))
         {
             try
             {
                 string rawJSON;
-                Debug.Log("Reading data from file...");
                 using (FileStream stream = new FileStream(fullPath, FileMode.Open))
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        rawJSON = reader.ReadToEnd();//magic to read from file
+                        rawJSON = reader.ReadToEnd();
                     }
                 }
-                SaveData = JsonUtility.FromJson<saveData>(rawJSON);
+                // Десериализуем в существующий объект или создаем новый
+                var loadedData = JsonUtility.FromJson<saveData>(rawJSON);
+                if (loadedData != null) SaveData = loadedData;
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error while loading data from file: {fullPath} \n {e}");
+                Debug.LogError($"Error while loading: {e}");
             }
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found. Using default data.");
+        }
 
-            if (SaveData == null)
-            {
-                Debug.LogError("No data found. Creating new instance of saveData");
-                SaveData = new saveData();
-            }
-
+        Debug.Log("Deleting excess stores and rivals...");
+        if (SaveData.StoreDatas != null && SaveData.StoreDatas.Count > 0)
+        {
             Debug.Log("Deleting excess stores and rivals...");
-            deleteAllStoresOnScene();//удаляем существующие торговые точки
-            deleteAllRivalsOnScene();
-            Debug.Log("Creating stores and rivals from save data...");
+            deleteAllStoresOnScene();
+            // ... создание магазинов из SaveData ...
+        }
+        Debug.Log("Creating stores and rivals from save data...");
             foreach (var store in SaveData.StoreDatas)//создаём все торговые точки
             {
                 Instantiate(storeObject).GetComponent<storeScript>().storeId = store.storeID;
@@ -136,7 +144,6 @@ public class saveLoadManager : MonoBehaviour, ITickable
             {
                 obj.load(SaveData);
             }
-        }
         Debug.Log("Done loading");
     }
     private void OnApplicationPause(bool pauseStatus)
@@ -298,11 +305,11 @@ public class saveLoadManager : MonoBehaviour, ITickable
     }
     public void OnDisable()
     {
-        saveGame();
+        //saveGame();
     }
     public void OnApplicationQuit()
     {
-        saveGame();
+        //saveGame();
     }
     public void ResetAllProgress()
     {

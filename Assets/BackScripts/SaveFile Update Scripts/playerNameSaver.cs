@@ -16,13 +16,13 @@ public class playerNameSaver : MonoBehaviour
 
     void Awake()
     {
-#if UNITY_EDITOR
-        string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
-        string scriptDirectory = Path.GetDirectoryName(scriptPath);
-        filePath = Path.Combine(scriptDirectory, "playerData.json");
-#else
-        filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
-#endif
+//#if UNITY_EDITOR
+//        string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(this));
+//        string scriptDirectory = Path.GetDirectoryName(scriptPath);
+//        filePath = Path.Combine(scriptDirectory, "playerData.json");
+//#else
+       filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
+//#endif
 
         Debug.Log("Путь к файлу: " + filePath);
     }
@@ -57,27 +57,18 @@ public class playerNameSaver : MonoBehaviour
 
     public void SaveName()
     {
-        // Дополнительная проверка (на случай, если кто-то вызовет метод вручную)
-        if (string.IsNullOrEmpty(nameInputField.text) || nameInputField.text.Length <= 1)
-        {
-            Debug.LogWarning("Имя слишком короткое — сохранение отменено.");
-            return;
-        }
+        if (string.IsNullOrEmpty(nameInputField.text) || nameInputField.text.Length <= 1) return;
+
+        // Гарантируем, что в данных есть куда записывать имя
+        //if (playerData.data == null) playerData.data = new playerData();
 
         playerData.data.player_name = nameInputField.text;
-        Debug.Log("Имя сохранено в player_name: " + playerData.data.player_name);
 
-        // Здесь можно добавить реальное сохранение в файл, если нужно:
-        // SaveToFile();
+        if (saveLoadManager.instance != null)
+        {
+            // Это создаст файл save.json, если его не было
+            saveLoadManager.instance.saveGame();
+            Debug.Log("Файл создан и имя записано!");
+        }
     }
-
-    // Пример метода сохранения в файл (опционально)
-    /*
-    void SaveToFile()
-    {
-        string json = JsonUtility.ToJson(playerData);
-        File.WriteAllText(filePath, json);
-        Debug.Log("Данные сохранены в: " + filePath);
-    }
-    */
 }

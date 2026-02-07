@@ -39,6 +39,7 @@ public class saveData
     public int targetCanvas = 0;
     public List<TaskSaveData> TasksData = new List<TaskSaveData>();
     public List<float> TheoryCanvasAlphas = new List<float>();
+    public List<PlateSaveInfo> ArchiveProgress = new List<PlateSaveInfo>();
     public saveData()
     {
 
