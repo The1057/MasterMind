@@ -40,6 +40,7 @@ public class saveData
     public List<TaskSaveData> TasksData = new List<TaskSaveData>();
     public List<float> TheoryCanvasAlphas = new List<float>();
     public List<PlateSaveInfo> ArchiveProgress = new List<PlateSaveInfo>();
+    public List<int> completedTutorialSeries = new List<int>();
     public saveData()
     {
 
