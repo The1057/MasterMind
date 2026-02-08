@@ -176,7 +176,7 @@ public class ArchiveManager : MonoBehaviour, ISaveLoadable
 
             btn.gameObject.SetActive(true);
 
-            Debug.Log($"<color=green>Кнопка {btn.name} успешно перенесена в {slotName}</color>");
+            //Debug.Log($"<color=green>Кнопка {btn.name} успешно перенесена в {slotName}</color>");
         }
         else
         {

@@ -45,6 +45,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statistics:
+    incomeStat:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    expenceStat:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
     profitStat:
     - 0
     - 0
@@ -391,11 +417,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2547688304762262446, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
+      propertyPath: saveLoadManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6946490599932337162, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
       propertyPath: m_Name
       value: Store Item Manager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5967163450289223514, guid: 150ef3a71bc3c5440bb60e5224e881ab, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -59,6 +59,7 @@ public class SceneButtonLoader : MonoBehaviour
     {
         var saveData = saveLoadManager.loadData();
         saveData.targetCanvas = canvasIndex;
+        print(saveData.PlayerData.player_name);
         //switch (canvasIndex)
         //{
         //    case 0:
@@ -81,5 +82,6 @@ public class SceneButtonLoader : MonoBehaviour
         //    break;
         //}
         saveLoadManager.saveData(saveData);
+        print(saveLoadManager.loadData().PlayerData.player_name);
     }
 }

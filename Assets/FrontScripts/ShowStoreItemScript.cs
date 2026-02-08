@@ -43,7 +43,10 @@ public class ShowStoreItemScript : MonoBehaviour
 
             currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].bought_number); });
             currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].selling_price); });
-            
+
+            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().onDeselect.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].bought_number); });
+            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().onDeselect.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].selling_price); });
+
             BusinessTableAnimated.rows.Add(currentItems.Last().GetComponent<RectTransform>());
 
         }

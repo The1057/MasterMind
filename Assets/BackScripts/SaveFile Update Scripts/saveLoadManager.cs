@@ -35,6 +35,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
         saveDirPath = Application.persistentDataPath;
 
         loadGame();
+        //print($"<color=red>Loaded name: {SaveData.PlayerData.player_name}");
         //SaveData = loadData();
         if (SaveData != null && CanvasSwitcher != null)
         {
