@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class updateYearListScript : MonoBehaviour, ITickable
 {
     public TMP_Dropdown yearList;
-    int currentYear;
+    public ClockScript clock;
+    public int currentYear=0;
     public void nextTurn(int month, int year)
     {
         currentYear = year;
@@ -17,6 +18,7 @@ public class updateYearListScript : MonoBehaviour, ITickable
     }
     public void updateYearList()
     {
+        currentYear = clock.getYear();
         yearList.ClearOptions();
         for (int i = currentYear; i > 0; i++)
         {

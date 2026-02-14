@@ -44,13 +44,16 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
     }
     public void load(saveData data)
     {
-        this.adModifier = data.StoreDatas[storeId].adModifier;
-        this.constExpense = data.StoreDatas[storeId].constExpense;
-        this.randomExpenseMin = data.StoreDatas[storeId].randomExpenseMin;
-        this.randomExpenseMax = data.StoreDatas[storeId].randomExpenseMax;
-        this.demandChangeDeviation = data.StoreDatas[storeId].demandChangeDeviation;
-        this.items = data.StoreDatas[storeId].items;        
-        this.name = data.StoreDatas[storeId].name;
+        if (data.StoreDatas.Count > 0) 
+        {
+            this.adModifier = data.StoreDatas[storeId].adModifier;
+            this.constExpense = data.StoreDatas[storeId].constExpense;
+            this.randomExpenseMin = data.StoreDatas[storeId].randomExpenseMin;
+            this.randomExpenseMax = data.StoreDatas[storeId].randomExpenseMax;
+            this.demandChangeDeviation = data.StoreDatas[storeId].demandChangeDeviation;
+            this.items = data.StoreDatas[storeId].items;
+            this.name = data.StoreDatas[storeId].name;
+        }
     }
     public void nextTurn(int month, int year)
     {

@@ -64,6 +64,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
         {
             obj.save(ref SaveData);
         }
+        Debug.LogWarning($"Saving! Turn flag: {SaveData.ClockData.turnCriteria}");
         string fullPath = Path.Combine(saveDirPath, saveFileName);
         try
         {
@@ -121,6 +122,8 @@ public class saveLoadManager : MonoBehaviour, ITickable
         {
             Debug.LogWarning("Save file not found. Using default data.");
         }
+
+        Debug.LogWarning($"Loading! Turn flag: {SaveData.ClockData.turnCriteria}");
 
         Debug.Log("Deleting excess stores and rivals...");
         if (SaveData.StoreDatas != null && SaveData.StoreDatas.Count > 0)
@@ -315,7 +318,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
     public void ResetAllProgress()
     {
         
-        string mainSavePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        string mainSavePath = Path.Combine(saveDirPath, saveFileName);
 
         if (File.Exists(mainSavePath))
         {
@@ -332,7 +335,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
 
         SaveData = new saveData();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("RestartScene");
 
         Debug.Log("Прогресс полностью сброшен!");
     }

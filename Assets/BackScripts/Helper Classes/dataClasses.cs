@@ -139,7 +139,7 @@ public class clockData
     public bool nextTurnFlag;
     public bool turnPendingFlag;
 
-    public bool turnCriteria;
+    public bool turnCriteria = true;
 
     public int month = 1;
     public int year = 1;

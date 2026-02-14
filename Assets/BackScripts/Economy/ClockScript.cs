@@ -9,7 +9,7 @@ public class ClockScript : MonoBehaviour, ISaveLoadable
     bool nextTurnFlag;
     bool turnPendingFlag;
 
-    public bool turnCriteria;
+    public bool turnCriteria = true;
 
     public int month=1;
     public int year=1;
