@@ -2,72 +2,176 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorBoss: MonoBehaviour
+public class ColorBoss : MonoBehaviour
 {
-    [SerializeField] 
-    public List<GameObject> targetObjects = new List<GameObject>();
-    public List<GameObject> targetObjectsDark = new List<GameObject>();
+    [Header("Настройки тегов")]
+    public string lightGroupTag = "LightGroup"; // Тег для светлых объектов
+    public string darkGroupTag = "DarkGroup";   // Тег для тёмных объектов
 
-    // Метод для изменения цвета всех объектов в списке
-    public void ChangeColor(string colorName)
+    [Header("Текущие цвета (можно менять в инспекторе)")]
+    public Color lightColor = Color.white;
+    public Color darkColor = Color.gray;
+
+    // Внутренние списки, заполняются автоматически
+    private List<GameObject> lightObjects = new List<GameObject>();
+    private List<GameObject> darkObjects = new List<GameObject>();
+
+    public static ColorBoss Instance { get; private set; }
+
+    void Awake()
     {
-        Color newColor;
-        Color newColorD;
-        // Определяем цвет по строке (без учета регистра)
-        switch (colorName.ToLower())
-        {
-            case "красный":
-            case "red":
-                newColor = new Color(0.9882354f, 0.5254902f, 0.9254903f);
-                newColorD = new Color(0.2117647f, 0, 0.1784213f);
-                break;
+        Instance = this;
+    }
 
-            case "зеленый":
-            case "green":
-                newColor = new Color(0.23f, 1, 0); 
-                newColorD = new Color(0, 0.1547169f, 0);
-                break;
+    // В методах SetLightColor/SetDarkColor добавь:
+    public void SetLightColor(Color newColor)
+    {
+        lightColor = newColor;
 
-            case "синий":
-            case "blue":
-                newColor = new Color(0.5411765f, 0.8274511f, 1);
-                newColorD = new Color(0.12f, 0.1f, 0.23f);
-                break;
-
-            default:
-                Debug.LogWarning($"Цвет '{colorName}' не распознан. Использую белый.");
-                newColor = Color.white;
-                newColorD = Color.gray;
-                break;
-        }
-
-        // Применяем цвет ко всем объектам в списке
-        foreach (GameObject obj in targetObjects)
+        // Обновляем все существующие объекты в сцене
+        foreach (GameObject obj in lightObjects)
         {
             if (obj != null)
             {
-                Image image = obj.GetComponent<Image>();
-                if (image != null)
+                Image img = obj.GetComponent<Image>();
+                if (img != null)
                 {
-                    // Сохраняем текущую прозрачность
-                    newColor.a = image.color.a;
-                    image.color = newColor;
+                    Color c = newColor;
+                    c.a = img.color.a;
+                    img.color = c;
                 }
             }
         }
 
-        foreach (GameObject objD in targetObjectsDark)
+        // Обновляем все префабы через компонент
+        PrefabColorController[] prefabs = FindObjectsByType<PrefabColorController>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+        foreach (var prefab in prefabs)
         {
-            if (objD != null)
+            if (prefab.colorTag == "LightGroup")
             {
-                Image imageD = objD.GetComponent<Image>();
-                if (imageD != null)
+                prefab.ForceUpdate(newColor);
+            }
+        }
+    }
+    void Start()
+    {
+        // Автоматически находим все объекты с нужными тегами
+        FindObjectsByTag();
+
+        // Применяем начальные цвета (из инспектора)
+        ApplyColors();
+    }
+
+    // Находит все объекты по тегам и заполняет списки
+    void FindObjectsByTag()
+    {
+        // Resources.FindObjectsOfTypeAll находит ВСЕ объекты (включая неактивные и префабы)
+        Image[] allImages = Resources.FindObjectsOfTypeAll<Image>();
+
+        lightObjects.Clear();
+        darkObjects.Clear();
+
+        foreach (Image img in allImages)
+        {
+            // Проверяем, принадлежит ли объект сцене (не префабу)
+            if (img.gameObject.scene.isLoaded && img.gameObject.scene.name != null)
+            {
+                if (img.CompareTag(lightGroupTag))
                 {
-                    // Сохраняем текущую прозрачность
-                    newColorD.a = imageD.color.a;
-                    imageD.color = newColorD;
+                    lightObjects.Add(img.gameObject);
+                }
+                else if (img.CompareTag(darkGroupTag))
+                {
+                    darkObjects.Add(img.gameObject);
                 }
             }
         }
+
+        Debug.Log($"Найдено ВСЕХ светлых: {lightObjects.Count}, тёмных: {darkObjects.Count}");
+    }
+
+    // Применяет текущие цвета ко всем объектам
+    void ApplyColors()
+    {
+        foreach (GameObject obj in lightObjects)
+        {
+            if (obj != null)
+            {
+                Image img = obj.GetComponent<Image>();
+                if (img != null)
+                {
+                    Color c = lightColor;
+                    c.a = img.color.a; // сохраняем исходную прозрачность
+                    img.color = c;
+                }
+            }
+        }
+
+        foreach (GameObject obj in darkObjects)
+        {
+            if (obj != null)
+            {
+                Image img = obj.GetComponent<Image>();
+                if (img != null)
+                {
+                    Color c = darkColor;
+                    c.a = img.color.a;
+                    img.color = c;
+                }
+            }
+        }
+    }
+
+    // Публичный метод для смены цвета из другого скрипта или UI
+    
+
+    public void SetDarkColor(Color newColor)
+    {
+        darkColor = newColor;
+        // Обновляем все существующие объекты в сцене
+        foreach (GameObject obj in darkObjects)
+        {
+            if (obj != null)
+            {
+                Image img = obj.GetComponent<Image>();
+                if (img != null)
+                {
+                    Color c = newColor;
+                    c.a = img.color.a;
+                    img.color = c;
+                }
+            }
+        }
+
+        // Обновляем все префабы через компонент
+        PrefabColorController[] prefabs = FindObjectsByType<PrefabColorController>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+        foreach (var prefab in prefabs)
+        {
+            if (prefab.colorTag == "DarkGroup")
+            {
+                prefab.ForceUpdate(newColor);
+            }
+        }
+    }
+
+    // Метод для смены сразу обоих цветов
+    public void SetBothColors(Color light, Color dark)
+    {
+        lightColor = light;
+        darkColor = dark;
+        ApplyColors();
+    }
+
+    // Опционально: можно обновить список объектов вручную (если объекты появляются позже)
+    public void RefreshObjects()
+    {
+        FindObjectsByTag();
+        ApplyColors();
     }
 }

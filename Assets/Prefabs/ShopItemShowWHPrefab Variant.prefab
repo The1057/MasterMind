@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 296.1, y: 0}
+  m_AnchoredPosition: {x: 177.41, y: 0}
   m_SizeDelta: {x: 152, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &538944586201536664
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -99,10 +99,11 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -170,7 +171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13.5, y: 0}
+  m_AnchoredPosition: {x: 13.5, y: -36}
   m_SizeDelta: {x: 224.66, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6767475608579487181
@@ -210,8 +211,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -280,6 +282,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1299747412867287579, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
+      propertyPath: priceInput
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299747412867287579, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
+      propertyPath: amountInput
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3172838424081004941, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -310,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3172838424081004941, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 3172838424081004941, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
       propertyPath: m_LocalPosition.x
@@ -364,7 +374,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopItemShowWHPrefab Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3227655437576926917, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7481549858860065595, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
     - {fileID: 4523363266137881649, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
@@ -425,19 +436,19 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4806169071315652548}
+  m_TargetGraphic: {fileID: 486424544885263047}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4806169071315652548 stripped
+--- !u!114 &486424544885263047 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 616343213061825262, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5548260084994418669, guid: 5479d8b433b2a3949bec3b0b95463d57, type: 3}
   m_PrefabInstance: {fileID: 5350067095243124010}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312620842917148543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &7365476735375512743 stripped

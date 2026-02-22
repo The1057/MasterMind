@@ -27,30 +27,48 @@ public class ShowStoreItemScript : MonoBehaviour
         foreach (var item in currentItems)
         {
             Destroy(item);
-            BusinessTableAnimated.rows.Remove(item.GetComponent<RectTransform>());            
+            BusinessTableAnimated.rows.Remove(item.GetComponent<RectTransform>());
         }
         currentItems.Clear();
 
-        var plusButton = BusinessTableAnimated.rows.Last();
-        BusinessTableAnimated.rows.Remove(plusButton);
         int i = 0;
         foreach (var item in currentStore.items)
         {
-            currentItems.Add(Instantiate(itemPrefab,itemList));
-            currentItems.Last().GetComponent<TextMeshProUGUI>().text = item.name;
-            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().text = item.bought_number.ToString();
-            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().text = item.selling_price.ToString();
+            GameObject newItem = Instantiate(itemPrefab, itemList);
+            currentItems.Add(newItem);
 
-            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].bought_number); });
-            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().onEndEdit.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].selling_price); });
+            StoreItemUI itemUI = newItem.GetComponent<StoreItemUI>();
+            if (itemUI == null)
+            {
+                Debug.LogError("На префабе отсутствует компонент StoreItemUI!");
+                continue;
+            }
 
-            currentItems.Last().transform.GetChild(0).GetComponent<TMP_InputField>().onDeselect.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].bought_number); });
-            currentItems.Last().transform.GetChild(1).GetComponent<TMP_InputField>().onDeselect.AddListener((call) => { int i = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex() - 5; ; float.TryParse(call, out currentStore.items[i].selling_price); });
+            // Устанавливаем название
+            itemUI.itemNameText.text = item.name;
 
-            BusinessTableAnimated.rows.Add(currentItems.Last().GetComponent<RectTransform>());
+            // Устанавливаем текущие значения
+            itemUI.amountInput.text = item.bought_number.ToString();
+            itemUI.priceInput.text = item.selling_price.ToString();
 
+            // Очищаем старые слушатели, чтобы не накапливались (важно!)
+            itemUI.amountInput.onEndEdit.RemoveAllListeners();
+            itemUI.priceInput.onEndEdit.RemoveAllListeners();
+            // Также можно очистить onDeselect, если используете
+
+            // Добавляем новые слушатели с захватом индекса элемента
+            int index = i; // или захватывайте item, если хотите работать с объектом напрямую
+            itemUI.amountInput.onEndEdit.AddListener((value) => {
+                float.TryParse(value, out currentStore.items[index].bought_number);
+            });
+            itemUI.priceInput.onEndEdit.AddListener((value) => {
+                float.TryParse(value, out currentStore.items[index].selling_price);
+            });
+
+            // Добавляем в таблицу анимации
+            BusinessTableAnimated.rows.Add(newItem.GetComponent<RectTransform>());
+            i++;
         }
-        BusinessTableAnimated.rows.Add(plusButton);
 
         BusinessTableAnimated.setupTable();
     }
@@ -72,9 +90,9 @@ public class ShowStoreItemScript : MonoBehaviour
             if (!isInStore(item))
             {
                 var lastItem = Instantiate(WHitemPrefab, warehouseItemList);
-                lastItem.GetComponent<TextMeshProUGUI>().text = item.name;
-                lastItem.GetComponentsInChildren<TextMeshProUGUI>()[1].text = item.demand_min.ToString();
-                lastItem.GetComponentsInChildren<TextMeshProUGUI>()[2].text = item.buying_price.ToString();
+                lastItem.GetComponentsInChildren<TextMeshProUGUI>()[0].text = item.name;
+                lastItem.GetComponentsInChildren<TextMeshProUGUI>()[2].text = item.demand_min.ToString();
+                lastItem.GetComponentsInChildren<TextMeshProUGUI>()[3].text = item.buying_price.ToString();
                 lastItem.GetComponent<Button>().onClick.AddListener(() => { ShopItemRedactScript.addItemById(item.id); blockItem(lastItem); });
                 currentWarehouseItems.Add(lastItem);
             }
