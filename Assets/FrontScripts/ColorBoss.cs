@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorBoss : MonoBehaviour
+public class ColorBoss : MonoBehaviour, ISaveLoadable
 {
     [Header("Настройки тегов")]
     public string lightGroupTag = "LightGroup"; // Тег для светлых объектов
@@ -21,6 +21,7 @@ public class ColorBoss : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
     }
 
     // В методах SetLightColor/SetDarkColor добавь:
@@ -173,5 +174,18 @@ public class ColorBoss : MonoBehaviour
     {
         FindObjectsByTag();
         ApplyColors();
+    }
+
+    public void save(ref saveData data)
+    {
+        data.colorBossData.lightColor = lightColor;
+        data.colorBossData.darkColor = darkColor;
+    }
+
+    public void load(saveData data)
+    {
+        lightColor = data.colorBossData.lightColor;
+        darkColor = data.colorBossData.darkColor;
+        RefreshObjects();
     }
 }

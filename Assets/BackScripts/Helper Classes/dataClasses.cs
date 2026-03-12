@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,13 @@ public enum tax_system
     PSN = 1,
 }
 
+[System.Serializable]
 
+public class colorBossData
+{
+    public Color lightColor = Color.white;
+    public Color darkColor = Color.gray;
+}
 
 [System.Serializable]
 public class saveData
@@ -35,6 +42,7 @@ public class saveData
     public playerData PlayerData = new playerData();
     public statistics statistics = new statistics();
     public adSystemData adSystemData = new adSystemData();
+    public colorBossData colorBossData = new colorBossData();
     public List<string> lastScenes = new();
     public int targetCanvas = 0;
     public List<TaskSaveData> TasksData = new List<TaskSaveData>();

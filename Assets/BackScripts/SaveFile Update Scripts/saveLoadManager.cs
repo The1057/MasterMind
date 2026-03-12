@@ -123,8 +123,6 @@ public class saveLoadManager : MonoBehaviour, ITickable
             Debug.LogWarning("Save file not found. Using default data.");
         }
 
-        Debug.LogWarning($"Loading! Turn flag: {SaveData.ClockData.turnCriteria}");
-
         Debug.Log("Deleting excess stores and rivals...");
         if (SaveData.StoreDatas != null && SaveData.StoreDatas.Count > 0)
         {
@@ -335,7 +333,7 @@ public class saveLoadManager : MonoBehaviour, ITickable
 
         SaveData = new saveData();
 
-        SceneManager.LoadScene("RestartScene");
+        SceneManager.LoadScene("Tasks 1");
 
         Debug.Log("Прогресс полностью сброшен!");
     }
