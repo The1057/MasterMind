@@ -12,7 +12,7 @@ public class cardContainerScript : MonoBehaviour, IDropHandler
     public Vector2Int position;
     private Color defaultColor;
     public Color incorrectColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         if (transform.childCount == 0)
         {

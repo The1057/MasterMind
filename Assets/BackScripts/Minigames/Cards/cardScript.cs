@@ -22,9 +22,10 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         parentCanvas = GetComponentInParent<Canvas>();
         originalSize = GetComponent<RectTransform>().sizeDelta;
         container = GetComponentInParent<cardContainerScript>();
-        container.containedCard = this;
+        if(container != null)
+            container.containedCard = this;
     }
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         image.raycastTarget = false;
         GetComponent<RectTransform>().sizeDelta = originalSize;
@@ -44,12 +45,12 @@ public class cardScript : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         image.color = new Color(1,1,1,0.8f);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
         transform.position = Input.mousePosition;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData)
     {
         container.containedCard = null;
         Transform dropTarget = eventData.pointerCurrentRaycast.gameObject.transform;
