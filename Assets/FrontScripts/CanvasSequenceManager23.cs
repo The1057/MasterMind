@@ -28,6 +28,7 @@ public class CanvasSequenceManager23 : MonoBehaviour
     public AnimationCurve alphaCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private int currentIndex = -1;
+    int prevIndex;
     private Graphic[][] graphicsCache;
     private TextMeshProUGUI[][] tmpCache;
 
@@ -83,8 +84,9 @@ public class CanvasSequenceManager23 : MonoBehaviour
         if (currentIndex >= 0 && elements[currentIndex].canvas != null)
             elements[currentIndex].canvas.SetActive(false);
 
+        prevIndex = currentIndex;
         currentIndex++;
-        StartCoroutine(AnimateCanvas(currentIndex));
+        StartCoroutine(altAnimateCanvas(currentIndex));
         UpdateButtonsState();
     }
 
@@ -95,8 +97,9 @@ public class CanvasSequenceManager23 : MonoBehaviour
         if (elements[currentIndex].canvas != null)
             elements[currentIndex].canvas.SetActive(false);
 
+        prevIndex = currentIndex;
         currentIndex--;
-        StartCoroutine(AnimateCanvas(currentIndex));
+        StartCoroutine(altAnimateCanvas(currentIndex));
         UpdateButtonsState();
     }
 
@@ -142,6 +145,36 @@ public class CanvasSequenceManager23 : MonoBehaviour
 
         go.transform.localScale = Vector3.one;
         SetAlpha(idx, 1f);
+    }
+
+    IEnumerator altAnimateCanvas(int idx)
+    {
+        var ghost = Instantiate(transform.parent.GetChild(idx).gameObject,transform.parent);
+        print($"Instantiated{ghost}");
+        ghost.transform.localPosition = Vector3.zero;
+        ghost.transform.localScale = Vector3.one;
+        ghost.SetActive(true );
+        if (currentIndex < prevIndex)
+        {
+            ghost.transform.position -= Vector3.right * 1000;            
+        }
+        else
+        {
+            ghost.transform.position += Vector3.right * 1000;            
+        }
+
+        float t = 0;
+        while (t < animationDuration)
+        {
+            float p = t / animationDuration;
+            ghost.transform.localPosition = Vector3.Lerp(ghost.transform.localPosition, Vector3.zero, p);
+            t += Time.deltaTime;
+            yield return null;
+        }
+        ghost.SetActive(false);
+        transform.parent.GetChild(idx).gameObject.SetActive(true);
+        transform.parent.GetChild(idx).localScale = Vector3.one;
+        Destroy(ghost);
     }
 
     private void SetAlpha(int idx, float alpha)

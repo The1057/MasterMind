@@ -31,6 +31,10 @@ public class saveLoadManager : MonoBehaviour, ITickable
     }
     public void Start()
     {
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+
+
+
         saveLoadableObjects = findAllSaveLoadables();
         saveDirPath = Application.persistentDataPath;
 
