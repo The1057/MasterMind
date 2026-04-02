@@ -8,9 +8,26 @@ public class ColorBoss : MonoBehaviour, ISaveLoadable
     public string lightGroupTag = "LightGroup"; // Тег для светлых объектов
     public string darkGroupTag = "DarkGroup";   // Тег для тёмных объектов
 
-    [Header("Текущие цвета (можно менять в инспекторе)")]
-    public Color lightColor = Color.white;
-    public Color darkColor = Color.gray;
+    
+    public Color lightColor;
+    public Color darkColor;
+    void Start()
+    {
+        
+        string hex = "#76B5D7"; 
+        if (ColorUtility.TryParseHtmlString(hex, out Color newColor))
+        {
+            lightColor = newColor;
+        }
+        string hex2 = "#0C041B";
+        if (ColorUtility.TryParseHtmlString(hex2, out Color newColor2))
+        {
+            darkColor = newColor2;
+        }
+        FindObjectsByTag();
+        ApplyColors();
+    }
+    
 
     // Внутренние списки, заполняются автоматически
     private List<GameObject> lightObjects = new List<GameObject>();
@@ -57,14 +74,7 @@ public class ColorBoss : MonoBehaviour, ISaveLoadable
             }
         }
     }
-    void Start()
-    {
-        // Автоматически находим все объекты с нужными тегами
-        FindObjectsByTag();
-
-        // Применяем начальные цвета (из инспектора)
-        ApplyColors();
-    }
+    
 
     // Находит все объекты по тегам и заполняет списки
     void FindObjectsByTag()
