@@ -28,8 +28,8 @@ public enum tax_system
 
 public class colorBossData
 {
-    public Color lightColor = Color.white;
-    public Color darkColor = Color.gray;
+    public Color lightColor = new Color32(118,181,215,255);
+    public Color darkColor = new Color32(12, 4, 27, 255);
 }
 
 [System.Serializable]
