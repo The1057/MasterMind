@@ -32,10 +32,10 @@ public class DocMistakeMinigame : MonoBehaviour
     public bool firstClick = true;
 
     private void Start()
-    {          
+    {
         clicked = new bool[mistakeFillers.Count];
         correctIncorrect = new bool[mistakeFillers.Count];
-        for(int i =0;i< mistakeFillers.Count;i++)
+        for (int i = 0; i < mistakeFillers.Count; i++)
         {
             float r = UnityEngine.Random.value;
             if (r > 0.5f)
@@ -44,7 +44,7 @@ public class DocMistakeMinigame : MonoBehaviour
                 correctIncorrect[i] = true;
             }
             else
-            {                
+            {
                 var rnd = UnityEngine.Random.Range(0, mistakeFillers[i].incorrectWords.Count);
                 putImageInSlot(mistakeFillers[i].slot, mistakeFillers[i].incorrectWords[rnd]);
                 correctIncorrect[i] = false;
@@ -53,16 +53,17 @@ public class DocMistakeMinigame : MonoBehaviour
             go.transform.localPosition = Vector3.zero;
             go.AddComponent<Image>().sprite = outline;
             go.GetComponent<Image>().raycastTarget = false;
-            go.GetComponent<RectTransform>().sizeDelta *= 1.1f;
+            go.GetComponent<RectTransform>().sizeDelta = mistakeFillers[i].slot.sizeDelta * 1.3f;
             go.gameObject.SetActive(false);
             outlines.Add(go.GetComponent<Image>());
         }
     }
     void putImageInSlot(RectTransform slot, Sprite image)
     {
-        var go = Instantiate(rt,slot);
+        var go = Instantiate(rt, slot);
         go.AddComponent<Image>().sprite = image;
         go.transform.localPosition = Vector3.zero;
+        go.GetComponent<RectTransform>().sizeDelta = slot.sizeDelta;
         go.AddComponent<Button>().onClick.AddListener(() => onClick(slot));
     }
 
@@ -78,14 +79,14 @@ public class DocMistakeMinigame : MonoBehaviour
 
     int FindSlot(RectTransform slot)
     {
-        for(int i = 0;i<mistakeFillers.Count;i++)
+        for (int i = 0; i < mistakeFillers.Count; i++)
         {
             if (mistakeFillers[i].slot == slot) return i;
         }
         return 0;
     }
 
-    public void submit() 
+    public void submit()
     {
         if (firstClick)
         {
@@ -97,6 +98,7 @@ public class DocMistakeMinigame : MonoBehaviour
                 {
                     var a = Instantiate(correctBlocker, mistakeFillers[i].slot);
                     a.transform.localPosition = Vector3.zero;
+                    a.GetComponent<RectTransform>().sizeDelta = mistakeFillers[i].slot.sizeDelta;
                     blockers.Add(a);
                     correctAnswers++;
                 }
@@ -104,6 +106,7 @@ public class DocMistakeMinigame : MonoBehaviour
                 {
                     var a = Instantiate(incorrectBlocker, mistakeFillers[i].slot);
                     a.transform.localPosition = Vector3.zero;
+                    a.GetComponent<RectTransform>().sizeDelta = mistakeFillers[i].slot.sizeDelta;
                     blockers.Add(a);
                     incorrectAnswers++;
                 }
@@ -117,11 +120,11 @@ public class DocMistakeMinigame : MonoBehaviour
     public void Reset()
     {
         firstClick = true;
-        foreach(var blocker in blockers)
+        foreach (var blocker in blockers)
         {
             Destroy(blocker);
         }
-        for(int i  = 0; i < mistakeFillers.Count; ++i)
+        for (int i = 0; i < mistakeFillers.Count; ++i)
         {
             outlines[i].gameObject.SetActive(false);
             clicked[i] = false;
