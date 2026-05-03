@@ -11,9 +11,9 @@ public class Question
 {
     public string question;
     public QuestionType type;
-    public List<string> answers; // Для выбора
-    public List<int> correctAnswerIndex; // Индексы правильных ответов
-    public string correctAnswer; // Для текстового ввода
+    public List<string> answers;
+    public List<int> correctAnswerIndex;
+    public string correctAnswer;
     public string comment;
     public bool isAnswered = false;
     public List<int> playerSelectedIndices = new List<int>();
@@ -35,12 +35,13 @@ public class TestManager2 : MonoBehaviour
     public List<Question> questions;
     private int currentQuestionIndex = 0;
     private List<Image> navButtonsImages = new List<Image>();
+    private List<TMP_Text> navButtonsTexts = new List<TMP_Text>(); // ДОБАВЛЕНО: для текста кнопок
     private List<int> selectedIndices = new List<int>();
 
     [Header("UI References")]
     public TextMeshProUGUI questionText;
     public Transform optionsParent;
-    public GameObject winCanvas;  
+    public GameObject winCanvas;
     public GameObject loseCanvas;
     public TMP_InputField inputField;
     public Button submitButton;
@@ -50,15 +51,15 @@ public class TestManager2 : MonoBehaviour
     public TextMeshProUGUI scoreText2;
 
     [Header("Navigation Panel")]
-    public GameObject navButtonPrefab; // Префаб маленькой кнопки номера
-    public Transform navPanelParent;   // Сюда они спавнятся (Horizontal Layout Group)
+    public GameObject navButtonPrefab;
+    public Transform navPanelParent;
 
     [Header("Prefabs")]
-    public GameObject optionButtonPrefab; // Всего ОДИН префаб кнопки
+    public GameObject optionButtonPrefab;
 
     [Header("Settings")]
     public Color defaultColor = Color.white;
-    public Color selectedColor = new Color(0.7f, 0.7f, 1f); // Голубоватый при нажатии
+    public Color selectedColor = new Color(0.7f, 0.7f, 1f);
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
     public Color missedCorrectColor = new Color(0.2f, 0.5f, 0.2f);
@@ -66,32 +67,50 @@ public class TestManager2 : MonoBehaviour
     public Color inactiveNavColor = Color.blue;
     public Color answeredNavColor = Color.blue;
 
+    // ДОБАВЛЕНО: три цвета для текста навигационных кнопок
+    [Header("Navigation Button Text Colors")]
+    public Color currentNavTextColor = Color.white;
+    public Color unansweredNavTextColor = Color.gray;
+    public Color answeredNavTextColor = Color.green;
+
+    [Header("Outline Colors for Navigation Buttons")]
+    public Color currentNavOutlineColor = Color.white;
+    public Color unansweredNavOutlineColor = Color.gray;
+    public Color answeredNavOutlineColor = Color.green;
+
+    [Header("Outline Colors for Answer Buttons")]
+    public Color defaultOutlineColor = Color.white;
+    public Color selectedOutlineColor = new Color(0.7f, 0.7f, 1f);
+    public Color correctOutlineColor = Color.green;
+    public Color wrongOutlineColor = Color.red;
+    public Color missedCorrectOutlineColor = new Color(0.2f, 0.5f, 0.2f);
+
     void Start()
     {
         CreateNavigationPanel();
         ShowQuestion(0);
-
-        // Вешаем логику на кнопки управления
         submitButton.onClick.AddListener(CheckAnswer);
         nextButton.onClick.AddListener(OnNextClick);
     }
 
     void CreateNavigationPanel()
     {
-        // Очищаем панель перед созданием
         foreach (Transform child in navPanelParent) Destroy(child.gameObject);
         navButtonsImages.Clear();
+        navButtonsTexts.Clear(); // ДОБАВЛЕНО
 
         for (int i = 0; i < questions.Count; i++)
         {
             int index = i;
             GameObject go = Instantiate(navButtonPrefab, navPanelParent);
-            go.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
+            TMP_Text txt = go.GetComponentInChildren<TMP_Text>();
+            txt.text = (i + 1).ToString();
 
             Button btn = go.GetComponent<Button>();
             btn.onClick.AddListener(() => ShowQuestion(index));
 
             navButtonsImages.Add(go.GetComponent<Image>());
+            navButtonsTexts.Add(txt); // ДОБАВЛЕНО: сохраняем текст
         }
     }
 
@@ -104,7 +123,6 @@ public class TestManager2 : MonoBehaviour
         questionText.text = q.question;
         inputField.gameObject.SetActive(q.type == QuestionType.TextInput);
 
-        // Очистка старых кнопок
         foreach (Transform child in optionsParent) Destroy(child.gameObject);
 
         if (q.type != QuestionType.TextInput)
@@ -121,7 +139,6 @@ public class TestManager2 : MonoBehaviour
             }
         }
 
-        // ЛОГИКА ДЛЯ УЖЕ ОТВЕЧЕННЫХ ВОПРОСОВ
         if (q.isAnswered)
         {
             commentText.text = q.comment;
@@ -131,18 +148,16 @@ public class TestManager2 : MonoBehaviour
 
             if (q.type == QuestionType.TextInput)
             {
-                inputField.text = q.correctAnswer; // Можно показать правильный ответ в поле
+                inputField.text = q.correctAnswer;
                 inputField.interactable = false;
             }
             else
             {
-                // Используем сохраненные индексы игрока для подсветки
                 HighlightButtons(q.playerSelectedIndices);
             }
         }
         else
         {
-            // Для новых вопросов сбрасываем состояние
             commentText.gameObject.SetActive(false);
             nextButton.gameObject.SetActive(false);
             submitButton.gameObject.SetActive(q.type != QuestionType.OneChoice);
@@ -158,9 +173,26 @@ public class TestManager2 : MonoBehaviour
     {
         for (int i = 0; i < navButtonsImages.Count; i++)
         {
+            // Пример для навигационных кнопок (в UpdateNavUI)
+            Outline outline = navButtonsImages[i].GetComponent<Outline>();
+            if (outline != null)
+            {
+                if (i == index) outline.effectColor = currentNavOutlineColor;
+                else if (questions[i].isAnswered) outline.effectColor = answeredNavOutlineColor;
+                else outline.effectColor = unansweredNavOutlineColor;
+            }
+            // Цвет фона (как было)
             if (i == index) navButtonsImages[i].color = activeNavColor;
             else if (questions[i].isAnswered) navButtonsImages[i].color = answeredNavColor;
             else navButtonsImages[i].color = inactiveNavColor;
+
+            // ДОБАВЛЕНО: цвет текста в зависимости от состояния
+            if (i == index)
+                navButtonsTexts[i].color = currentNavTextColor;
+            else if (questions[i].isAnswered)
+                navButtonsTexts[i].color = answeredNavTextColor;
+            else
+                navButtonsTexts[i].color = unansweredNavTextColor;
         }
     }
 
@@ -171,9 +203,41 @@ public class TestManager2 : MonoBehaviour
 
         if (q.type == QuestionType.OneChoice)
         {
-            q.playerSelectedIndices = new List<int> { index }; // Сохраняем выбор
+            q.playerSelectedIndices = new List<int> { index };
             bool isCorrect = q.correctAnswerIndex.Contains(index);
-            HighlightButtons(q.playerSelectedIndices);
+
+            // Подсвечиваем выбранный вариант сразу (без ожидания кнопки "Принять")
+            for (int i = 0; i < optionsParent.childCount; i++)
+            {
+                Transform btnTransform = optionsParent.GetChild(i);
+                Image img = btnTransform.GetComponent<Image>();
+                Outline outline = btnTransform.GetComponent<Outline>();
+                Button btn = btnTransform.GetComponent<Button>();
+
+                if (i == index)
+                {
+                    // Выбранный вариант
+                    if (isCorrect)
+                    {
+                        img.color = correctColor;
+                        if (outline != null) outline.effectColor = correctOutlineColor;
+                    }
+                    else
+                    {
+                        img.color = wrongColor;
+                        if (outline != null) outline.effectColor = wrongOutlineColor;
+                    }
+                }
+                else
+                {
+                    // Остальные варианты затемняем
+                    img.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                    if (outline != null) outline.effectColor = defaultOutlineColor;
+                }
+
+                btn.interactable = false;
+            }
+
             Validate(isCorrect);
         }
         else if (q.type == QuestionType.MultiChoice)
@@ -187,8 +251,22 @@ public class TestManager2 : MonoBehaviour
             // Визуально подсвечиваем выбранные (пока не нажата "Принять")
             for (int i = 0; i < optionsParent.childCount; i++)
             {
-                optionsParent.GetChild(i).GetComponentInChildren<Image>().color =
-                    selectedIndices.Contains(i) ? selectedColor : defaultColor;
+                Transform btnTransform = optionsParent.GetChild(i);
+                Image img = btnTransform.GetComponent<Image>();
+                Outline outline = btnTransform.GetComponent<Outline>();
+
+                bool isSelected = selectedIndices.Contains(i);
+
+                if (isSelected)
+                {
+                    img.color = selectedColor;
+                    if (outline != null) outline.effectColor = selectedOutlineColor;
+                }
+                else
+                {
+                    img.color = defaultColor;
+                    if (outline != null) outline.effectColor = defaultOutlineColor;
+                }
             }
         }
     }
@@ -207,10 +285,9 @@ public class TestManager2 : MonoBehaviour
         }
         else if (q.type == QuestionType.MultiChoice)
         {
-            q.playerSelectedIndices = new List<int>(selectedIndices); // Сохраняем выбор
+            q.playerSelectedIndices = new List<int>(selectedIndices);
             var correctList = q.correctAnswerIndex;
             isCorrect = selectedIndices.Count == correctList.Count && !selectedIndices.Except(correctList).Any();
-
             HighlightButtons(q.playerSelectedIndices);
             Validate(isCorrect);
         }
@@ -221,17 +298,41 @@ public class TestManager2 : MonoBehaviour
         Question q = questions[currentQuestionIndex];
         for (int i = 0; i < optionsParent.childCount; i++)
         {
-            Image img = optionsParent.GetChild(i).GetComponentInChildren<Image>();
+            Transform btnTransform = optionsParent.GetChild(i);
+            Image img = btnTransform.GetComponent<Image>();
+            Outline outline = btnTransform.GetComponent<Outline>();
+
             bool isCorrectIdx = q.correctAnswerIndex.Contains(i);
             bool isSelected = playerChoices.Contains(i);
 
-            if (isSelected && isCorrectIdx) img.color = correctColor; // Правильно выбрал
-            else if (isSelected && !isCorrectIdx) img.color = wrongColor; // Ошибся
-            else if (!isSelected && isCorrectIdx) img.color = missedCorrectColor; // Не выбрал правильный (подсказка)
-            else img.color = new Color(0.5f, 0.5f, 0.5f, 0.5f); // Остальные затемняем
+            Color fillColor;
+            Color outlineColor;
 
-            // Выключаем кнопку после ответа
-            optionsParent.GetChild(i).GetComponentInChildren<Button>().interactable = false;
+            if (isSelected && isCorrectIdx)
+            {
+                fillColor = correctColor;
+                outlineColor = correctOutlineColor;
+            }
+            else if (isSelected && !isCorrectIdx)
+            {
+                fillColor = wrongColor;
+                outlineColor = wrongOutlineColor;
+            }
+            else if (!isSelected && isCorrectIdx)
+            {
+                fillColor = missedCorrectColor;
+                outlineColor = missedCorrectOutlineColor;
+            }
+            else
+            {
+                fillColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                outlineColor = defaultOutlineColor;
+            }
+
+            img.color = fillColor;
+            if (outline != null) outline.effectColor = outlineColor;
+
+            btnTransform.GetComponent<Button>().interactable = false;
         }
     }
 
@@ -258,7 +359,7 @@ public class TestManager2 : MonoBehaviour
         foreach (var q in questions)
         {
             q.isAnswered = false;
-            q.playerSelectedIndices.Clear(); // Очищаем историю нажатий
+            q.playerSelectedIndices.Clear();
         }
 
         if (winCanvas != null) winCanvas.SetActive(false);
@@ -271,23 +372,15 @@ public class TestManager2 : MonoBehaviour
     {
         int firstUnanswered = questions.FindIndex(q => !q.isAnswered);
 
-        if (firstUnanswered == -1) // Если ответили на все вопросы
+        if (firstUnanswered == -1)
         {
-            // 1. Сначала считаем, какой канвас показать
-            // В данном примере 7 баллов и выше — это победа
             bool isWin = sessionScore.score >= 7;
-
-            // 2. Активируем нужный и выключаем ненужный
             if (winCanvas != null) winCanvas.SetActive(isWin);
             if (loseCanvas != null) loseCanvas.SetActive(!isWin);
-
-            // 3. Обновляем текст результата
-            // (Убедитесь, что scoreText есть на обоих канвасах или он общий)
             if (scoreText != null)
                 scoreText.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
             if (scoreText2 != null)
                 scoreText2.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
-
             return;
         }
 
