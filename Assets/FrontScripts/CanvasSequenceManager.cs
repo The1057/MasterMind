@@ -5,12 +5,18 @@ using TMPro;
 
 public class CanvasSequenceManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class CanvasElement2
+    {
+        public GameObject canvas;
+        public Button nextButton;
+    }
+
     [Header("Список Canvas (в порядке переключения)")]
-    public GameObject[] canvases;
+    public CanvasElement2[] canvases;
 
     [Header("Настройки анимации")]
     public float animationDuration = 0.5f;
-    public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public AnimationCurve alphaCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private int currentIndex = -1;
@@ -26,28 +32,34 @@ public class CanvasSequenceManager : MonoBehaviour
 
         for (int i = 0; i < n; i++)
         {
-            var go = canvases[i];
-            go.SetActive(false);
+            var el = canvases[i];
 
-            graphicsCache[i] = go.GetComponentsInChildren<Graphic>(true);
-            tmpCache[i] = go.GetComponentsInChildren<TextMeshProUGUI>(true);
+            if (el.canvas != null)
+            {
+                el.canvas.SetActive(false);
+                graphicsCache[i] = el.canvas.GetComponentsInChildren<Graphic>(true);
+                tmpCache[i] = el.canvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+            }
+            else
+            {
+                Debug.LogWarning($"Canvas is not assigned in element #{i} on '{gameObject.name}'", gameObject);
+                graphicsCache[i] = new Graphic[0];
+                tmpCache[i] = new TextMeshProUGUI[0];
+            }
+
+            // Подключаем кнопки
+            if (el.nextButton != null)
+                el.nextButton.onClick.AddListener(ShowNextCanvas);
+
         }
-
         ShowNextCanvas();  // Показываем первый Canvas
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && currentIndex < canvases.Length - 1)
-        {
-            ShowNextCanvas();  // Показываем следующий Canvas только если это не последний
-        }
-    }
 
     private void ShowNextCanvas()
     {
         if (currentIndex >= 0)
-            canvases[currentIndex].SetActive(false);
+            canvases[currentIndex].canvas.SetActive(false);
 
         currentIndex++;
         if (currentIndex >= canvases.Length) return; // Выход из функции, если мы дошли до последнего
@@ -57,7 +69,7 @@ public class CanvasSequenceManager : MonoBehaviour
 
     private IEnumerator AnimateCanvas(int index)
     {
-        GameObject go = canvases[index];
+        GameObject go = canvases[index].canvas;
         go.SetActive(true);
 
         go.transform.localScale = Vector3.zero;
@@ -67,10 +79,8 @@ public class CanvasSequenceManager : MonoBehaviour
         while (time < animationDuration)
         {
             float t = time / animationDuration;
-            float s = scaleCurve.Evaluate(t);
             float a = alphaCurve.Evaluate(t);
 
-            go.transform.localScale = Vector3.one * s;
             SetAlpha(index, a);
 
             time += Time.deltaTime;
