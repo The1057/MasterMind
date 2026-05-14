@@ -63,9 +63,9 @@ public class TestManager2 : MonoBehaviour
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
     public Color missedCorrectColor = new Color(0.2f, 0.5f, 0.2f);
-    public Color activeNavColor = Color.blue;
-    public Color inactiveNavColor = Color.blue;
-    public Color answeredNavColor = Color.blue;
+    //public Color activeNavColor = Color.blue;
+    //public Color inactiveNavColor = Color.blue;
+    //public Color answeredNavColor = Color.blue;
 
     // ДОБАВЛЕНО: три цвета для текста навигационных кнопок
     [Header("Navigation Button Text Colors")]
@@ -79,11 +79,11 @@ public class TestManager2 : MonoBehaviour
     public Color answeredNavOutlineColor = Color.green;
 
     [Header("Outline Colors for Answer Buttons")]
-    public Color defaultOutlineColor = Color.white;
-    public Color selectedOutlineColor = new Color(0.7f, 0.7f, 1f);
+    //public Color defaultOutlineColor = Color.white;
+    //public Color selectedOutlineColor = new Color(0.7f, 0.7f, 1f);
     public Color correctOutlineColor = Color.green;
     public Color wrongOutlineColor = Color.red;
-    public Color missedCorrectOutlineColor = new Color(0.2f, 0.5f, 0.2f);
+    //public Color missedCorrectOutlineColor = new Color(0.2f, 0.5f, 0.2f);
 
     void Start()
     {
@@ -110,7 +110,7 @@ public class TestManager2 : MonoBehaviour
             btn.onClick.AddListener(() => ShowQuestion(index));
 
             navButtonsImages.Add(go.GetComponent<Image>());
-            navButtonsTexts.Add(txt); // ДОБАВЛЕНО: сохраняем текст
+            navButtonsTexts.Add(txt); 
         }
     }
 
@@ -123,7 +123,8 @@ public class TestManager2 : MonoBehaviour
         questionText.text = q.question;
         inputField.gameObject.SetActive(q.type == QuestionType.TextInput);
 
-        foreach (Transform child in optionsParent) Destroy(child.gameObject);
+        for (int i = optionsParent.childCount - 1; i >= 0; i--)
+            DestroyImmediate(optionsParent.GetChild(i).gameObject);
 
         if (q.type != QuestionType.TextInput)
         {
@@ -182,9 +183,9 @@ public class TestManager2 : MonoBehaviour
                 else outline.effectColor = unansweredNavOutlineColor;
             }
             // Цвет фона (как было)
-            if (i == index) navButtonsImages[i].color = activeNavColor;
-            else if (questions[i].isAnswered) navButtonsImages[i].color = answeredNavColor;
-            else navButtonsImages[i].color = inactiveNavColor;
+            if (i == index) navButtonsImages[i].color = answeredNavOutlineColor;
+            else if (questions[i].isAnswered) navButtonsImages[i].color = answeredNavOutlineColor;
+            else navButtonsImages[i].color = defaultColor;
 
             // ДОБАВЛЕНО: цвет текста в зависимости от состояния
             if (i == index)
@@ -212,7 +213,9 @@ public class TestManager2 : MonoBehaviour
                 Transform btnTransform = optionsParent.GetChild(i);
                 Image img = btnTransform.GetComponent<Image>();
                 Outline outline = btnTransform.GetComponent<Outline>();
-                Button btn = btnTransform.GetComponent<Button>();
+                TMP_Text txt2 = btnTransform.GetChild(0).GetComponent<TMP_Text>();
+                //Button btn = btnTransform.GetComponent<Button>();
+
 
                 if (i == index)
                 {
@@ -221,6 +224,7 @@ public class TestManager2 : MonoBehaviour
                     {
                         img.color = correctColor;
                         if (outline != null) outline.effectColor = correctOutlineColor;
+                        txt2.color = defaultColor;
                     }
                     else
                     {
@@ -228,14 +232,23 @@ public class TestManager2 : MonoBehaviour
                         if (outline != null) outline.effectColor = wrongOutlineColor;
                     }
                 }
-                else
+                else 
                 {
-                    // Остальные варианты затемняем
-                    img.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-                    if (outline != null) outline.effectColor = defaultOutlineColor;
+                    bool isCorrect2 = q.correctAnswerIndex.Contains(i);
+                    if (isCorrect2)
+                    {
+                        img.color = missedCorrectColor;
+                        if (outline != null) outline.effectColor = correctOutlineColor;
+                    }
+                    else
+                    {
+                        img.color = defaultColor;
+                        if (outline != null) outline.effectColor = correctOutlineColor;
+                    }
+                    
                 }
-
-                btn.interactable = false;
+                
+                    //btn.interactable = false;
             }
 
             Validate(isCorrect);
@@ -254,18 +267,20 @@ public class TestManager2 : MonoBehaviour
                 Transform btnTransform = optionsParent.GetChild(i);
                 Image img = btnTransform.GetComponent<Image>();
                 Outline outline = btnTransform.GetComponent<Outline>();
+                TMP_Text txt2 = btnTransform.GetChild(0).GetComponent<TMP_Text>();
 
                 bool isSelected = selectedIndices.Contains(i);
 
                 if (isSelected)
                 {
                     img.color = selectedColor;
-                    if (outline != null) outline.effectColor = selectedOutlineColor;
+                    if (outline != null) outline.effectColor = correctOutlineColor;
+                    txt2.color = defaultColor;
                 }
                 else
                 {
                     img.color = defaultColor;
-                    if (outline != null) outline.effectColor = defaultOutlineColor;
+                    if (outline != null) outline.effectColor = correctOutlineColor;
                 }
             }
         }
@@ -296,22 +311,25 @@ public class TestManager2 : MonoBehaviour
     void HighlightButtons(List<int> playerChoices)
     {
         Question q = questions[currentQuestionIndex];
+        
         for (int i = 0; i < optionsParent.childCount; i++)
         {
             Transform btnTransform = optionsParent.GetChild(i);
             Image img = btnTransform.GetComponent<Image>();
             Outline outline = btnTransform.GetComponent<Outline>();
-
+            TMP_Text txt2 = btnTransform.GetChild(0).GetComponent<TMP_Text>();
             bool isCorrectIdx = q.correctAnswerIndex.Contains(i);
             bool isSelected = playerChoices.Contains(i);
 
             Color fillColor;
             Color outlineColor;
+            Color anstext = Color.white;
 
             if (isSelected && isCorrectIdx)
             {
                 fillColor = correctColor;
                 outlineColor = correctOutlineColor;
+                anstext = defaultColor;
             }
             else if (isSelected && !isCorrectIdx)
             {
@@ -321,18 +339,18 @@ public class TestManager2 : MonoBehaviour
             else if (!isSelected && isCorrectIdx)
             {
                 fillColor = missedCorrectColor;
-                outlineColor = missedCorrectOutlineColor;
+                outlineColor = correctOutlineColor;
             }
             else
             {
-                fillColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-                outlineColor = defaultOutlineColor;
+                fillColor = defaultColor;
+                outlineColor = correctOutlineColor;
             }
 
             img.color = fillColor;
             if (outline != null) outline.effectColor = outlineColor;
-
-            btnTransform.GetComponent<Button>().interactable = false;
+            txt2.color = anstext;
+            //btnTransform.GetComponent<Button>().interactable = false;
         }
     }
 
