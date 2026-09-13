@@ -41,6 +41,7 @@ public class BelieveOrNotGame : MonoBehaviour
     public TMP_Text resultWinText;
 
     private int correctAnswers = 0;
+    private bool timeAll = false;
     void Start()
     {
         // Подписываем кнопки
@@ -87,6 +88,7 @@ public class BelieveOrNotGame : MonoBehaviour
         if (!isAnswered)
         {
             isAnswered = true;
+            timeAll = true;
             ProcessAnswer(false);
         }
     }
@@ -143,7 +145,8 @@ public class BelieveOrNotGame : MonoBehaviour
         }
         else
         {
-            feedbackText.text = "Неправильно!";
+            if (timeAll) { feedbackText.text = "Время вышло!"; }
+            else { feedbackText.text = "Неправильно!"; }
             feedbackText.color = Color.red;
         }
 
