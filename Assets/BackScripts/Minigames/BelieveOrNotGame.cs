@@ -9,7 +9,8 @@ public class BelieveOrNotGame : MonoBehaviour
     [Header("UI Elements")]
     public GameObject questionPanel;
     public GameObject resultPanel;
-    public GameObject endPanel;
+    public GameObject endWinPanel;
+    public GameObject endLosePanel;
 
     public TMP_Text statementText;
     public TMP_Text timerText;
@@ -36,7 +37,8 @@ public class BelieveOrNotGame : MonoBehaviour
     private List<StatementData> currentStatements;
 
     [Header("End Game UI")]
-    public TMP_Text resultText; // <-- Новое поле для отображения результата
+    public TMP_Text resultLoseText; 
+    public TMP_Text resultWinText;
 
     private int correctAnswers = 0;
     void Start()
@@ -137,7 +139,7 @@ public class BelieveOrNotGame : MonoBehaviour
         {
             feedbackText.text = "Правильно!";
             feedbackText.color = Color.green;
-            correctAnswers++; // <-- Увеличиваем счётчик
+            correctAnswers++; 
         }
         else
         {
@@ -155,10 +157,14 @@ public class BelieveOrNotGame : MonoBehaviour
         isGameActive = false;
         questionPanel.SetActive(false);
         resultPanel.SetActive(false);
-        endPanel.SetActive(true);
-
-        // Форматируем и отображаем результат
-        resultText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
+        if (correctAnswers > 6) { 
+            endWinPanel.SetActive(true);
+            resultWinText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
+        }
+        else { 
+            endLosePanel.SetActive(true);
+            resultLoseText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
+        }
     }
 
     void RestartGame()
@@ -170,7 +176,8 @@ public class BelieveOrNotGame : MonoBehaviour
 
         currentStatementIndex = 0;
         isGameActive = true;
-        endPanel.SetActive(false);
+        endLosePanel.SetActive(false);
+        endWinPanel.SetActive(false);
         ShowNextStatement();
     }
 }
