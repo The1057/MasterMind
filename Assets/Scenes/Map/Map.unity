@@ -1641,6 +1641,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3395711299744747374, guid: c047ff6601995e843a729f83a5ceaa65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 536633305}
+    - targetCorrespondingSourceObject: {fileID: 3395711299744747374, guid: c047ff6601995e843a729f83a5ceaa65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 536633306}
   m_SourcePrefab: {fileID: 100100000, guid: c047ff6601995e843a729f83a5ceaa65, type: 3}
 --- !u!1 &206583806 stripped
 GameObject:
@@ -2896,6 +2899,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingInfo: {fileID: 11400000, guid: c99ef6edd513f0540b0110a87e7b9556, type: 2}
+--- !u!114 &536633306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143437966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04dc8bf0c48058f45866a5087cd603a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeSceneName: Tasks 1
+  saveLoadManager: {fileID: 445754112}
+  dragTolerancePixels: 5
 --- !u!4 &632890769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4047507842582528586, guid: 97e304ec94f370947bd556ba5781060e, type: 3}

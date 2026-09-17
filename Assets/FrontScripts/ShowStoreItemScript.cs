@@ -99,6 +99,10 @@ public class ShowStoreItemScript : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        displayWarehouseItems();
+    }
     void blockItem(GameObject item)
     {
         var blocker = Instantiate(itemBlocker, item.transform);
