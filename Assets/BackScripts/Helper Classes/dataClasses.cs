@@ -49,6 +49,7 @@ public class saveData
     public List<float> TheoryCanvasAlphas = new List<float>();
     public List<PlateSaveInfo> ArchiveProgress = new List<PlateSaveInfo>();
     public List<int> completedTutorialSeries = new List<int>();
+    public AdvertisingData AdvertisingData = new AdvertisingData();
     public saveData()
     {
 
@@ -61,6 +62,32 @@ public class adSystemData
     public float globalAdModifier = 1;
     public AdUpgradeTree internetAd = new();
     public activeTree activeTree;
+}
+
+[System.Serializable]
+public class AdTypeData
+{
+    public float reach;       
+    public float conversion;   
+    public float virality;     
+    public float stability;    
+    public float fatigue;
+
+    public List<bool> purchasedNodes = new List<bool>();
+}
+
+[System.Serializable]
+public class AdvertisingData
+{
+    public AdTypeData[] adTypes = new AdTypeData[6];
+
+    public AdvertisingData()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            adTypes[i] = new AdTypeData();
+        }
+    }
 }
 
 [System.Serializable]
