@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &905481555458524302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6635283241615242834}
+  - component: {fileID: 8312077487917491966}
+  m_Layer: 0
+  m_Name: AutoResolutionSetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6635283241615242834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905481555458524302}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5102498674079813652}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8312077487917491966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905481555458524302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4972b5914874542914e21130c0fc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texturesForAutoRes:
+  - {fileID: 8400000, guid: d607572dc7e04d649bb4e5f695b293a8, type: 2}
 --- !u!1 &1207859284506318683
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +205,7 @@ GameObject:
   - component: {fileID: 6010608824543423545}
   - component: {fileID: 7347046422693372433}
   m_Layer: 0
-  m_Name: UIUpdater
+  m_Name: UIupdater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,6 +228,7 @@ Transform:
   - {fileID: 2156112164189645711}
   - {fileID: 7336075324194147759}
   - {fileID: 4741367048522440461}
+  - {fileID: 6635283241615242834}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6010608824543423545
@@ -227,6 +274,7 @@ MonoBehaviour:
   nameField: {fileID: 0}
   moneyField: {fileID: 0}
   gemField: {fileID: 0}
+  doNameUpdate: 1
 --- !u!1 &8238030061291799521
 GameObject:
   m_ObjectHideFlags: 0
