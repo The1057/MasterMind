@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
+public class storeScript : MonoBehaviour, ISaveLoadable
 {
+    // enum оставлен, потому что на него ссылается RivalBizScript
     public enum demandCalcMethod
     {
         randomNormalDistribution = 0,
@@ -15,149 +12,160 @@ public class storeScript : MonoBehaviour, ISaveLoadable, ITickable
         linear = 2
     }
 
+    public struct MonthResult
+    {
+        public float income;     // выручка
+        public float expense;    // закупки + постоянные + случайные расходы
+        public float purchases;  // сколько уже заплачено за закупки (деньги списаны раньше)
+    }
 
     public int storeId = 0;
-
     public List<Item> items = new List<Item>();
 
+    [Header("Реклама")]
     public float gloabalAdModifier = 1;
     public float localAdModifier = 0;
-    public float adModifier = 1.1f;
-    public float constExpense = 1000;//постоянные затраты: аренда, зарплата
+    public float adModifier = 1f;
+
+    [Header("Расходы")]
+    public float constExpense = 1000;
     public float randomExpenseMin = 0.03f;
     public float randomExpenseMax = 0.05f;
-    public float demandChangeDeviation = 5;
+
+    [Header("Спрос")]
+    [Range(0f, 0.5f)] public float demandNoise = 0.05f; // случайный разброс спроса +-5%
+    public float demandChangeDeviation = 5;             // оставлено для совместимости с сейвом
+
+    [Header("Состояние месяца")]
+    public float purchasesThisMonth = 0;
+
+    // ---------- Сохранение ----------
     public void save(ref saveData data)
     {
-        if(data.StoreDatas.Count <= storeId)
-        {
-            data.StoreDatas.Add(new storeData());
-        }
-        data.StoreDatas[storeId].adModifier = adModifier;
-        data.StoreDatas[storeId].items = items;
-        data.StoreDatas[storeId].storeID = storeId;
-        data.StoreDatas[storeId].name = name;
-        data.StoreDatas[storeId].constExpense = constExpense;
-        data.StoreDatas[storeId].randomExpenseMax = randomExpenseMax;
-        data.StoreDatas[storeId].randomExpenseMin = randomExpenseMin;
-        data.StoreDatas[storeId].demandChangeDeviation = demandChangeDeviation;
+        while (data.StoreDatas.Count <= storeId) data.StoreDatas.Add(new storeData());
+
+        var d = data.StoreDatas[storeId];
+        d.adModifier = adModifier;
+        d.items = items;
+        d.storeID = storeId;
+        d.name = name;
+        d.constExpense = constExpense;
+        d.randomExpenseMax = randomExpenseMax;
+        d.randomExpenseMin = randomExpenseMin;
+        d.demandChangeDeviation = demandChangeDeviation;
+        d.purchasesThisMonth = purchasesThisMonth; // НОВОЕ ПОЛЕ в storeData
     }
+
     public void load(saveData data)
     {
-        if (data.StoreDatas.Count > 0) 
-        {
-            this.adModifier = data.StoreDatas[storeId].adModifier;
-            this.constExpense = data.StoreDatas[storeId].constExpense;
-            this.randomExpenseMin = data.StoreDatas[storeId].randomExpenseMin;
-            this.randomExpenseMax = data.StoreDatas[storeId].randomExpenseMax;
-            this.demandChangeDeviation = data.StoreDatas[storeId].demandChangeDeviation;
-            this.items = data.StoreDatas[storeId].items;
-            this.name = data.StoreDatas[storeId].name;
-        }
-    }
-    public void nextTurn(int month, int year)
-    {
-        for (int i = 0; i < items.Count; i++)
-        {
-            recalculateDemand(items[i],demandChangeDeviation,demandCalcMethod.linear);
-            //print($"New demand for {items[i].name} is {items[i].bought_number}");
-        }
+        if (storeId >= data.StoreDatas.Count) return;
+        var d = data.StoreDatas[storeId];
+        adModifier = d.adModifier;
+        constExpense = d.constExpense;
+        randomExpenseMin = d.randomExpenseMin;
+        randomExpenseMax = d.randomExpenseMax;
+        demandChangeDeviation = d.demandChangeDeviation;
+        items = d.items ?? new List<Item>();
+        name = d.name;
+        purchasesThisMonth = d.purchasesThisMonth;
     }
 
-    void Start()
+    // ---------- Поиск ----------
+    public Item findItem(string itemName)
     {
-        //addDebug();
+        return items.FirstOrDefault(i => i.name == itemName);
     }
 
-    [ContextMenu("Add debug item")]
-    public void addDebug()
+    // ---------- Закупка ----------
+    public int getBuyMin(Item template)
     {
-        items.Add(breadItemList.possibleItems.First());
-        items.Last().selling_price = 100;
-        items.Last().bought_number = 400;
+        return Mathf.Max(1, Mathf.RoundToInt(template.demand_min));
     }
-    public float countIncome()
+
+    public int getBuyMax(Item template, float playerMoney)
     {
-        float res = 0;
+        int max = Mathf.Max(getBuyMin(template), Mathf.RoundToInt(template.demand_max));
+        int affordable = template.buying_price > 0
+            ? Mathf.FloorToInt(playerMoney / template.buying_price)
+            : max;
+        return Mathf.Min(max, affordable); // может быть 0, если денег не хватает
+    }
+
+    public bool buy(Item template, int qty, MoneyScript money)
+    {
+        if (qty <= 0) return false;
+        float cost = template.buying_price * qty;
+        if (!money.trySpend(cost)) return false;
+
+        var item = findItem(template.name);
+        if (item == null)
+        {
+            item = template.Clone(); // КЛОН, а не общий объект из possibleItems
+            item.stock = 0;
+            item.soldLastMonth = 0;
+            item.revenueLastMonth = 0;
+            item.selling_price = Mathf.Clamp(item.selling_price,
+                item.selling_price_min, item.selling_price_max);
+            if (item.selling_price <= 0)
+                item.selling_price = (item.selling_price_min + item.selling_price_max) / 2f;
+            items.Add(item);
+        }
+        item.stock += qty;
+        purchasesThisMonth += cost;
+        return true;
+    }
+
+    // ---------- Цена продажи ----------
+    public bool isPriceValid(Item item, float price)
+    {
+        return price >= item.selling_price_min && price <= item.selling_price_max;
+    }
+
+    public bool setPrice(Item item, float price)
+    {
+        if (!isPriceValid(item, price)) return false;
+        item.selling_price = price;
+        return true;
+    }
+
+    // ---------- Симуляция месяца ----------
+    public float calcDemand(Item item)
+    {
+        float pMin = item.selling_price_min, pMax = item.selling_price_max;
+        if (Mathf.Approximately(pMin, pMax)) return item.demand_max;
+        // та же прямая, что давала ваша формула: (pMin, demand_max) -> (pMax, demand_min)
+        float t = Mathf.InverseLerp(pMin, pMax, item.selling_price);
+        return Mathf.Lerp(item.demand_max, item.demand_min, t);
+    }
+
+    public MonthResult simulateMonth()
+    {
         adModifier = gloabalAdModifier + localAdModifier;
-        foreach (var item in items)
-        {
-            if (item.sold_number <= item.bought_number)
-            {
-                res += item.selling_price * item.sold_number * adModifier;
-            }
-            else
-            {
-                res += item.selling_price * item.bought_number * adModifier;
-            }
-        }
-
-        return res;
-    }
-    public float countExpense()
-    {
-        float res = 0;
+        float income = 0;
 
         foreach (var item in items)
         {
-            res += item.buying_price * item.bought_number;
+            item.selling_price = Mathf.Clamp(item.selling_price,
+                item.selling_price_min, item.selling_price_max);
+
+            float demand = calcDemand(item) * adModifier
+                           * (1f + Random.Range(-demandNoise, demandNoise));
+            int wanted = Mathf.Max(0, Mathf.RoundToInt(demand));
+            int sold = Mathf.Min(item.stock, wanted);
+
+            item.stock -= sold;
+            item.soldLastMonth = sold;
+            item.sold_number = sold; // совместимость со старым кодом
+            item.revenueLastMonth = sold * item.selling_price;
+            income += item.revenueLastMonth;
         }
-        res += constExpense;
-        res -= countIncome()*getRandomExpense();
+
+        var res = new MonthResult();
+        res.income = income;
+        res.purchases = purchasesThisMonth;
+        res.expense = purchasesThisMonth + constExpense
+                      + income * Random.Range(randomExpenseMin, randomExpenseMax);
+        purchasesThisMonth = 0;
         return res;
-    }
-    public void recalculateDemand(Item item,float deviation, demandCalcMethod calcMethod)
-    {        
-        System.Random random = new System.Random();
-        switch (calcMethod)
-        {
-            case demandCalcMethod.randomNormalDistribution:
-
-                double randomsSum = 0;
-                for(int i = 0; i < 12; i++)
-                {
-                    randomsSum += random.NextDouble();
-                }
-                randomsSum -= 6;
-                item.sold_number = (float)randomsSum * deviation + item.sold_number;
-                
-                break;
-            case demandCalcMethod.randomLinearDistribution:
-
-                item.sold_number = (item.sold_number - deviation) * (float)random.NextDouble() + item.sold_number;
-
-                break;
-            case demandCalcMethod.linear:
-
-                float yMean = (item.demand_max + item.demand_min) / 2f;
-                float xMean = (item.selling_price_max + item.selling_price_min) / 2f;
-                float m = (((item.selling_price_max - xMean) * (item.demand_min - yMean)) + ((item.selling_price_min - xMean) * (item.demand_max - yMean))) /
-                    (MathF.Pow(item.selling_price_max - xMean, 2f) + MathF.Pow(item.selling_price_min - xMean, 2f));
-                float b = yMean - m * xMean;
-                item.sold_number = m * item.selling_price + b;
-                break;
-            default:
-
-                break;
-
-        }
-        if (item.sold_number < 0)
-        {
-            item.sold_number = 0;
-        }
-    }
-    public float getRandomExpense()
-    {
-        float res=0;
-
-        res = UnityEngine.Random.Range(randomExpenseMin,randomExpenseMax);
-
-        return res;
-    }
-
-    [ContextMenu("Print first item")]
-    public void showDebug()
-    {
-        
     }
 }

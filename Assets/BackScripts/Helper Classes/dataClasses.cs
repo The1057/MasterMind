@@ -101,7 +101,7 @@ public class storeData
     public float randomExpenseMin = 0.03f;
     public float randomExpenseMax = 0.05f;
     public float demandChangeDeviation = 5;
-
+    public float purchasesThisMonth;
     public int storeID = 0;
 }
 
@@ -194,10 +194,11 @@ public class Item
     public float bought_number = 0;
     public float demand_min = 0;
     public float demand_max = 0;
-    //0 - цена покупки
-    //1 - цена продажи
-    //2 - число закупок
-    //3 - число продаж
+    public int stock;               // на складе
+    public float soldLastMonth;     // продано шт. за прошлый мес€ц
+    public float revenueLastMonth;  // выручка за прошлый мес€ц
+    public Item Clone() => (Item)MemberwiseClone();
+    
     public Item(int id, string name, float[] args)
     {
         this.id = id;

@@ -67,9 +67,10 @@ public class windowMarketing : MonoBehaviour
         windowsxd.SetActive(false);
     }
     public void buyAd() {
-        if (!checkCan()) { Debug.Log("ты еще слаб"); }
+        if (!checkCan() || activeN[number]) { Debug.Log("не по порядку"); }
         else if (moneyScript.getMoney() >= curCost)
         {
+            closeWindow();
             moneyScript.addMoney(-curCost);
             activeN[number] = true;
             advertisingManager.SetPurchasedNodes(adTypeIndex, activeN);
