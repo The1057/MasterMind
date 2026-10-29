@@ -21,7 +21,7 @@ public class BelieveOrNotGame : MonoBehaviour
     public Button believeButton;
     public Button notBelieveButton;
     public Button nextButton;
-    public Button restartButton;
+    //public Button restartButton;
 
     [Header("Statements")]
     public List<StatementData> statements;
@@ -48,7 +48,7 @@ public class BelieveOrNotGame : MonoBehaviour
         believeButton.onClick.AddListener(() => OnAnswerSelected(true));
         notBelieveButton.onClick.AddListener(() => OnAnswerSelected(false));
         nextButton.onClick.AddListener(ShowNextStatement);
-        restartButton.onClick.AddListener(RestartGame);
+        //restartButton.onClick.AddListener(RestartGame);
 
         RestartGame();
     }
@@ -61,7 +61,7 @@ public class BelieveOrNotGame : MonoBehaviour
             EndGame();
             return;
         }
-
+        timeAll = false;
         isAnswered = false;
         questionPanel.SetActive(true);
         resultPanel.SetActive(false);
@@ -170,7 +170,7 @@ public class BelieveOrNotGame : MonoBehaviour
         }
     }
 
-    void RestartGame()
+    public void RestartGame()
     {
         // —брасываем счЄтчик при перезапуске
         correctAnswers = 0;

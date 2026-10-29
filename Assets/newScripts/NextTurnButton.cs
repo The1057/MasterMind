@@ -27,6 +27,6 @@ public class NextTurnButton : MonoBehaviour
 
     void updateDate()
     {
-        if (dateText != null) dateText.text = $"Месяц {clock.getMonth()}, год {clock.getYear()}";
+        if (dateText != null) dateText.text = $"Время в игре: месяц - {clock.getMonth()}, год - {clock.getYear()}";
     }
 }

@@ -34,7 +34,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
 
     [Header("Список задач")]
     public List<TaskData> tasks = new List<TaskData>();
-
+    public TextMeshProUGUI progressText;
     private int currentTaskIndex = 0;
     private int expandedTaskIndex = -1;
 
@@ -157,17 +157,17 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
     }
 
-    private TaskData FindParentTask(SubtaskData subtask)
-    {
-        foreach (var task in tasks)
-        {
-            if (task.subtasks.Contains(subtask))
-            {
-                return task;
-            }
-        }
-        return null;
-    }
+    //private TaskData FindParentTask(SubtaskData subtask)
+    //{
+    //    foreach (var task in tasks)
+    //    {
+    //        if (task.subtasks.Contains(subtask))
+    //        {
+    //            return task;
+    //        }
+    //    }
+    //    return null;
+    //}
 
     void CheckTaskCompletion(TaskData task)
     {
@@ -190,8 +190,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
                 tasks[i].lockedOverlayImage.gameObject.SetActive(i > taskIndex);
         }
     }
-
-    // Новые методы для обновления прогресса
     void UpdateProgressFill()
     {
         if (progressFillImage == null) return;
@@ -207,17 +205,17 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         int completed = currentTask.subtasks.Count(st => st.isCompleted);
         float progress = (float)completed / total;
 
-        // Если Image использует Type = Filled (Image Type = Filled)
         progressFillImage.fillAmount = progress;
+        UpdateProgressText();
     }
 
-    void ResetProgressFill()
-    {
-        if (progressFillImage != null)
-        {
-            progressFillImage.fillAmount = 0f;
-        }
-    }
+    //void ResetProgressFill()
+    //{
+    //    if (progressFillImage != null)
+    //    {
+    //        progressFillImage.fillAmount = 0f;
+    //    }
+    //}
 
     public void save(ref saveData saveData)
     {
@@ -289,8 +287,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         UpdateProgressFill(); // После загрузки обновляем прогресс
     }
 
-
-
     IEnumerator Expand(TaskData task, int taskIndex)
     {
         task.isExpanded = true;
@@ -338,7 +334,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, end);
     }
-    // Метод для пропуска следующей невыполненной подзадачи
     public void DebugSkipNextSubtask()
     {
         if (currentTaskIndex >= tasks.Count)
@@ -348,19 +343,9 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
 
         TaskData currentTask = tasks[currentTaskIndex];
-        // Находим первую подзадачу, которая еще не завершена
         SubtaskData nextSubtask = currentTask.subtasks.FirstOrDefault(s => !s.isCompleted);
 
-        if (nextSubtask != null)
-        {
-            if (debugLogs) Debug.Log($"Тест: Пропускаем подзадачу '{nextSubtask.description}'");
-            CompleteSubtask(nextSubtask);
-        }
-        else
-        {
-            // Если в текущей задаче всё выполнено (на всякий случай)
-            if (debugLogs) Debug.Log("В текущей задаче нет невыполненных подзадач.");
-        }
+        if (nextSubtask != null) { CompleteSubtask(nextSubtask); }
     }
 
     // Метод для полного сброса прогресса
@@ -370,7 +355,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
 
         if (currentFileState != null)
         {
-            // 2. Очищаем конкретно список данных задач
             if (currentFileState.TasksData != null)
             {
                 currentFileState.TasksData.Clear();
@@ -387,7 +371,6 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         foreach (var task in tasks)
         {
             task.isExpanded = false;
-            // Возвращаем высоту заголовков
             if (task.headerRect != null)
                 task.headerRect.sizeDelta = new Vector2(task.headerRect.sizeDelta.x, task.originalHeight);
 
@@ -397,11 +380,9 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             foreach (var subtask in task.subtasks)
             {
                 subtask.isCompleted = false;
-                // Сбрасываем галочки на пустые
                 if (subtask.autoCheckmark != null && uncompletedSprite != null)
                     subtask.autoCheckmark.sprite = uncompletedSprite;
 
-                // Прячем подзадачи
                 if (subtask.instantiatedUI != null)
                     subtask.instantiatedUI.SetActive(false);
             }
@@ -412,5 +393,15 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         UpdateProgressFill();
 
         Debug.Log("<color=green>Прогресс задач сброшен локально и в файле!</color>");
+    }
+    void UpdateProgressText()
+    {
+        int completedTasks = 0;
+        foreach (var task in tasks)
+        {
+            if (task.subtasks.Count > 0 && task.subtasks.All(s => s.isCompleted)) { completedTasks++; }
+            else { break; }
+        }
+        progressText.text = $"Прогресс: {completedTasks}/{tasks.Count} задач выполнено";
     }
 }

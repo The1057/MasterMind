@@ -7,6 +7,7 @@ using UnityEngine;
 [Serializable]
 public enum biz_niche
 {
+    none = -1,
     breadShop = 0,
     bookShop = 1,
     clothShop = 2
@@ -14,12 +15,14 @@ public enum biz_niche
 [Serializable]
 public enum legal_form
 {
+    none = -1,
     OOO = 0,
     IP = 1,
 }
 [Serializable]
 public enum tax_system
 {
+    none = -1,
     USN = 0,
     PSN = 1,
 }
@@ -109,7 +112,7 @@ public class storeData
 [System.Serializable]
 public class moneyData
 {
-    public float player_money = 0;
+    public float player_money = 5000;
     public int player_gems = 0;
 
     public List<storeScript> storeList;
@@ -250,9 +253,9 @@ public class playerData
     public string player_name = "";
     public string player_gender = "";
     public int storePicIndex = 0;
-    public biz_niche first_niche;
-    public legal_form legal_form;
-    public tax_system tax_system;
+    public biz_niche first_niche = biz_niche.none;              
+    public legal_form legal_form = legal_form.none;             
+    public tax_system tax_system = tax_system.none;
 }
 
 [System.Serializable]
