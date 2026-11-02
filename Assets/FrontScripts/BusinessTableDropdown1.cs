@@ -16,7 +16,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     public string checkmarkObjectName = "Checkmark";
 
     [Header("Настройки")]
-    public float expandDuration = 0.3f;
+    public float expandDuration = 1.35f;
     public float childHeight = 50f;
     public float spacing = 4f;
     public float paddingTop = 8f;
