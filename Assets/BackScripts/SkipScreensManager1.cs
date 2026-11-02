@@ -15,7 +15,7 @@ public class SkipScreensManager1 : MonoBehaviour
     {
         // 1. Ждем чуть-чуть, чтобы система сохранения успела прогнать метод Load()
         // Если загрузка идет из файла, 0.1 сек обычно достаточно.
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.66f);
 
         // 2. Проверяем данные
         if (playerDataObject == null || playerDataObject.data == null)
