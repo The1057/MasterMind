@@ -14,10 +14,10 @@ public class Bigger : MonoBehaviour
     private float elapsed = 0f;
 
     private GameObject ch;
-    private Vector3 buttonPos;          //  запоминаем, откуда приехали
+    private Vector3 buttonPos;          //  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private Vector2 startSize;
     private Vector2 targetSize;
-    private Vector2 buttonSize;         //  исходный размер кнопки
+    private Vector2 buttonSize;         //  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     private int ind;
     private Transform buts;
 
@@ -28,7 +28,7 @@ public class Bigger : MonoBehaviour
         elapsed += Time.deltaTime;
         float t = Mathf.Clamp01(elapsed / duration);
 
-        // Позиция
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         ch.transform.position = Vector3.Lerp(startPos, targetPos, t);
 
         var rt = ch.GetComponent<RectTransform>();
@@ -43,14 +43,14 @@ public class Bigger : MonoBehaviour
             if (rt != null)
                 rt.sizeDelta = targetSize;
 
-            // Уничтожаем только когда вернулись обратно к кнопке
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             if (Vector3.Distance(targetPos, buttonPos) < 0.1f)
             {
                 Destroy(ch);
                 ch = null;
             }
             else {
-                buts = transform.FindChild($"" + ind);
+                buts = transform.Find($"" + ind);
                 buts.SetAsLastSibling(); 
                 buts.gameObject.SetActive(true); 
             }
@@ -59,33 +59,33 @@ public class Bigger : MonoBehaviour
 
     public void MakeBigger(GameObject thisB)
     {
-        // Создаём копию
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         ch = Instantiate(thisB, transform);
 
         Destroy(ch.transform.GetComponent<Button>());
         var textik = ch.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-        if (textik == "Верю не верю") { ind = 0; }
-        if (textik == "Одно из двух") { ind = 1; }
+        if (textik == "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ") { ind = 0; }
+        if (textik == "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ") { ind = 1; }
         Destroy(ch.transform.GetChild(1).gameObject);
 
-        // Запоминаем исходную позицию и размер кнопки
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         buttonPos = thisB.transform.position;
         var originalRt = thisB.GetComponent<RectTransform>();
         buttonSize = new Vector2(370, 370);
 
-        // Ставим на место кнопки
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         ch.transform.position = buttonPos;
 
         var rt = ch.GetComponent<RectTransform>();
         if (rt != null)
-            rt.sizeDelta = buttonSize;   // начинаем с маленького размера
+            rt.sizeDelta = buttonSize;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-        // Куда едем
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         startPos = buttonPos;
         targetPos = original.position;
 
         startSize = buttonSize;
-        targetSize = new Vector2(970, 570);   // большой размер
+        targetSize = new Vector2(970, 570);   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         butEx.SetActive(true);
 
@@ -97,12 +97,12 @@ public class Bigger : MonoBehaviour
     {
         if (ch == null) return;
         buts.gameObject.SetActive(false);
-        // Едем обратно к кнопке
-        startPos = ch.transform.position;      // откуда сейчас (большой)
-        targetPos = buttonPos;                 // куда (на кнопку)
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        startPos = ch.transform.position;      // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+        targetPos = buttonPos;                 // пїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
 
         startSize = new Vector2(970, 570);
-        targetSize = buttonSize;               // обратно в маленький размер
+        targetSize = buttonSize;               // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         butEx.SetActive(false);
 
