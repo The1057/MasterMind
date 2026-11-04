@@ -162,11 +162,11 @@ public class BelieveOrNotGame : MonoBehaviour
         resultPanel.SetActive(false);
         if (correctAnswers > 6) { 
             endWinPanel.SetActive(true);
-            resultWinText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
+            resultWinText.text = $"Тест пройден\nВаш результат: {correctAnswers} из {currentStatements.Count}";
         }
         else { 
             endLosePanel.SetActive(true);
-            resultLoseText.text = $"Ваш результат: {correctAnswers} из {currentStatements.Count}";
+            resultLoseText.text = $"Тест не пройден\nВаш результат: {correctAnswers} из {currentStatements.Count}";
         }
     }
 

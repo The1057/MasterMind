@@ -18,6 +18,8 @@ public class Bigger : MonoBehaviour
     private Vector2 startSize;
     private Vector2 targetSize;
     private Vector2 buttonSize;         //  исходный размер кнопки
+    private int ind;
+    private Transform buts;
 
     private void Update()
     {
@@ -29,7 +31,6 @@ public class Bigger : MonoBehaviour
         // Позиция
         ch.transform.position = Vector3.Lerp(startPos, targetPos, t);
 
-        // Размер (если хочешь анимировать и его)
         var rt = ch.GetComponent<RectTransform>();
         if (rt != null)
             rt.sizeDelta = Vector2.Lerp(startSize, targetSize, t);
@@ -38,7 +39,7 @@ public class Bigger : MonoBehaviour
         {
             isMoving = false;
             ch.transform.position = targetPos;
-
+            
             if (rt != null)
                 rt.sizeDelta = targetSize;
 
@@ -47,6 +48,11 @@ public class Bigger : MonoBehaviour
             {
                 Destroy(ch);
                 ch = null;
+            }
+            else {
+                buts = transform.FindChild($"" + ind);
+                buts.SetAsLastSibling(); 
+                buts.gameObject.SetActive(true); 
             }
         }
     }
@@ -57,6 +63,9 @@ public class Bigger : MonoBehaviour
         ch = Instantiate(thisB, transform);
 
         Destroy(ch.transform.GetComponent<Button>());
+        var textik = ch.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+        if (textik == "Верю не верю") { ind = 0; }
+        if (textik == "Одно из двух") { ind = 1; }
         Destroy(ch.transform.GetChild(1).gameObject);
 
         // Запоминаем исходную позицию и размер кнопки
@@ -87,7 +96,7 @@ public class Bigger : MonoBehaviour
     public void clos()
     {
         if (ch == null) return;
-
+        buts.gameObject.SetActive(false);
         // Едем обратно к кнопке
         startPos = ch.transform.position;      // откуда сейчас (большой)
         targetPos = buttonPos;                 // куда (на кнопку)
