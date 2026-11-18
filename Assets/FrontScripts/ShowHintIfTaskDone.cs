@@ -10,24 +10,18 @@ public class ShowHintIfTaskDone : MonoBehaviour
     [Header("Последовательность подсказок")]
     [SerializeField] private GameObject[] hintObjects;
 
-    private bool wasActive;
     private bool hintShown;
-    private bool isInitialized;
-
     private int currentHintIndex = -1;
 
     private RectTransform currentHintRect;
     private Canvas currentHintCanvas;
 
-    private void OnEnable()
-    {
-        // Сбрасываем инициализацию при каждом входе на Canvas
-        isInitialized = false;
-    }
+    private bool waitingForCanvas;
 
     private void Start()
     {
-        if (targetImage == null || hintObjects == null ||
+        if (targetImage == null ||
+            hintObjects == null ||
             hintObjects.Length == 0)
         {
             Debug.LogError("ShowHintIfTaskDone: Не назначены объекты!");
@@ -43,28 +37,28 @@ public class ShowHintIfTaskDone : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        // Проверяем условие при каждом возвращении на Canvas
+        waitingForCanvas = true;
+    }
+
     private void Update()
     {
-        // Ждём первого кадра после активации Canvas
-        if (!isInitialized)
+        // Проверяем условие после активации Canvas
+        if (waitingForCanvas && !hintShown)
         {
-            wasActive = targetImage.activeInHierarchy;
-            isInitialized = true;
-            return;
+            waitingForCanvas = false;
+
+            // Проверяем, отключён ли родитель targetImage
+            if (!targetImage.activeInHierarchy)
+            {
+                hintShown = true;
+                ShowHint(0);
+            }
         }
 
-        // Отслеживаем отключение картинки
-        bool currentState = targetImage.activeInHierarchy;
-
-        if (wasActive && !currentState && !hintShown)
-        {
-            hintShown = true;
-            ShowHint(0);
-        }
-
-        wasActive = currentState;
-
-        // Проверяем нажатия
+        // Проверяем нажатия на подсказки
         if (currentHintIndex < 0)
             return;
 
@@ -121,6 +115,7 @@ public class ShowHintIfTaskDone : MonoBehaviour
             currentHintRect, position, cam))
         {
             hintObjects[currentHintIndex].SetActive(false);
+
             ShowHint(currentHintIndex + 1);
         }
     }
