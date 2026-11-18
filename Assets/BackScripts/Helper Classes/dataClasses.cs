@@ -253,9 +253,9 @@ public class playerData
     public string player_name = "";
     public string player_gender = "";
     public int storePicIndex = 0;
-    public biz_niche first_niche = biz_niche.none;              
-    public legal_form legal_form = legal_form.none;             
-    public tax_system tax_system = tax_system.none;
+    public biz_niche first_niche = biz_niche.breadShop;              
+    public legal_form legal_form = legal_form.IP;             
+    public tax_system tax_system = tax_system.USN;
 }
 
 [System.Serializable]

@@ -33,7 +33,7 @@ public class BelieveOrNotGame : MonoBehaviour
 
     public int numberOfQuestionsToUse = 10;
 
-    private const float INITIAL_TIME = 6f;
+    private const float INITIAL_TIME = 15f;
     private List<StatementData> currentStatements;
 
     [Header("End Game UI")]
