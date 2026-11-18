@@ -1,7 +1,6 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class ShowHintIfTaskDone : MonoBehaviour
 {
@@ -13,24 +12,30 @@ public class ShowHintIfTaskDone : MonoBehaviour
 
     private bool wasActive;
     private bool hintShown;
+    private bool isInitialized;
+
     private int currentHintIndex = -1;
 
     private RectTransform currentHintRect;
     private Canvas currentHintCanvas;
 
+    private void OnEnable()
+    {
+        // Сбрасываем инициализацию при каждом входе на Canvas
+        isInitialized = false;
+    }
+
     private void Start()
     {
-        if (targetImage == null || hintObjects == null || hintObjects.Length == 0)
+        if (targetImage == null || hintObjects == null ||
+            hintObjects.Length == 0)
         {
             Debug.LogError("ShowHintIfTaskDone: Не назначены объекты!");
             enabled = false;
             return;
         }
 
-        // Запоминаем начальное состояние картинки
-        wasActive = targetImage.activeInHierarchy;
-
-        // Скрываем все подсказки при запуске
+        // Скрываем все подсказки
         foreach (GameObject hint in hintObjects)
         {
             if (hint != null)
@@ -40,7 +45,15 @@ public class ShowHintIfTaskDone : MonoBehaviour
 
     private void Update()
     {
-        // Отслеживаем отключение указанной картинки
+        // Ждём первого кадра после активации Canvas
+        if (!isInitialized)
+        {
+            wasActive = targetImage.activeInHierarchy;
+            isInitialized = true;
+            return;
+        }
+
+        // Отслеживаем отключение картинки
         bool currentState = targetImage.activeInHierarchy;
 
         if (wasActive && !currentState && !hintShown)
@@ -51,7 +64,7 @@ public class ShowHintIfTaskDone : MonoBehaviour
 
         wasActive = currentState;
 
-        // Проверяем нажатия, только если подсказка отображается
+        // Проверяем нажатия
         if (currentHintIndex < 0)
             return;
 
@@ -68,7 +81,6 @@ public class ShowHintIfTaskDone : MonoBehaviour
 
     private void ShowHint(int index)
     {
-        // Если подсказки закончились — закрываем цепочку
         if (index >= hintObjects.Length)
         {
             currentHintIndex = -1;
@@ -77,7 +89,6 @@ public class ShowHintIfTaskDone : MonoBehaviour
             return;
         }
 
-        // Пропускаем незаполненные элементы
         if (hintObjects[index] == null)
         {
             ShowHint(index + 1);
@@ -109,10 +120,7 @@ public class ShowHintIfTaskDone : MonoBehaviour
         if (RectTransformUtility.RectangleContainsScreenPoint(
             currentHintRect, position, cam))
         {
-            // Скрываем текущую подсказку
             hintObjects[currentHintIndex].SetActive(false);
-
-            // Показываем следующую
             ShowHint(currentHintIndex + 1);
         }
     }
