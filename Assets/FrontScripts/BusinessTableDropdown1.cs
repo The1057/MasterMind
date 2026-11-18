@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class TaskManager23 : MonoBehaviour, ISaveLoadable
 {
@@ -18,7 +19,7 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
     // Выполнить подзадачу по индексам, из любой сцены
     public static void CompleteSubtaskGlobal(int taskIndex, int subtaskIndex)
     {
-        // Менеджер жив (мы в сцене с задачами) — выполняем как обычно
+        // Менеджер задач жив (мы в сцене с задачами)
         if (Instance != null)
         {
             if (taskIndex < Instance.tasks.Count && subtaskIndex < Instance.tasks[taskIndex].subtasks.Count)
@@ -26,9 +27,17 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
             return;
         }
 
-        // Менеджера нет (другая сцена) — пишем прямо в файл сохранения
-        saveData data = saveLoadManager.instance.loadData();
-        if (data == null) return;
+        // Другая сцена: читаем данные
+        bool hasManager = saveLoadManager.instance != null; // Unity-проверка, ловит и уничтоженный объект
+        string path = Path.Combine(Application.persistentDataPath, "save.json");
+        saveData data;
+
+        if (hasManager)
+            data = saveLoadManager.instance.loadData(); // заодно обновляет кэш менеджера
+        else
+            data = File.Exists(path) ? JsonUtility.FromJson<saveData>(File.ReadAllText(path)) : null;
+
+        if (data == null) data = new saveData();
 
         TaskSaveData ts = data.TasksData.FirstOrDefault(t => t.taskIndex == taskIndex);
         if (ts == null)
@@ -47,7 +56,11 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
         }
         ss.isCompleted = true;
 
-        saveLoadManager.instance.saveData(data);
+        // Пишем
+        if (hasManager)
+            saveLoadManager.instance.saveData(data);
+        else
+            File.WriteAllText(path, JsonUtility.ToJson(data, true));
     }
     [Header("Настройки префаба")]
     public GameObject subtaskPrefab;

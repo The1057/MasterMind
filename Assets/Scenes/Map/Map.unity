@@ -17425,6 +17425,7 @@ GameObject:
   - component: {fileID: 1291666032}
   - component: {fileID: 1291666031}
   - component: {fileID: 1291666030}
+  - component: {fileID: 1291666034}
   m_Layer: 0
   m_Name: Buttonveru1
   m_TagString: Untagged
@@ -17561,6 +17562,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291666028}
   m_CullTransparentMesh: 1
+--- !u!114 &1291666034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291666028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f30f518e01507d41b65d92e95401626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskIndex: 0
+  subtaskIndex: 1
 --- !u!1 &1294854759
 GameObject:
   m_ObjectHideFlags: 0
