@@ -10,7 +10,45 @@ public class TaskManager23 : MonoBehaviour, ISaveLoadable
 {
     [Header("Тестирование")]
     public bool debugLogs = true;
+    public static TaskManager23 Instance;
 
+    void Awake() { Instance = this; }
+    void OnDestroy() { if (Instance == this) Instance = null; }
+
+    // Выполнить подзадачу по индексам, из любой сцены
+    public static void CompleteSubtaskGlobal(int taskIndex, int subtaskIndex)
+    {
+        // Менеджер жив (мы в сцене с задачами) — выполняем как обычно
+        if (Instance != null)
+        {
+            if (taskIndex < Instance.tasks.Count && subtaskIndex < Instance.tasks[taskIndex].subtasks.Count)
+                Instance.CompleteSubtask(Instance.tasks[taskIndex].subtasks[subtaskIndex]);
+            return;
+        }
+
+        // Менеджера нет (другая сцена) — пишем прямо в файл сохранения
+        saveData data = saveLoadManager.instance.loadData();
+        if (data == null) return;
+
+        TaskSaveData ts = data.TasksData.FirstOrDefault(t => t.taskIndex == taskIndex);
+        if (ts == null)
+        {
+            ts = new TaskSaveData();
+            ts.taskIndex = taskIndex;
+            data.TasksData.Add(ts);
+        }
+
+        SubtaskSaveData ss = ts.subtasksData.FirstOrDefault(s => s.subtaskIndex == subtaskIndex);
+        if (ss == null)
+        {
+            ss = new SubtaskSaveData();
+            ss.subtaskIndex = subtaskIndex;
+            ts.subtasksData.Add(ss);
+        }
+        ss.isCompleted = true;
+
+        saveLoadManager.instance.saveData(data);
+    }
     [Header("Настройки префаба")]
     public GameObject subtaskPrefab;
     public string checkmarkObjectName = "Checkmark";
