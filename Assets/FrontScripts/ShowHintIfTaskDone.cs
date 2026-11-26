@@ -10,13 +10,14 @@ public class ShowHintIfTaskDone : MonoBehaviour
     [Header("Последовательность подсказок")]
     [SerializeField] private GameObject[] hintObjects;
 
-    private bool hintShown;
+    [Header("Настройки сохранения")]
+    [SerializeField] private string saveKey = "ShowHintIfTaskDone_Completed";
+
+    private bool hasAlreadyRun;
     private int currentHintIndex = -1;
 
     private RectTransform currentHintRect;
     private Canvas currentHintCanvas;
-
-    private bool waitingForCanvas;
 
     private void Start()
     {
@@ -29,36 +30,35 @@ public class ShowHintIfTaskDone : MonoBehaviour
             return;
         }
 
+        // Проверяем, запускались ли подсказки ранее
+        hasAlreadyRun = PlayerPrefs.GetInt(saveKey, 0) == 1;
+
         // Скрываем все подсказки
         foreach (GameObject hint in hintObjects)
         {
             if (hint != null)
                 hint.SetActive(false);
         }
-    }
 
-    private void OnEnable()
-    {
-        // Проверяем условие при каждом возвращении на Canvas
-        waitingForCanvas = true;
+        // Если уже запускались — больше не запускаем
+        if (hasAlreadyRun)
+            return;
+
+        // Проверяем выполнение задания
+        if (!targetImage.activeInHierarchy)
+        {
+            hasAlreadyRun = true;
+
+            // Сохраняем блокировку
+            PlayerPrefs.SetInt(saveKey, 1);
+            PlayerPrefs.Save();
+
+            ShowHint(0);
+        }
     }
 
     private void Update()
     {
-        // Проверяем условие после активации Canvas
-        if (waitingForCanvas && !hintShown)
-        {
-            waitingForCanvas = false;
-
-            // Проверяем, отключён ли родитель targetImage
-            if (!targetImage.activeInHierarchy)
-            {
-                hintShown = true;
-                ShowHint(0);
-            }
-        }
-
-        // Проверяем нажатия на подсказки
         if (currentHintIndex < 0)
             return;
 
