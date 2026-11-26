@@ -63,9 +63,6 @@ public class TestManager2 : MonoBehaviour
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
     public Color missedCorrectColor = new Color(0.2f, 0.5f, 0.2f);
-    //public Color activeNavColor = Color.blue;
-    //public Color inactiveNavColor = Color.blue;
-    //public Color answeredNavColor = Color.blue;
 
     // ДОБАВЛЕНО: три цвета для текста навигационных кнопок
     [Header("Navigation Button Text Colors")]
@@ -79,12 +76,11 @@ public class TestManager2 : MonoBehaviour
     public Color answeredNavOutlineColor = Color.green;
 
     [Header("Outline Colors for Answer Buttons")]
-    //public Color defaultOutlineColor = Color.white;
-    //public Color selectedOutlineColor = new Color(0.7f, 0.7f, 1f);
     public Color correctOutlineColor = Color.green;
     public Color wrongOutlineColor = Color.red;
-    //public Color missedCorrectOutlineColor = new Color(0.2f, 0.5f, 0.2f);
 
+    public MoneyScript mone;
+    private bool firstTry = true;
     void Start()
     {
         CreateNavigationPanel();
@@ -393,12 +389,11 @@ public class TestManager2 : MonoBehaviour
         if (firstUnanswered == -1)
         {
             bool isWin = sessionScore.score >= 7;
-            if (winCanvas != null) winCanvas.SetActive(isWin);
-            if (loseCanvas != null) loseCanvas.SetActive(!isWin);
-            if (scoreText != null)
-                scoreText.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
-            if (scoreText2 != null)
-                scoreText2.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
+            if (isWin && firstTry) { firstTry = false; mone.addGems(10); }
+            winCanvas.SetActive(isWin);
+            loseCanvas.SetActive(!isWin);
+            scoreText.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
+            scoreText2.text = $"Ваш результат: \n{sessionScore.score}/{questions.Count}";
             return;
         }
 

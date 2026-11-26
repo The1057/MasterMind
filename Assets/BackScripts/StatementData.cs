@@ -1,14 +1,12 @@
-public enum LegalForm
-{
-    OOO, 
-    IP 
-}
+using UnityEngine;
+
+
 
 [System.Serializable]
 public class StatementData
 {
     public string statement;        // Утверждение
     public bool isTrue;             // Правда или нет
-    public LegalForm correctForm;
-    public string explanation;      // Пояснение
+    public int correctZoneId;
+    [TextArea] public string explanation;
 }

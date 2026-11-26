@@ -1,25 +1,33 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Bigger : MonoBehaviour
 {
-    [SerializeField] private Transform original;
-    [SerializeField] private GameObject butEx;
+    [SerializeField] private Transform original;      // куда летит кнопка
+    [SerializeField] private GameObject butEx;        // кнопка "закрыть"
+    [SerializeField] private Button[] menuButtons;    // кнопки, по порядку
+    [SerializeField] private GameObject[] submenus;   // подменю, в том же порядке
 
     private bool isMoving = false;
-    private Vector3 startPos;
-    private Vector3 targetPos;
+    private Vector3 startPos, targetPos;
+    private Vector2 startSize, targetSize;
+    private Vector3 buttonPos;
+    private Vector2 buttonSize = new Vector2(370, 370);
+    private Vector2 bigSize = new Vector2(970, 570);
     private float duration = 0.3f;
     private float elapsed = 0f;
 
-    private GameObject ch;
-    private Vector3 buttonPos;          //  ����������, ������ ��������
-    private Vector2 startSize;
-    private Vector2 targetSize;
-    private Vector2 buttonSize;         //  �������� ������ ������
-    private int ind;
-    private Transform buts;
+    private GameObject ch;      // летающая копия кнопки
+    private int currentIndex = -1;
+
+    private void Start()
+    {
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            int index = i; // важно: копия для замыкания
+            menuButtons[i].onClick.AddListener(() => MakeBigger(index));
+        }
+    }
 
     private void Update()
     {
@@ -28,84 +36,68 @@ public class Bigger : MonoBehaviour
         elapsed += Time.deltaTime;
         float t = Mathf.Clamp01(elapsed / duration);
 
-        // �������
         ch.transform.position = Vector3.Lerp(startPos, targetPos, t);
-
         var rt = ch.GetComponent<RectTransform>();
-        if (rt != null)
-            rt.sizeDelta = Vector2.Lerp(startSize, targetSize, t);
+        if (rt != null) rt.sizeDelta = Vector2.Lerp(startSize, targetSize, t);
 
-        if (t >= 1f)
+        if (t < 1f) return;
+
+        isMoving = false;
+
+        // Анимация закрытия закончилась — убираем копию
+        if (Vector3.Distance(targetPos, buttonPos) < 0.1f)
         {
-            isMoving = false;
-            ch.transform.position = targetPos;
-            
-            if (rt != null)
-                rt.sizeDelta = targetSize;
-
-            // ���������� ������ ����� ��������� ������� � ������
-            if (Vector3.Distance(targetPos, buttonPos) < 0.1f)
-            {
-                Destroy(ch);
-                ch = null;
-            }
-            else {
-                buts = transform.Find($"" + ind);
-                buts.SetAsLastSibling(); 
-                buts.gameObject.SetActive(true); 
-            }
+            Destroy(ch);
+            ch = null;
+            currentIndex = -1;
+        }
+        else
+        {
+            // Анимация открытия закончилась — показываем нужное подменю
+            var sub = submenus[currentIndex];
+            sub.transform.SetAsLastSibling();
+            sub.SetActive(true);
         }
     }
 
-    public void MakeBigger(GameObject thisB)
+    public void MakeBigger(int index)
     {
-        // ������ �����
+        if (ch != null) return; // уже что-то открыто/анимируется
+
+        currentIndex = index;
+        GameObject thisB = menuButtons[index].gameObject;
+
         ch = Instantiate(thisB, transform);
+        Destroy(ch.GetComponent<Button>());
+        if (ch.transform.childCount > 1)
+            Destroy(ch.transform.GetChild(1).gameObject); // текст на копии не нужен
 
-        Destroy(ch.transform.GetComponent<Button>());
-        var textik = ch.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-        if (textik == "���� �� ����") { ind = 0; }
-        if (textik == "���� �� ����") { ind = 1; }
-        Destroy(ch.transform.GetChild(1).gameObject);
-
-        // ���������� �������� ������� � ������ ������
         buttonPos = thisB.transform.position;
-        var originalRt = thisB.GetComponent<RectTransform>();
-        buttonSize = new Vector2(370, 370);
-
-        // ������ �� ����� ������
         ch.transform.position = buttonPos;
+        ch.GetComponent<RectTransform>().sizeDelta = buttonSize;
 
-        var rt = ch.GetComponent<RectTransform>();
-        if (rt != null)
-            rt.sizeDelta = buttonSize;   // �������� � ���������� �������
-
-        // ���� ����
         startPos = buttonPos;
         targetPos = original.position;
-
         startSize = buttonSize;
-        targetSize = new Vector2(970, 570);   // ������� ������
+        targetSize = bigSize;
 
         butEx.SetActive(true);
-
         elapsed = 0f;
         isMoving = true;
     }
 
     public void clos()
     {
-        if (ch == null) return;
-        buts.gameObject.SetActive(false);
-        // ���� ������� � ������
-        startPos = ch.transform.position;      // ������ ������ (�������)
-        targetPos = buttonPos;                 // ���� (�� ������)
+        if (ch == null || currentIndex < 0) return;
 
-        startSize = new Vector2(970, 570);
-        targetSize = buttonSize;               // ������� � ��������� ������
+        submenus[currentIndex].SetActive(false);
+
+        startPos = ch.transform.position;
+        targetPos = buttonPos;
+        startSize = bigSize;
+        targetSize = buttonSize;
 
         butEx.SetActive(false);
-
         elapsed = 0f;
         isMoving = true;
     }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ColorPickerUI : MonoBehaviour
 {
-    public ColorBoss colorBoss;           // ссылка на главный скрипт
+    //public ColorBoss colorBoss;           // ссылка на главный скрипт
     public Slider sliderR, sliderG, sliderB; // слайдеры
     public Image previewImage;             // картинка дл€ предпросмотра цвета
     public bool controlLightGroup = true;  // если true Ц светла€ группа, false Ц тЄмна€
@@ -12,10 +12,10 @@ public class ColorPickerUI : MonoBehaviour
     void Start()
     {
         // ”станавливаем начальные значени€ слайдеров из текущего цвета
-        Color current = controlLightGroup ? colorBoss.lightColor : colorBoss.darkColor;
-        sliderR.value = current.r;
-        sliderG.value = current.g;
-        sliderB.value = current.b;
+        //Color current = controlLightGroup ? colorBoss.lightColor : colorBoss.darkColor;
+        //sliderR.value = current.r;
+        //sliderG.value = current.g;
+        //sliderB.value = current.b;
 
         // ќбновл€ем превью при старте
         UpdatePreview();
@@ -53,9 +53,9 @@ public class ColorPickerUI : MonoBehaviour
     public void ApplyColor()
     {
         Color newColor = new Color(sliderR.value, sliderG.value, sliderB.value);
-        if (controlLightGroup)
-            colorBoss.SetLightColor(newColor);
-        else
-            colorBoss.SetDarkColor(newColor);
+        //if (controlLightGroup)
+        //    colorBoss.SetLightColor(newColor);
+        //else
+        //    colorBoss.SetDarkColor(newColor);
     }
 }

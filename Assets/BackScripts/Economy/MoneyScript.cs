@@ -113,9 +113,29 @@ public class MoneyScript : MonoBehaviour, ISaveLoadable, ITickable
         if (player_money < 0)
         {
             player_money = 0;
-            Debug.Log("Игрок в минусе, деньги обнулены");
         }
     }
 
     public float getMoney() { return player_money; }
+    public bool trySpendGem(int amount)
+    {
+        if (amount > player_gems) return false;
+        player_gems -= amount;
+        return true;
+    }
+    public bool setGems(int amount)
+    {
+        if (amount >= 0) { player_gems = amount; return true; }
+        player_gems = 0;
+        return false;
+    }
+
+    public void addGems(int amount)
+    {
+        player_gems += amount;
+        if (player_gems < 0)
+        {
+            player_gems = 0;
+        }
+    }
 }

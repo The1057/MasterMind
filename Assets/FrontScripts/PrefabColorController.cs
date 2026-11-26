@@ -27,25 +27,25 @@ public class PrefabColorController : MonoBehaviour
 
     public void UpdateColor()
     {
-        if (ColorBoss.Instance == null) return;
+        //if (ColorBoss.Instance == null) return;
 
-        Color targetColor;
-        if (colorTag == "LightGroup")
-            targetColor = ColorBoss.Instance.lightColor;
-        else if (colorTag == "DarkGroup")
-            targetColor = ColorBoss.Instance.darkColor;
-        else
-            return;
+        //Color targetColor;
+        //if (colorTag == "LightGroup")
+        //    targetColor = ColorBoss.Instance.lightColor;
+        //else if (colorTag == "DarkGroup")
+        //    targetColor = ColorBoss.Instance.darkColor;
+        //else
+        //    return;
 
-        foreach (Image img in images)
-        {
-            if (img != null)
-            {
-                Color c = targetColor;
-                c.a = img.color.a;
-                img.color = c;
-            }
-        }
+        //foreach (Image img in images)
+        //{
+        //    if (img != null)
+        //    {
+        //        Color c = targetColor;
+        //        c.a = img.color.a;
+        //        img.color = c;
+        //    }
+        //}
     }
 
     // Метод для принудительного обновления (вызывается из ColorBoss)

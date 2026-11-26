@@ -155,7 +155,7 @@ public class BelieveOrNotGame : MonoBehaviour
         currentStatementIndex++;
     }
 
-    void EndGame()
+    public void EndGame()
     {
         isGameActive = false;
         questionPanel.SetActive(false);
